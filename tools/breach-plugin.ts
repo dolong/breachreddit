@@ -161,6 +161,20 @@ export function syncBreach() {
   copyDir(path.join(VENDOR, 'fonts'), path.join(PUBLIC, 'fonts'));
 }
 
+function conceptFiles(dir = CONCEPT): string[] {
+  const out: string[] = [];
+  for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (ent.name.startsWith('.')) continue;
+    const p = path.join(dir, ent.name);
+    if (ent.isDirectory()) {
+      // Raw design-tool exports dropped in for import aren't part of the build.
+      if (dir === CONCEPT && ent.name !== 'assets') continue;
+      out.push(...conceptFiles(p));
+    } else out.push(p);
+  }
+  return out;
+}
+
 export function breach(): Plugin {
   let synced = false;
   return {
@@ -172,6 +186,13 @@ export function breach(): Plugin {
         syncBreach();
         synced = true;
       }
+    },
+    // `vite build --watch` (devvit playtest's scripts.dev): re-sync on every
+    // rebuild and watch the concept so edits there trigger one.
+    buildStart() {
+      if (!this.meta.watchMode) return;
+      syncBreach();
+      for (const f of conceptFiles()) this.addWatchFile(f);
     },
     configureServer(server) {
       server.watcher.add(CONCEPT);

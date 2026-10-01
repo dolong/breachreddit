@@ -18,11 +18,15 @@
     "dir": "dist/server",
     "entry": "index.cjs"
   },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build"
+  },
   "menu": {
     "items": [
       {
         "label": "Create a new post",
-        "description": "breachreddit",
+        "description": "BreachGame",
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"
@@ -41,10 +45,6 @@
   },
   "triggers": {
     "onAppInstall": "/internal/triggers/on-app-install"
-  },
-  "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build"
   },
   "dev": {
     "subreddit": "breachgame_dev"
