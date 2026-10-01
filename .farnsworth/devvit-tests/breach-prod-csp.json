@@ -1,0 +1,18 @@
+{
+  "name": "Breach PROD bundle under Reddit CSP: dist/client served by tools/serve-prod-csp.mjs on :5199 (run `npx vite build` + the server first). Post view and game must boot with no CSP violations.",
+  "steps": [
+    { "action": "reload", "waitMs": 800 },
+    { "action": "eval", "expression": "(() => { location.href = 'http://localhost:5199/splash.html'; return 1; })()" },
+    { "action": "sleep", "ms": 3000 },
+    { "action": "waitFor", "selector": "text=CHOOSE AN ADVENTURE", "timeout": 10000, "_comment": "Post view booted from the prod bundle" },
+    { "action": "eval", "expression": "(() => { navigator.sendBeacon('/__csp-log', 'POST ' + JSON.stringify({ react: !!window.React, root: window.__dcBootName, offOrigin: performance.getEntriesByType('resource').map(e => e.name).filter(n => !n.startsWith(location.origin)), text: document.body.innerText.replace(/\\s+/g,' ').slice(0,120) })); return 1; })()" },
+    { "action": "screenshot", "path": "/tmp/breach-prod-post.png" },
+    { "action": "eval", "expression": "(() => { location.href = 'http://localhost:5199/game.html'; return 1; })()" },
+    { "action": "sleep", "ms": 3000 },
+    { "action": "waitFor", "selector": "text=NEW RUN", "timeout": 10000, "_comment": "Game booted on its title screen" },
+    { "action": "click", "selector": "text=NEW RUN" },
+    { "action": "waitFor", "selector": "text=SKIP", "timeout": 5000, "_comment": "Precompiled logic handles clicks (no eval)" },
+    { "action": "eval", "expression": "(() => { navigator.sendBeacon('/__csp-log', 'GAME ' + JSON.stringify({ react: !!window.React, root: window.__dcBootName, offOrigin: performance.getEntriesByType('resource').map(e => e.name).filter(n => !n.startsWith(location.origin)), text: document.body.innerText.replace(/\\s+/g,' ').slice(0,120) })); return 1; })()" },
+    { "action": "screenshot", "path": "/tmp/breach-prod-game.png" }
+  ]
+}

@@ -4,7 +4,6 @@
 // expanded "game" entrypoint instead of navigating the iframe.
 import './breach.css';
 import './breach/env-splash';
-import './breach/generated/dc-runtime.js';
 import { requestExpandedMode } from '@devvit/web/client';
 import { isGameLink } from './breach/links';
 

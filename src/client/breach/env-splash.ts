@@ -1,4 +1,4 @@
 import * as postview from './generated/c-postview.js';
-import { prepareDc } from './boot';
+import { startDc } from './boot';
 
-prepareDc(postview);
+startDc(postview);
