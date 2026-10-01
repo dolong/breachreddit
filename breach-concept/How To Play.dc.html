@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&family=Pixelify+Sans:wght@400;500;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#07060f}a{color:#48f320}a:hover{color:#ffd644}</style></helmet>
+<div style="position:relative;width:100%;max-width:390px;margin:0 auto;height:100%;min-height:844px;background:#07060f url(assets/space.png) 0 0/600px 900px repeat;image-rendering:pixelated;color:#fff;display:flex;flex-direction:column;overflow:hidden;font-family:'Pixelify Sans',sans-serif">
+
+<div style="display:flex;align-items:center;gap:10px;padding:14px 16px 0">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><div style="font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px">HOW TO PLAY</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ stepLabel }}</div></div>
+
+</div>
+<div style="display:flex;gap:6px;padding:12px 16px 0"><sc-for list="{{ dots }}" as="d" hint-placeholder-count="7"><div style="flex:1;height:6px;background:{{ d.bg }};border-radius:1px"></div></sc-for></div>
+
+<div style="position:relative;flex:1;min-height:560px">
+<div style="position:absolute;left:0;right:0;top:16px;text-align:center;font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px;color:#ffd644;text-shadow:3px 3px 0 #240011">{{ title }}</div>
+
+<sc-if value="{{ is.s1 }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;right:0;top:214px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">SECTOR 1 OF 3 · NODE {{ run.node }} / 8</div>
+<div style="position:absolute;left:35px;top:267px;width:320px;border-top:2px dashed #6b7187"></div>
+<div style="position:absolute;left:35px;top:267px;width:{{ run.trail }}px;border-top:2px solid #48f320"></div>
+<sc-for list="{{ run.nodes }}" as="nd" hint-placeholder-count="8">
+<sc-if value="{{ nd.isDot }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:{{ nd.l }}px;top:260px;width:16px;height:16px;border-radius:50%;background:{{ nd.bg }};border:2px solid {{ nd.bd }};box-sizing:border-box;box-shadow:{{ nd.glow }};transform:scale({{ nd.s }})"></div></sc-if>
+<sc-if value="{{ nd.isCoin }}" hint-placeholder-val="{{ false }}"><img src="assets/coin.png" style="position:absolute;left:162px;top:258px;width:20px;height:20px;display:block;transform:scale({{ nd.s }});filter:drop-shadow({{ nd.drop }})"></sc-if>
+<sc-if value="{{ nd.isGate }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:345px;top:252px;width:20px;height:32px;background:{{ nd.bg }};border:3px solid #ffd644;border-radius:10px 10px 2px 2px;box-sizing:border-box;box-shadow:0 0 10px rgba(255,214,68,.5);transform:scale({{ nd.s }})"></div></sc-if>
+</sc-for>
+<img src="assets/spaceship_icon.png" style="position:absolute;left:0;top:0;width:20px;height:20px;display:block;transform:translate({{ run.sx }}px,{{ run.sy }}px)">
+<div style="position:absolute;right:16px;top:150px;width:230px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:calc(100% - 22px) 100%">REMEMBER TO LAUNCH ENOUGH SHIPS TO JUMP TO THE NEXT SECTOR AT THE JUMP GATE.<div style="position:absolute;right:16px;bottom:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:118px;top:305px;width:256px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:50px 0">EACH NODE IS A CHANCE TO ROLL DICE WITH ADVENTURE CARDS. SOME NODES CONTAIN DEPOTS, WHICH SELL POWER-UPS.<div style="position:absolute;left:46px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:50px;top:428px;width:270px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">CAREFUL OF RED NODES. HAZARDS ARE RISKIER BUT HAVE HIGHER PAYOUTS.</div>
+</sc-if>
+
+<sc-if value="{{ is.s2 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:322px;top:50px;width:52px;height:83px"><img src="assets/adv_back.png" style="position:absolute;left:4px;top:4px;width:48px;height:79px;display:block;filter:brightness(.55)"><img src="assets/adv_back.png" style="position:absolute;left:2px;top:2px;width:48px;height:79px;display:block;filter:brightness(.75)"><img src="assets/adv_back.png" style="position:absolute;left:0;top:0;width:48px;height:79px;display:block;box-shadow:3px 3px 0 #240011"></div>
+<sc-for list="{{ deal }}" as="dc" hint-placeholder-count="3"><div style="position:absolute;left:{{ dc.l }}px;top:{{ dc.t }}px;width:90px;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:{{ dc.op }};transform:translate({{ dc.dx }}px,{{ dc.dy }}px) rotate({{ dc.r }}deg) scale({{ dc.s }});transform-origin:50% 74px"><div style="width:90px;height:148px;transform:scaleX({{ dc.sx }})"><img src="{{ dc.src }}" style="width:90px;height:148px;display:block;box-shadow:{{ dc.ring }}"></div><div style="font-family:'Jersey 15',monospace;font-size:18px;line-height:1;white-space:nowrap;opacity:{{ dc.tOp }}">{{ dc.name }}</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:{{ dc.col }};opacity:{{ dc.tOp }}">{{ dc.risk }}</div></div></sc-for>
+<div style="position:absolute;left:80px;top:58px;width:230px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:50% 100%">EVERY NODE DEALS 3 ADVENTURES. TAP ONE TO PICK IT.<div style="position:absolute;left:109px;bottom:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:16px;right:16px;top:340px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ advs }}" as="a" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:3px;opacity:{{ a.op }};transform:{{ a.tf }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:{{ a.col }}">{{ a.name }}</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:{{ a.col }}">{{ a.risk }}</span></div><div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.4;color:#e0dcef">{{ a.rule }}</div></div></sc-for>
+<div style="margin-top:4px;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;color:#a9b0c0;opacity:{{ c2.op }}">●○○ IS SAFE, ●●● IS RISKY. A PICKED CARD SITS OUT THE NEXT 2 DEALS. MORE UNLOCK AS YOU CLEAR SECTORS.</div>
+</div>
+<div style="position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;border:3px solid rgba(255,255,255,.85);background:rgba(255,255,255,.18);box-sizing:border-box;pointer-events:none;opacity:{{ dealTap.fOp }};transform:translate({{ dealTap.fx }}px,{{ dealTap.fy }}px) scale({{ dealTap.fs }})"></div>
+</sc-if>
+
+<sc-if value="{{ is.s4 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:40px;top:110px;width:148px;height:198px;box-shadow:4px 4px 0 #240011;opacity:{{ bp.cardOp }};transform:translateY({{ bp.cardY }}px)">
+<div style="position:absolute;left:0;top:0;width:114px;height:152px;transform:scale(1.3);transform-origin:0 0">
+<img src="assets/bp_2slot.png" style="position:absolute;left:0;top:0;width:114px;height:152px;display:block;filter:brightness({{ bp.bright }})">
+<div style="position:absolute;left:31px;top:122px;width:9px;height:{{ bp.flameH }}px;background:linear-gradient(#fff6c0,#ffd644 40%,#e8522c);opacity:{{ bp.flameOp }};transform:translateY({{ bp.shipY }}px)"></div>
+<img src="assets/ship_blue.png" style="position:absolute;left:5px;top:52px;width:61px;height:76px;display:block;filter:drop-shadow(2px 2px 0 #000);opacity:{{ bp.shipOp }};transform:translateY({{ bp.shipY }}px)">
+<img src="assets/flat_6_30.png" style="position:absolute;left:74px;top:10px;width:30px;height:30px;display:block;border-radius:4px;box-shadow:0 0 0 2px #48f320">
+<img src="{{ bp.s2 }}" style="position:absolute;left:74px;top:61px;width:30px;height:30px;display:block;border-radius:4px;box-shadow:{{ bp.s2ring }}">
+</div>
+</div>
+<div style="position:absolute;left:40px;top:318px;width:148px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:{{ bp.labCol }}">{{ bp.label }}</div>
+<div style="position:absolute;left:30px;top:84px;width:168px;text-align:center;font-family:'Jersey 15',monospace;font-size:26px;line-height:1;color:#ffd644;text-shadow:2px 2px 0 #000;opacity:{{ bp.popOp }};transform:translateY({{ bp.popY }}px)">+LAUNCHED</div>
+<img src="assets/flat_2_32.png" style="position:absolute;left:202px;top:360px;width:40px;height:40px;display:block">
+<img src="assets/flat_4_32.png" style="position:absolute;left:148px;top:360px;width:40px;height:40px;display:block;border-radius:5px;box-shadow:{{ bp.dRing }};opacity:{{ bp.dOp }};transform:translate({{ bp.dx }}px,{{ bp.dy }}px) scale({{ bp.ds }});transform-origin:0 0">
+<div style="position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;border:3px solid rgba(255,255,255,.85);background:rgba(255,255,255,.18);box-sizing:border-box;pointer-events:none;opacity:{{ bp.fOp }};transform:translate({{ bp.fx }}px,{{ bp.fy }}px) scale({{ bp.fs }})"></div>
+<div style="position:absolute;left:204px;top:112px;width:170px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:0 24px">EACH SLOT NEEDS ONE NUMBER. THE 6 IS IN, THE 4 IS STILL OPEN.<div style="position:absolute;left:-6px;top:18px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:70px;top:420px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:50% 0">TAP OR DRAG A DIE ONTO A SLOT WITH ITS NUMBER. FILL EVERY SLOT AND THE SHIP LAUNCHES.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:204px;top:236px;width:170px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:0 50%">A NEW BLUEPRINT DROPS INTO THE FREE BAY.</div>
+</sc-if>
+
+<sc-if value="{{ is.s5 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:24px;top:64px;width:114px;height:152px;box-shadow:4px 4px 0 #240011">
+<img src="assets/bp_2slot.png" style="position:absolute;left:0;top:0;width:114px;height:152px;display:block;filter:brightness(.5)">
+<img src="assets/ship_blue.png" style="position:absolute;left:5px;top:52px;width:61px;height:76px;display:block;filter:drop-shadow(2px 2px 0 #000)">
+<img src="assets/flat_6_30.png" style="position:absolute;left:74px;top:10px;width:30px;height:30px;display:block;border-radius:4px;box-shadow:0 0 0 2px #48f320">
+<img src="assets/ghost_4_30.png" style="position:absolute;left:74px;top:61px;width:30px;height:30px;display:block;border-radius:4px">
+</div>
+<div style="position:absolute;left:24px;top:224px;width:114px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#ffd644">HERALD 1/2</div>
+<div style="position:absolute;left:152px;top:146px;width:222px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:20% 100%">DICE WITH NO SLOT HIT THE HULL. EACH DOT KNOCKS OUT ONE SEGMENT.<div style="position:absolute;left:30px;bottom:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:24px;top:246px;width:210px;height:92px;background:rgba(10,8,33,.85);border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><div style="position:absolute;left:8px;top:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">ROLLED</div></div>
+<div style="position:absolute;left:246px;top:246px;width:128px;height:92px;background:rgba(10,8,33,.85);border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><div style="position:absolute;left:0;right:0;top:6px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">AIRLOCK</div><div style="position:absolute;left:12px;top:31px;width:44px;height:44px;border:2px dashed #6b7187;border-radius:5px;box-sizing:border-box"></div><img src="assets/flat_5_32.png" style="position:absolute;left:14px;top:33px;width:40px;height:40px;display:block;border-radius:5px"><div style="position:absolute;left:66px;top:31px;width:44px;height:44px;border:2px dashed #6b7187;border-radius:5px;box-sizing:border-box"></div></div>
+<div style="position:absolute;left:24px;top:352px;width:342px;display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px">HULL <span style="color:{{ hull.col }}">{{ hull.n }}</span> / 8</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#ff4d4d">BREACH AT 0</span></div>
+<div style="position:absolute;left:24px;top:380px;width:342px;display:flex;gap:4px;align-items:center;transform:translateX({{ hull.shake }}px)"><sc-for list="{{ hull.segs }}" as="sg" hint-placeholder-count="8"><div style="flex:1;min-width:0;height:16px;background:{{ sg.bg }};border:2px solid {{ sg.bd }};box-sizing:border-box"></div></sc-for></div>
+<div style="position:absolute;left:0;right:0;top:402px;text-align:center;font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ff4d4d;text-shadow:2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000;white-space:nowrap;opacity:{{ hull.popOp }};transform:translate({{ hull.px }}px,{{ hull.py }}px)">{{ hull.pop }}</div>
+<div style="position:absolute;left:16px;top:434px;width:358px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:30px 0">AT 0 YOU BREACH: ONE BLUEPRINT IS LOST WITH ITS DICE. NO BLUEPRINTS LEFT ENDS THE RUN.</div>
+<div style="position:absolute;left:16px;top:508px;width:358px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">YOU CAN REPAIR YOUR HULL WITH ADVENTURE CARDS LIKE VENT, OR BY BUYING REPAIRS AT DEPOTS.</div>
+<sc-for list="{{ hull.dice }}" as="hd" hint-placeholder-count="3"><img src="{{ hd.src }}" style="position:absolute;left:{{ hd.l }}px;top:283px;width:40px;height:40px;display:block;border-radius:5px;opacity:{{ hd.op }};box-shadow:{{ hd.glow }};transform:translate({{ hd.x }}px,{{ hd.y }}px) rotate({{ hd.r }}deg) scale({{ hd.s }})"></sc-for>
+<div style="position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(255,40,40,{{ hull.vig }})"></div>
+</sc-if>
+
+<sc-if value="{{ is.s6 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:24px;top:64px;width:114px;height:152px;box-shadow:4px 4px 0 #240011">
+<img src="assets/bp_2slot.png" style="position:absolute;left:0;top:0;width:114px;height:152px;display:block;filter:brightness({{ rr.bright }})">
+<img src="assets/ship_blue.png" style="position:absolute;left:5px;top:52px;width:61px;height:76px;display:block;filter:drop-shadow(2px 2px 0 #000)">
+<img src="{{ rr.slot1 }}" style="position:absolute;left:74px;top:10px;width:30px;height:30px;display:block;border-radius:4px;box-shadow:{{ rr.slot1Ring }}">
+<img src="assets/ghost_4_30.png" style="position:absolute;left:74px;top:61px;width:30px;height:30px;display:block;border-radius:4px">
+</div>
+<div style="position:absolute;left:24px;top:224px;width:114px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#ffd644">{{ rr.label }}</div>
+<div style="position:absolute;left:152px;top:130px;width:222px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:60% 100%">THE AIRLOCK HOLDS UP TO 2 DICE, SO A GOOD NUMBER CAN WAIT FOR A LATER ROLL.<div style="position:absolute;left:125px;bottom:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:24px;top:246px;width:210px;height:92px;background:rgba(10,8,33,.85);border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><div style="position:absolute;left:8px;top:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">ROLLED</div></div>
+<div style="position:absolute;left:246px;top:246px;width:128px;height:92px;background:rgba(10,8,33,.85);border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><div style="position:absolute;left:0;right:0;top:6px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">AIRLOCK</div><div style="position:absolute;left:12px;top:31px;width:44px;height:44px;border:2px dashed #6b7187;border-radius:5px;box-sizing:border-box"></div><div style="position:absolute;left:66px;top:31px;width:44px;height:44px;border:2px dashed #6b7187;border-radius:5px;box-sizing:border-box"></div></div>
+<div style="position:absolute;left:24px;top:350px;width:124px;height:56px;display:flex;align-items:center;justify-content:center;gap:8px;background:#0a0821;border:3px solid #f2f2f2;border-radius:8px;box-shadow:4px 4px 0 #240011;box-sizing:border-box;opacity:{{ rr.btnOp }};transform:scale({{ rr.btnS }})"><span style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px">REROLL</span><span style="display:flex;align-items:center;gap:3px;font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffd644;transform:translateX({{ rr.tagX }}px) scaleY({{ rr.tagSy }})"><img src="assets/coin.png" style="width:14px;height:14px;display:block">{{ rr.cost }}</span></div>
+<div style="position:absolute;left:160px;top:346px;width:214px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:0 26px">BEFORE YOU PLACE ANYTHING, REROLL THE WHOLE ROLL FOR GOLD. IT COSTS MORE EACH TIME.<div style="position:absolute;left:-6px;top:20px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:24px;top:414px;width:124px;display:flex;justify-content:center;opacity:{{ rr.lockOp }}"><span style="background:#0a0821;border:2px solid #f2f2f2;border-radius:4px;padding:3px 6px;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.3;color:#ffffff;text-align:center;box-shadow:2px 2px 0 #240011">DIE PLACED<br>NO REROLL</span></div>
+<div style="position:absolute;left:16px;top:460px;width:358px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">REMEMBER: IF YOU WANT TO REROLL, DO IT RIGHT AWAY. YOU CAN'T REROLL ONCE YOU PLACE A DIE.</div>
+<sc-for list="{{ rr.dice }}" as="rd" hint-placeholder-count="3"><img src="{{ rd.src }}" style="position:absolute;left:{{ rd.l }}px;top:283px;width:40px;height:40px;display:block;border-radius:5px;opacity:{{ rd.op }};box-shadow:{{ rd.glow }};transform:translate({{ rd.x }}px,{{ rd.y }}px) rotate({{ rd.r }}deg) scale({{ rd.s }})"></sc-for>
+<div style="position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;border:3px solid rgba(255,255,255,.85);background:rgba(255,255,255,.18);box-sizing:border-box;pointer-events:none;opacity:{{ rr.fOp }};transform:translate({{ rr.fx }}px,{{ rr.fy }}px) scale({{ rr.fs }})"></div>
+</sc-if>
+
+<sc-if value="{{ is.s7 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:24px;top:62px;width:342px;background:rgba(10,8,33,.88);border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;padding:10px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;opacity:{{ c0.op }};transform:{{ c0.tf }};transform-origin:50% 0">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;color:#ffd644">SHIP BONUSES STACK FOR THE WHOLE RUN:</div>
+<div style="display:flex;align-items:center;gap:10px"><img src="assets/ship_blue.png" style="width:26px;height:32px;flex:none;display:block;filter:drop-shadow(1px 1px 0 #000)"><span style="flex:none;width:72px;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:#7ab8ff">HERALD</span><span style="flex:1;min-width:0;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;color:#e0dcef">+1 DIE EVERY ROLL (MAX +3)</span></div>
+<div style="display:flex;align-items:center;gap:10px"><img src="assets/ship_violet.png" style="width:26px;height:32px;flex:none;display:block;filter:drop-shadow(1px 1px 0 #000)"><span style="flex:none;width:72px;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:#c79bff">KESTREL</span><span style="flex:1;min-width:0;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;color:#e0dcef">FREE 1-DIE REROLL EACH NODE</span></div>
+<div style="display:flex;align-items:center;gap:10px"><img src="assets/ship_amber.png" style="width:26px;height:32px;flex:none;display:block;filter:drop-shadow(1px 1px 0 #000)"><span style="flex:none;width:72px;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:#ffb36a">BARNACLE</span><span style="flex:1;min-width:0;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;color:#e0dcef">+1 HULL SEGMENT</span></div>
+</div>
+<div style="position:absolute;left:30px;top:262px;width:330px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-family:'Silkscreen',monospace;font-size:12px"><span style="color:#a9b0c0">GATE 14 / 20</span><span style="color:#48f320">NEED 6</span></div><div style="height:12px;background:#1b1e24;border:2px solid #f2f2f2"><div style="width:70%;height:12px;background:#48f320"></div></div></div>
+<div style="position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center;gap:18px"><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/crate.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#6af5d6">3</span></div><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/coin.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffd644">7</span></div></div>
+
+<div style="position:absolute;left:70px;top:312px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:50% 0">REACH EACH SECTOR'S SCORE BEFORE THE JUMP GATE, OR THE RUN ENDS THERE.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:70px;top:474px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">CARGO BANKS AT EACH GATE AND IS YOURS TO KEEP. DIE BEFORE THE GATE AND IT'S LOST.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+</sc-if>
+</div>
+
+<div style="display:flex;gap:10px;padding:0 16px 22px">
+<sc-if value="{{ showSkip }}" hint-placeholder-val="{{ true }}"><button onClick="{{ close }}" aria-label="Skip tutorial" style="flex:1;height:56px;background:#0a0821;border:3px solid #f2f2f2;border-radius:8px;box-shadow:4px 4px 0 #240011;color:#fff;font-family:'Jersey 15',monospace;font-size:26px;letter-spacing:1px;cursor:pointer">SKIP</button></sc-if>
+<button onClick="{{ next }}" style="flex:2;height:56px;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -6px 0 #b3201c,4px 4px 0 #240011;color:#fff;font-family:'Jersey 15',monospace;font-size:30px;letter-spacing:2px;text-shadow:2px 2px 0 #7a1a0e;cursor:pointer">{{ nextLabel }}</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  state = { step: 0, t0: 0, now: 0 };
+  componentDidMount() { this.st = performance.now(); this.iv = setInterval(() => { const now = (performance.now() - this.st) / 1000; this.setState({ now }); }, 33); }
+  componentWillUnmount() { clearInterval(this.iv); }
+  ORDER = [3, 5, 4, 0, 1, 6];
+  TITLES = ['THE RUN', 'ADVENTURES', 'A FEW ADVENTURES', 'BLUEPRINTS', 'HULL', 'AIRLOCK & REROLL', 'GATES & SCORE'];
+  ADVS = [
+    { name: 'DISTRESS BEACON', risk: '●○○', col: '#ff7ac8', art: 'assets/cc_beacon_f0.png', rule: 'DRAW A BLUEPRINT INTO AN OPEN BAY, THEN ROLL 1.' },
+    { name: 'SALVAGE', risk: '●●○', col: '#6af5d6', art: 'assets/adv_salvage_f0.png', rule: 'ROLL 2. DICE THAT HIT THE HULL PAY CARGO EQUAL TO THEIR DOTS.' },
+    { name: 'VENT', risk: '●●○', col: '#7ab8ff', art: 'assets/cc_vent_f0.png', rule: 'REROLL EVERY HULL DIE. CLEAN HULL: ROLL 2 INSTEAD.' },
+    { name: 'NEBULA DRIFT', risk: '●○○', col: '#d0a0ff', art: 'assets/cc_nebula_f0.png', rule: 'ROLL 2. EACH DIE YOU PLACE ROLLS ANOTHER.' }
+  ];
+  go(d) { const n = Math.max(0, Math.min(this.ORDER.length - 1, this.state.step + d)); if (n === this.state.step) return; const now = (performance.now() - this.st) / 1000; this.setState({ step: n, t0: now, now }); }
+  close = () => { if (this.props.onClose) this.props.onClose(); else { const now = (performance.now() - this.st) / 1000; this.setState({ step: 0, t0: now, now }); } };
+  animVals(el) {
+    const cl = x => Math.max(0, Math.min(1, x)), io = x => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, oc = x => 1 - Math.pow(1 - x, 3), ic = x => x * x * x, f = v => +v.toFixed(2);
+    const back = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+    const finger = (on0, on1, x, y, pressed, t) => ({ fOp: t >= on0 && t <= on1 ? f(Math.min(1, (t - on0) / 0.18, (on1 - t) / 0.22)) : 0, fx: f(x - 12), fy: f(y - 8), fs: pressed ? 0.85 : 1 });
+    // run
+    const CX = [35, 81, 126, 172, 218, 264, 309, 355], rt = el % 6.8;
+    let x, e = 0, reached;
+    if (rt < 4.9) { const hp = Math.floor(rt / 0.7), p = cl((rt - hp * 0.7) / 0.45); e = io(p); x = CX[hp] + (CX[hp + 1] - CX[hp]) * e; reached = p >= 1 ? hp + 1 : hp; } else { x = CX[7]; reached = 7; }
+    const run = { sx: f(x - 10), sy: f(234 - Math.sin(Math.PI * e) * 10), trail: f(Math.max(0, x - 35)), node: reached + 1,
+      nodes: CX.map((cx, i) => { const ta = rt - ((i - 1) * 0.7 + 0.45), s = i > 0 && ta >= 0 && ta < 0.25 ? 1 + 0.4 * (1 - ta / 0.25) : 1, on = i <= reached;
+        return { isDot: i !== 3 && i !== 7, isCoin: i === 3, isGate: i === 7, l: cx - 8, s: f(s), bg: i === 7 ? (on ? '#ffd644' : '#0a0821') : on ? '#48f320' : '#0a0821', bd: i === 5 ? '#ff4d4d' : '#f2f2f2', glow: i === reached ? '0 0 10px #48f320' : 'none', drop: on ? '0 0 6px #ffd644' : '0 0 0 transparent' }; }) };
+    // deal
+    const SL = [{ l: 40, t: 132, r: -7, art: 'assets/cc_toll_f0.png', name: 'TOLL LANE', risk: '●○○', col: '#9dffb0' }, { l: 150, t: 120, r: 0, art: 'assets/adv_salvage_f0.png', name: 'SALVAGE', risk: '●●○', col: '#6af5d6' }, { l: 260, t: 132, r: 7, art: 'assets/cc_beacon_f0.png', name: 'BEACON', risk: '●○○', col: '#ff7ac8' }];
+    const dt = el % 6.4;
+    const deal = SL.map((c, i) => {
+      const ox = 346 - (c.l + 45), oy = 91 - (c.t + 74), p = cl((dt - (0.25 + i * 0.16)) / 0.42), q = cl((dt - (1.05 + i * 0.12)) / 0.3);
+      const picked = i === 1, rp = picked ? 0 : cl((dt - 4.6) / 0.42), pk = picked ? cl((dt - 2.6) / 0.25) : 0, fade = picked ? cl((dt - 4.85) / 0.3) : 0;
+      const k = oc(p) * (1 - ic(rp)), arc = -30 * Math.sin(Math.PI * p) * (rp ? 0 : 1) - 30 * Math.sin(Math.PI * rp);
+      const punch = picked && dt > 4.55 && dt < 4.85 ? 1 + 0.15 * Math.sin(Math.PI * (dt - 4.55) / 0.3) : 1;
+      const s = (rp > 0 ? 1 - 0.47 * ic(rp) : 0.53 + 0.47 * back(p)) * punch, face = q >= 0.5 && rp === 0;
+      return { l: c.l, t: c.t, name: c.name, risk: c.risk, col: c.col, dx: f(ox * (1 - k)), dy: f(oy * (1 - k) + arc - 12 * back(pk) * (1 - fade)), r: f(-15 + (c.r + 15) * k), s: f(s),
+        op: p > 0 && rp < 1 ? f(1 - fade) : 0, sx: f(rp > 0 ? 1 : Math.max(0.02, Math.abs(Math.cos(Math.PI * q)))), src: face ? c.art : 'assets/adv_back.png',
+        ring: picked && pk > 0 ? '0 0 0 3px #ffd644,4px 4px 0 #240011' : '4px 4px 0 #240011', tOp: rp > 0 ? 0 : f(cl((dt - (1.35 + i * 0.12)) / 0.2) * (1 - fade)) };
+    });
+    const dealTap = finger(2.2, 3.05, 195, 194, dt >= 2.55 && dt < 2.75, dt);
+    // blueprint drag + launch
+    const bt = el % 6.0, dp = io(cl((bt - 0.7) / 0.8)), land = cl((bt - 1.5) / 0.15);
+    let dx = -11.8 * dp - 24 * Math.sin(Math.PI * dp), dy = -170.7 * dp, ds = bt < 0.5 ? 1 : bt < 1.5 ? 1.1 : 1.1 - 0.125 * land;
+    const placed = bt >= 1.65 && bt < 3.7, back4 = bt >= 4.2;
+    if (back4) { dx = 0; dy = 0; ds = 1; }
+    const lp = cl((bt - 2.1) / 1.0), cin = cl((bt - 3.7) / 0.5), pop = cl((bt - 2.3) / 1.0);
+    const bp = Object.assign({
+      dx: f(dx), dy: f(dy), ds: f(ds), dOp: bt < 1.65 ? 1 : back4 ? f(cl((bt - 4.2) / 0.3)) : 0, dRing: bt >= 0.5 && bt < 1.65 ? '0 0 0 3px #ffd644' : 'none',
+      s2: placed ? 'assets/flat_4_30.png' : 'assets/ghost_4_30.png', s2ring: placed ? (bt < 2.0 ? '0 0 0 2px #48f320,0 0 14px #48f320' : '0 0 0 2px #48f320') : 'none',
+      bright: f(bt >= 1.65 && bt < 2.0 ? 0.5 + 0.45 * (1 - (bt - 1.65) / 0.35) : 0.5),
+      shipY: f(bt >= 1.9 && bt < 2.1 ? Math.sin(bt * 120) : bt >= 2.1 && bt < 3.2 ? -330 * ic(lp) : 0), shipOp: bt >= 3.2 && bt < 3.7 ? 0 : 1,
+      flameOp: bt >= 1.95 && bt < 3.2 ? 1 : 0, flameH: f(8 + 34 * lp),
+      cardOp: bt >= 3.2 && bt < 3.7 ? f(1 - cl((bt - 3.2) / 0.25)) : bt >= 3.7 ? f(Math.min(1, cin * 3)) : 1,
+      cardY: f(bt >= 3.2 && bt < 3.7 ? 20 * cl((bt - 3.2) / 0.25) : bt >= 3.7 ? -60 + 60 * back(cin) : 0),
+      label: bt >= 1.65 && bt < 3.2 ? (bt >= 2.1 ? 'HERALD 2/2 · LAUNCHED' : 'HERALD 2/2') : 'HERALD 1/2', labCol: bt >= 2.1 && bt < 3.2 ? '#48f320' : '#ffd644',
+      popOp: bt >= 2.3 && bt < 3.3 ? f(pop < 0.7 ? 1 : 1 - (pop - 0.7) / 0.3) : 0, popY: f(-22 * pop)
+    }, finger(0.25, 1.9, 148 + dx + 20 * ds, 360 + dy + 20 * ds, bt >= 0.5 && bt < 1.5, bt));
+    // hull damage — continues from the reroll step: 6 on the Herald, 5 in the airlock, new roll has no home
+    const ht = el % 6.8, HITS = [{ t: 1.9, v: 2, s: [7, 6] }, { t: 3.0, v: 1, s: [5] }, { t: 4.1, v: 2, s: [4, 3] }], segX = i => 24 + i * 43.25 + 19.6, lostAt = {}, HRED = '0 0 0 2px #ff4d4d,0 0 10px rgba(255,77,77,.8)';
+    HITS.forEach(hh => hh.s.forEach(i => { lostAt[i] = hh.t; }));
+    let n = 0; const st = [];
+    for (let i = 0; i < 8; i++) { const la = lostAt[i], ra = 5.6 + (i - 3) * 0.1, gone = la != null && ht >= la && ht < ra; if (!gone) n++; st.push({ gone, flash: la != null && ht >= la && ht < la + 0.15, refl: la != null && ht >= ra && ht < ra + 0.15 }); }
+    const col = n / 8 > 0.5 ? '#48f320' : n / 8 > 0.25 ? '#ffb36a' : '#ff4d4d';
+    const hdice = HITS.map((hh, i) => {
+      const p = cl((ht - 0.1 - i * 0.08) / 0.7), face = p > 0 && p < 1 ? ((Math.floor(ht * 16) + i * 2) % 6) + 1 : hh.v;
+      const x0 = 47 + i * 62, cx = hh.s.reduce((a, k) => a + segX(k), 0) / hh.s.length, fp = cl((ht - (hh.t - 0.45)) / 0.45);
+      let x = 0, y = p < 1 ? -Math.abs(Math.sin(p * Math.PI * 2.2)) * 16 * (1 - p) - (1 - oc(Math.min(1, p * 3))) * 30 : 0, r = (1 - oc(p)) * (i % 2 ? 300 : -300), s = 1;
+      let glow = ht >= 1.0 ? HRED : 'none';
+      if (fp > 0) { x = (cx - 20 - x0) * io(fp); y = 85 * fp - 40 * Math.sin(Math.PI * fp); r = 240 * fp; s = 1 - 0.2 * fp; }
+      return { l: x0, src: 'assets/flat_' + face + '_32.png', x: f(x), y: f(y), r: f(r), s: f(s), op: p > 0 && ht < hh.t ? 1 : 0, glow };
+    });
+    const hull = { n, col, dice: hdice, segs: st.map(s => s.flash ? { bg: '#ff4d4d', bd: '#ffffff' } : s.gone ? { bg: '#240011', bd: '#7a1a0e' } : { bg: s.refl ? '#c8ffb0' : col, bd: '#f2f2f2' }), popOp: 0, px: 0, py: 0, pop: '', shake: 0, vig: 0 };
+    const hit = HITS.slice().reverse().find(hh => ht >= hh.t && ht < hh.t + 1.1);
+    if (hit) { const a = ht - hit.t; Object.assign(hull, { pop: '−' + hit.v + ' DAMAGE TAKEN TO HULL', popOp: f(a < 0.8 ? 1 : Math.max(0, 1 - (a - 0.8) / 0.3)), py: f(-18 * cl(a / 1.1)), px: f(a < 0.6 ? Math.sin(a * 70) * (2 + hit.v * 1.5) * (1 - a / 0.6) : 0), shake: f(a < 0.3 ? Math.sin(a * 90) * 4 * (1 - a / 0.3) : 0), vig: f(a < 0.4 ? 0.45 * (1 - a / 0.4) : 0) }); }
+    // roll + reroll, then place on the blueprint and airlock the spare
+    const rt2 = el % 7.4, R1 = [2, 3, 1], R2 = [6, 4, 5], DX = [47, 109, 171];
+    const tum = (t0, i, fin) => { const p = cl((rt2 - t0 - i * 0.08) / 0.7); return { p, face: p > 0 && p < 1 ? ((Math.floor(rt2 * 16) + i * 2) % 6) + 1 : fin }; };
+    const RED = '0 0 0 2px #ff4d4d,0 0 10px rgba(255,77,77,.8)', GRN = '0 0 0 2px #48f320,0 0 12px #48f320', GLD = '0 0 0 3px #ffd644';
+    const d0 = io(cl((rt2 - 4.0) / 0.7)), d2 = io(cl((rt2 - 5.45) / 0.6)), fade = 1 - cl((rt2 - 7.0) / 0.35);
+    const rdice = [0, 1, 2].map(i => {
+      let face, x = 0, y = 0, r = 0, s = 1, op = 1, glow = 'none';
+      if (rt2 < 2.2) { const t = tum(0.1, i, R1[i]); face = t.face; y = t.p < 1 ? -Math.abs(Math.sin(t.p * Math.PI * 2.2)) * 16 * (1 - t.p) - (1 - oc(Math.min(1, t.p * 3))) * 30 : 0; r = (1 - oc(t.p)) * (i % 2 ? 300 : -300); op = t.p > 0 ? 1 : 0; if (rt2 >= 1.0 && rt2 < 1.6) glow = RED; }
+      else { const pp = cl((rt2 - 2.2) / 0.15), t = tum(2.35, i, R2[i]); face = t.p > 0 ? t.face : R1[i]; y = t.p <= 0 ? -14 * pp : -Math.abs(Math.sin(t.p * Math.PI * 2.2)) * 14 * (1 - t.p); s = t.p <= 0 ? 1 + 0.2 * pp : 1; r = t.p > 0 ? (1 - oc(t.p)) * (i % 2 ? -300 : 300) : 0;
+        if (rt2 >= 3.2 && rt2 < 3.9) glow = i < 2 ? GRN : RED; }
+      if (i === 0 && rt2 >= 3.9) { x = 46 * d0 - 20 * Math.sin(Math.PI * d0); y = -214 * d0; s = 1.1 - 0.35 * d0 * d0; glow = GLD; op = rt2 >= 4.7 ? 0 : 1; }
+      if (i === 2 && rt2 >= 5.35) { x = 92 * d2; y = -d2 - 26 * Math.sin(Math.PI * d2); s = rt2 < 6.05 ? 1.1 : 1; glow = rt2 < 6.05 ? GLD : 'none'; }
+      return { l: DX[i], src: 'assets/flat_' + face + '_32.png', x: f(x), y: f(y), r: f(r), s: f(s), op: f(op * fade), glow };
+    });
+    const fp = rt2 < 3.0 ? finger(1.5, 2.55, 80, 368, rt2 >= 2.05 && rt2 < 2.25, rt2)
+      : rt2 < 5.0 ? finger(3.65, 4.95, 61 + 46 * d0 - 20 * Math.sin(Math.PI * d0), 293 - 214 * d0, rt2 >= 3.9 && rt2 < 4.7, rt2)
+      : finger(5.15, 6.35, 185 + 92 * d2, 293 - d2 - 26 * Math.sin(Math.PI * d2), rt2 >= 5.35 && rt2 < 6.05, rt2);
+    const flip = cl((rt2 - 2.25) / 0.25), rrPlaced = rt2 >= 4.7 && rt2 < 7.3;
+    const rr = Object.assign({ dice: rdice, cost: flip >= 0.5 && rt2 < 7.3 ? 2 : 1, tagSy: f(Math.max(0.05, Math.abs(Math.cos(Math.PI * flip)))), tagX: f(rt2 > 2.2 && rt2 < 2.6 ? Math.sin(rt2 * 80) * 3 * (1 - (rt2 - 2.2) / 0.4) : 0),
+      btnS: rt2 >= 2.05 && rt2 < 2.25 ? 0.94 : 1, btnOp: rrPlaced ? 0.4 : 1, lockOp: rrPlaced ? f(Math.min(cl((rt2 - 4.75) / 0.2), fade)) : 0,
+      slot1: rrPlaced ? 'assets/flat_6_30.png' : 'assets/ghost_6_30.png', slot1Ring: rrPlaced ? (rt2 < 5.1 ? GRN : '0 0 0 2px #48f320') : 'none',
+      bright: f(rt2 >= 4.7 && rt2 < 5.05 ? 0.5 + 0.4 * (1 - (rt2 - 4.7) / 0.35) : 0.5), label: rrPlaced ? 'HERALD 1/2' : 'HERALD 0/2' }, fp);
+    return { run, deal, dealTap, bp, hull, rr };
+  }
+  renderVals() {
+    const { step, t0, now } = this.state, el = now - t0, cl = x => Math.max(0, Math.min(1, x));
+    const back = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+    const pop = (delay, dur) => { const p = cl((el - delay) / dur); return { op: +Math.min(1, p * 1.6).toFixed(2), tf: 'scale(' + (0.6 + 0.4 * back(p)).toFixed(3) + ')' }; };
+    const N = this.ORDER.length, last = step === N - 1, cur = this.ORDER[step], is = {}; for (let i = 0; i < 7; i++) is['s' + (i + 1)] = cur === i;
+    return {
+      ...this.animVals(el), is, showSkip: !last, title: this.TITLES[cur], stepLabel: 'STEP ' + (step + 1) + ' OF ' + N,
+      dots: this.ORDER.map((_, i) => ({ bg: i === step ? '#ffd644' : i < step ? '#6b7187' : '#3a3a5a' })),
+      c0: pop(0.35, 0.3), c1: pop(1.15, 0.3), c2: pop(1.95, 0.3),
+      advs: this.ADVS.map((a, i) => { const p = cl((el - 1.8 - i * 0.14) / 0.3); return Object.assign({}, a, { op: +Math.min(1, p * 1.6).toFixed(2), tf: 'translateY(' + ((1 - back(p)) * 24).toFixed(1) + 'px)' }); }),
+      back: () => this.go(-1), backOp: step === 0 ? 0.35 : 1,
+      next: last ? this.close : () => this.go(1), nextLabel: last ? 'GOT IT' : 'NEXT', close: this.close
+    };
+  }
+}
+</script>
+</body>
+</html>

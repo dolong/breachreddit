@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><title>Space Dice · Choose an adventure</title><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"><style>html,body{margin:0;height:100%;background:#000;overflow:hidden}a{color:#6af5d6}a:hover{color:#b8fff0}@keyframes advloop3a{to{background-position:-2736px 0}}</style></helmet>
+<div ref="{{ wrapRef }}" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000 url(assets/space.png) 0 0/600px 900px repeat;image-rendering:pixelated">
+
+<sc-if value="{{ portrait }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ stageRef }}" style="position:relative;flex:none;width:390px;height:844px;overflow:hidden;background:#000;color:#fff;display:flex;flex-direction:column;transform-origin:center center">
+<div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;left:-160px;top:-160px;width:710px;height:1164px;background:#000 url(assets/space.png) 0 0/600px 900px repeat"></div><div style="position:absolute;left:-260px;top:-260px;width:910px;height:1364px;background:url(assets/space.png) 120px 300px/900px 1350px repeat;opacity:.28;mix-blend-mode:screen"></div></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:8px;padding:40px 16px 0">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000">YOUR FIRST STATION</div>
+<div style="font-family:'Jersey 15',monospace;font-size:30px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffd644;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">CHOOSE AN ADVENTURE</div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.5;color:#a9b0c0">TAP A CARD TO SEE WHAT IT ROLLS</div>
+</div>
+<div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;padding:64px 16px 0">
+<sc-for list="{{ cards }}" as="card" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:114px;transform:rotate({{ card.tilt }}deg)">
+<div ref="{{ card.boxRef }}" onMouseEnter="{{ card.enter }}" onMouseLeave="{{ card.leave }}" onMouseMove="{{ card.move }}" onTouchStart="{{ card.touchStart }}" onTouchMove="{{ card.touchMove }}" onTouchEnd="{{ card.leave }}" onClick="{{ card.pick }}" style="position:relative;z-index:0;width:114px;height:188px;transform-style:preserve-3d;perspective:1000px;transition:transform .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;touch-action:none">
+<div style="position:absolute;inset:0;transform-style:preserve-3d">
+<div ref="{{ card.shadowRef }}" style="position:absolute;left:0;top:13px;width:114px;height:188px;z-index:-1;background:rgba(0,0,0,.45);box-shadow:0 0 10px rgba(0,0,0,.64);backface-visibility:hidden;will-change:transform;transform:translateZ(-10px);-webkit-mask:url({{ card.mask }}) center/100% 100% no-repeat;mask:url({{ card.mask }}) center/100% 100% no-repeat"></div>
+<div ref="{{ card.cardRef }}" style="position:absolute;left:0;top:0;width:114px;height:188px;will-change:transform;transform:translateZ(10px)">
+<div style="position:absolute;inset:0;background:url({{ card.strip }}) 0 0/2736px 188px no-repeat;image-rendering:pixelated;filter:hue-rotate({{ card.hue }}deg);animation:advloop3a 2.4s steps(24) infinite;outline:3px solid {{ card.ring }};outline-offset:-1px"></div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><div style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px;color:{{ card.color }}">{{ card.name }}</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0;white-space:nowrap">RISK <span style="color:{{ card.color }}">{{ card.pips }}</span><span style="color:#3a3a5a">{{ card.ghost }}</span></div></div>
+</div>
+</sc-for>
+</div>
+<div style="position:relative;margin:26px 16px 0;background:#0a0821;border:3px solid {{ picked.bd }};border-radius:6px;box-shadow:4px 4px 0 #240011;padding:12px;display:flex;flex-direction:column;gap:6px;min-height:128px;box-sizing:border-box;transition:border-color .2s">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:{{ picked.color }}">{{ picked.name }}</div><div style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:#a9b0c0">{{ picked.risk }}</div></div>
+<sc-for list="{{ picked.rules }}" as="ru" hint-placeholder-count="2"><div style="display:flex;gap:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#ffffff;line-height:1.6"><span style="color:#48f320">{{ ru.m }}</span><span><sc-if value="{{ ru.lock }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="Fixed dice" style="width:10px;height:12px;display:inline-block;vertical-align:-1px;margin-right:4px;image-rendering:pixelated"></sc-if>{{ ru.t }}</span></div></sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<a href="{{ ctaHref }}" target="{{ ctaTarget }}" style="position:relative;margin:0 16px 120px;height:64px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
+</div>
+</sc-if>
+
+<sc-if value="{{ landscape }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ stageRef }}" style="position:relative;flex:none;width:700px;height:512px;overflow:hidden;background:#000;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:26px 28px 28px;box-sizing:border-box;transform-origin:center center">
+<div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;left:-160px;top:-160px;width:1020px;height:832px;background:#000 url(assets/space.png) 0 0/600px 900px repeat"></div><div style="position:absolute;left:-260px;top:-260px;width:1220px;height:1032px;background:url(assets/space.png) 120px 300px/900px 1350px repeat;opacity:.28;mix-blend-mode:screen"></div></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:8px">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000">YOUR FIRST STATION</div>
+<div style="font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffd644;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">CHOOSE AN ADVENTURE</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:22px">
+<div style="flex:none;width:380px;display:flex;justify-content:space-between;align-items:flex-start">
+<sc-for list="{{ cards }}" as="card" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:114px;transform:rotate({{ card.tilt }}deg)">
+<div ref="{{ card.boxRef }}" onMouseEnter="{{ card.enter }}" onMouseLeave="{{ card.leave }}" onMouseMove="{{ card.move }}" onTouchStart="{{ card.touchStart }}" onTouchMove="{{ card.touchMove }}" onTouchEnd="{{ card.leave }}" onClick="{{ card.pick }}" style="position:relative;z-index:0;width:114px;height:188px;transform-style:preserve-3d;perspective:1000px;transition:transform .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;touch-action:none">
+<div style="position:absolute;inset:0;transform-style:preserve-3d">
+<div ref="{{ card.shadowRef }}" style="position:absolute;left:0;top:13px;width:114px;height:188px;z-index:-1;background:rgba(0,0,0,.45);box-shadow:0 0 10px rgba(0,0,0,.64);backface-visibility:hidden;will-change:transform;transform:translateZ(-10px);-webkit-mask:url({{ card.mask }}) center/100% 100% no-repeat;mask:url({{ card.mask }}) center/100% 100% no-repeat"></div>
+<div ref="{{ card.cardRef }}" style="position:absolute;left:0;top:0;width:114px;height:188px;will-change:transform;transform:translateZ(10px)">
+<div style="position:absolute;inset:0;background:url({{ card.strip }}) 0 0/2736px 188px no-repeat;image-rendering:pixelated;filter:hue-rotate({{ card.hue }}deg);animation:advloop3a 2.4s steps(24) infinite;outline:3px solid {{ card.ring }};outline-offset:-1px"></div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center"><div style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px;color:{{ card.color }}">{{ card.name }}</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0;white-space:nowrap">RISK <span style="color:{{ card.color }}">{{ card.pips }}</span><span style="color:#3a3a5a">{{ card.ghost }}</span></div></div>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-width:0;align-self:stretch;background:#0a0821;border:3px solid {{ picked.bd }};border-radius:6px;box-shadow:4px 4px 0 #240011;padding:12px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box;transition:border-color .2s">
+<div style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:{{ picked.color }}">{{ picked.name }}</div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:#a9b0c0">{{ picked.risk }}</div>
+<div style="height:2px;margin:2px 0;background:#3a3a5a"></div>
+<sc-for list="{{ picked.rules }}" as="ru" hint-placeholder-count="2"><div style="display:flex;gap:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#ffffff;line-height:1.5"><span style="color:#48f320">{{ ru.m }}</span><span><sc-if value="{{ ru.lock }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="Fixed dice" style="width:10px;height:12px;display:inline-block;vertical-align:-1px;margin-right:4px;image-rendering:pixelated"></sc-if>{{ ru.t }}</span></div></sc-for>
+</div>
+</div>
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px">
+<div style="min-width:0;display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;align-items:center;gap:8px"><img src="assets/px_reddit.png" alt="Reddit" style="width:30px;height:30px;display:block;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 #240011)"><span style="font-family:'Jersey 15',monospace;font-size:28px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">REDDIT EDITION</span></div>
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000"><span>COMING SOON TO</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_steam.png" alt="" style="width:20px;height:12px;display:block;image-rendering:pixelated">STEAM</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_ios.png" alt="" style="width:9px;height:16px;display:block;image-rendering:pixelated">IOS</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_android.png" alt="" style="width:15px;height:16px;display:block;image-rendering:pixelated">ANDROID</span></div>
+</div>
+<a href="{{ ctaHref }}" target="{{ ctaTarget }}" style="flex:none;height:60px;padding:0 26px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Space Dice Run v15.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;ctaNewTab&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;frame&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;never&quot;,&quot;always&quot;],&quot;default&quot;:&quot;never&quot;,&quot;tsType&quot;:&quot;'never' | 'always'&quot;,&quot;section&quot;:&quot;Display&quot;}}">
+class Component extends DCLogic {
+  CARDS = [
+    { name: 'DISTRESS BEACON', risk: 1, color: '#ff7ac8', art: 'cc_beacon', fixed: true, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'THEN ROLL 1 DIE'] },
+    { name: 'TOLL LANE', risk: 1, color: '#9dffb0', art: 'cc_toll', fixed: true, rules: ['ROLL 2 DICE', 'PLACE WHAT FITS', '+1 GOLD'] },
+    { name: 'SALVAGE', risk: 2, color: '#6af5d6', art: 'adv_salvage', rules: ['ROLL 2 DICE AND PLACE THEM', 'EVERY DIE THAT HITS THE HULL PAYS CARGO = ITS DOTS'] }
+  ];
+  TILT = [-2.5, 0, 2.5];
+  state = { pick: -1, land: false };
+  wrapRef = React.createRef(); stageRef = React.createRef();
+  crt = [0, 1, 2].map(i => ({ box: React.createRef(), card: React.createRef(), shadow: React.createRef(), angle: i * 2.1, hover: false, cx: 0, cy: 0, tx: 0, ty: 0, mv: 0.5 }));
+  componentDidMount() {
+    const t = () => { this.tick(); this.raf = requestAnimationFrame(t); }; this.raf = requestAnimationFrame(t);
+    this.onResize = () => this.fit(); window.addEventListener('resize', this.onResize);
+    if (window.ResizeObserver && this.wrapRef.current) { this.ro = new ResizeObserver(this.onResize); this.ro.observe(this.wrapRef.current); }
+    this.fit();
+  }
+  componentDidUpdate(pp, ps) { if ((pp && pp.frame !== this.props.frame) || (ps && ps.land !== this.state.land)) this.fit(); }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize); this.ro && this.ro.disconnect(); }
+  // landscape (e.g. a 700×512 Reddit post) gets the wide layout; portrait phones get the tall one. Both scale to fill with no frame.
+  fit() {
+    const w = this.wrapRef.current; if (!w) return;
+    const W = w.clientWidth, H = w.clientHeight, land = W > H * 1.05;
+    if (land !== this.state.land) return this.setState({ land });
+    const st = this.stageRef.current; if (!st) return;
+    const mode = this.props.frame || 'never', framed = mode === 'always' && !land;
+    const bw = land ? 700 : 390, bh = land ? 512 : 844;
+    const s = framed ? Math.min(1, (H - 28) / bh, (W - 28) / bw) : Math.min(W / bw, H / bh);
+    st.style.transform = 'scale(' + s + ')'; st.style.borderRadius = framed ? '28px' : '0'; st.style.boxShadow = framed ? '0 0 0 6px #1b1b1f' : 'none';
+  }
+  point(i, x0, y0) {
+    const r = this.crt[i], el = r.box.current; if (!el) return;
+    const b = el.getBoundingClientRect(), x = x0 - b.left, y = y0 - b.top;
+    r.tx = Math.max(-1, Math.min(1, (x - b.width / 2) / (b.width / 2))) * 0.5;
+    r.ty = Math.max(-1, Math.min(1, (y - b.height / 2) / (b.height / 2))) * 0.5;
+    r.mv = 1 - y / b.height;
+  }
+  tick() {
+    const tilt = 10, scale = this.state.land ? 1.18 : 1.3;
+    this.crt.forEach(r => {
+      const card = r.card.current, sh = r.shadow.current, box = r.box.current; if (!card || !sh || !box) return;
+      r.cx += ((r.hover ? r.tx : 0) - r.cx) * 0.12; r.cy += ((r.hover ? r.ty : 0) - r.cy) * 0.12;
+      const a = r.angle, dx = Math.sin(a) * 0.5, dy = Math.cos(a) * 0.5, rot = Math.sin(a * 2);
+      const base = 'translateZ(0) translateX(' + dx + 'px) translateY(' + dy + 'px) rotate(' + rot + 'deg)';
+      if (r.hover) {
+        const elev = Math.min(Math.max((1 - r.mv) * 50, 0), 7);
+        card.style.transform = 'translateZ(0) perspective(100px) rotateX(' + (-r.cy * tilt) + 'deg) rotateY(' + (r.cx * tilt) + 'deg) ' + base;
+        sh.style.transform = 'translateZ(-10px) translateX(' + (dx + r.cx * 3) + 'px) translateY(' + (dy + r.cy * 3 - elev) + 'px) ' + base;
+        box.style.transform = 'scale3d(' + scale + ',' + scale + ',' + scale + ')'; box.style.zIndex = 5; card.style.filter = 'brightness(1.12)'; sh.style.opacity = 0.7; r.angle += 0.012;
+      } else {
+        const sx = Math.cos(a) * 0.5, sy = Math.sin(a) * 0.5;
+        card.style.transform = 'translateZ(0) perspective(100px) rotateX(' + (-sy * 6) + 'deg) rotateY(' + (sx * 6) + 'deg) ' + base;
+        sh.style.transform = 'translateZ(-10px) translateX(' + (dx + sx * 5) + 'px) translateY(' + (dy + sy * 9 - 8) + 'px) scale(.95) ' + base;
+        box.style.transform = ''; box.style.zIndex = 0; card.style.filter = ''; sh.style.opacity = 1; r.angle += 0.006;
+      }
+    });
+  }
+  renderVals() {
+    const pk = this.state.pick, p = pk >= 0 ? this.CARDS[pk] : null, dots = n => '●'.repeat(n);
+    return {
+      wrapRef: this.wrapRef, stageRef: this.stageRef,
+      portrait: !this.state.land, landscape: this.state.land,
+      ctaHref: this.props.ctaHref || 'Space Dice Run v15.dc.html',
+      ctaTarget: this.props.ctaNewTab ? '_blank' : '_top',
+      cards: this.CARDS.map((c, i) => { const rt = this.crt[i]; return {
+        name: c.name, color: c.color, hue: c.hue || 0, strip: 'assets/anim/' + c.art + '.png', mask: 'assets/' + c.art + '_f0.png',
+        pips: dots(c.risk), ghost: '●'.repeat(3 - c.risk), ring: pk === i ? '#f2f2f2' : 'transparent', tilt: this.TILT[i],
+        boxRef: rt.box, cardRef: rt.card, shadowRef: rt.shadow,
+        enter: () => { rt.hover = true; }, leave: () => { rt.hover = false; rt.tx = 0; rt.ty = 0; },
+        move: e => this.point(i, e.clientX, e.clientY),
+        touchStart: e => { rt.hover = true; const t = e.touches[0]; if (t) this.point(i, t.clientX, t.clientY); },
+        touchMove: e => { const t = e.touches[0]; if (t) this.point(i, t.clientX, t.clientY); },
+        pick: () => this.setState({ pick: pk === i ? -1 : i }) }; }),
+      picked: p ? { name: p.name, color: p.color, bd: p.color, risk: 'RISK ' + dots(p.risk) + '○'.repeat(3 - p.risk), rules: p.rules.map(t => ({ t, m: '◆', lock: !!p.fixed && /^(THEN )?ROLL \d/.test(t) })) }
+        : { name: 'PICK A CARD', color: '#a9b0c0', bd: '#f2f2f2', risk: 'TAP TO INSPECT', rules: [{ t: 'EACH ADVENTURE IS A ROLL PATTERN', m: '◆', lock: false }, { t: 'FILL BLUEPRINT SLOTS TO LAUNCH SHIPS', m: '◆', lock: false }, { t: 'LEFTOVER DICE HIT THE HULL', m: '◆', lock: false }] }
+    };
+  }
+}
+</script>
+</body>
+</html>

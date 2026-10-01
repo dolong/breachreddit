@@ -1,0 +1,1330 @@
+{
+  "pack": "Space Dice SFX \u2014 mapped from Helton Yan's Pixel Combat (Single Files)",
+  "format": {
+    "ogg": "Vorbis q5, 44.1kHz 16-bit stereo",
+    "mp3": "LAME V4 (~165kbps), 44.1kHz stereo",
+    "source": "96kHz/24-bit WAV originals kept in src-wav/"
+  },
+  "processing": [
+    "96k -> 44.1k resample",
+    "leading silence trimmed at -60dB (sources had none)",
+    "trailing silence trimmed at -70dB keeping a 150ms tail",
+    "tier gain applied AFTER resample so the offsets are exact",
+    "true-peak limited to -0.1dBFS",
+    "8ms fade-out anchored at the real end; NO fade-in (it destroys the attack)"
+  ],
+  "tiers": {
+    "dice": -12,
+    "ui": -9,
+    "big": 0
+  },
+  "event_count": 45,
+  "file_count": 270,
+  "events": {
+    "dice_roll_shake": {
+      "group": "dice",
+      "event": "roll_shake",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNMisc_HIT-Hit Rattle",
+      "note": "rotate variants each roll",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.305,
+        "max": 0.631
+      },
+      "ogg": [
+        "ogg/dice_roll_shake_01.ogg",
+        "ogg/dice_roll_shake_02.ogg",
+        "ogg/dice_roll_shake_03.ogg",
+        "ogg/dice_roll_shake_04.ogg",
+        "ogg/dice_roll_shake_05.ogg",
+        "ogg/dice_roll_shake_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_roll_shake_01.mp3",
+        "mp3/dice_roll_shake_02.mp3",
+        "mp3/dice_roll_shake_03.mp3",
+        "mp3/dice_roll_shake_04.mp3",
+        "mp3/dice_roll_shake_05.mp3",
+        "mp3/dice_roll_shake_06.mp3"
+      ]
+    },
+    "dice_die_land_slot": {
+      "group": "dice",
+      "event": "die_land_slot",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNMisc_HIT-Bit Kick",
+      "note": "rotate; pitch +2 semitones on last die",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.515,
+        "max": 0.521
+      },
+      "ogg": [
+        "ogg/dice_die_land_slot_01.ogg",
+        "ogg/dice_die_land_slot_02.ogg",
+        "ogg/dice_die_land_slot_03.ogg",
+        "ogg/dice_die_land_slot_04.ogg",
+        "ogg/dice_die_land_slot_05.ogg",
+        "ogg/dice_die_land_slot_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_die_land_slot_01.mp3",
+        "mp3/dice_die_land_slot_02.mp3",
+        "mp3/dice_die_land_slot_03.mp3",
+        "mp3/dice_die_land_slot_04.mp3",
+        "mp3/dice_die_land_slot_05.mp3",
+        "mp3/dice_die_land_slot_06.mp3"
+      ]
+    },
+    "dice_die_land_hull": {
+      "group": "dice",
+      "event": "die_land_hull",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNImpt_EXPLOSION-Thud",
+      "note": "pitch down as hull total rises",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.304,
+        "max": 1.803
+      },
+      "ogg": [
+        "ogg/dice_die_land_hull_01.ogg",
+        "ogg/dice_die_land_hull_02.ogg",
+        "ogg/dice_die_land_hull_03.ogg",
+        "ogg/dice_die_land_hull_04.ogg",
+        "ogg/dice_die_land_hull_05.ogg",
+        "ogg/dice_die_land_hull_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_die_land_hull_01.mp3",
+        "mp3/dice_die_land_hull_02.mp3",
+        "mp3/dice_die_land_hull_03.mp3",
+        "mp3/dice_die_land_hull_04.mp3",
+        "mp3/dice_die_land_hull_05.mp3",
+        "mp3/dice_die_land_hull_06.mp3"
+      ]
+    },
+    "dice_slot_fill_flash": {
+      "group": "dice",
+      "event": "slot_fill_flash",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNTonl_SKILL IMPACT-Flick",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.183,
+        "max": 1.236
+      },
+      "ogg": [
+        "ogg/dice_slot_fill_flash_01.ogg",
+        "ogg/dice_slot_fill_flash_02.ogg",
+        "ogg/dice_slot_fill_flash_03.ogg",
+        "ogg/dice_slot_fill_flash_04.ogg",
+        "ogg/dice_slot_fill_flash_05.ogg",
+        "ogg/dice_slot_fill_flash_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_slot_fill_flash_01.mp3",
+        "mp3/dice_slot_fill_flash_02.mp3",
+        "mp3/dice_slot_fill_flash_03.mp3",
+        "mp3/dice_slot_fill_flash_04.mp3",
+        "mp3/dice_slot_fill_flash_05.mp3",
+        "mp3/dice_slot_fill_flash_06.mp3"
+      ]
+    },
+    "dice_airlock_hold": {
+      "group": "dice",
+      "event": "airlock_hold",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "UIMisc_INTERFACE-Lock",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.567,
+        "max": 0.653
+      },
+      "ogg": [
+        "ogg/dice_airlock_hold_01.ogg",
+        "ogg/dice_airlock_hold_02.ogg",
+        "ogg/dice_airlock_hold_03.ogg",
+        "ogg/dice_airlock_hold_04.ogg",
+        "ogg/dice_airlock_hold_05.ogg",
+        "ogg/dice_airlock_hold_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_airlock_hold_01.mp3",
+        "mp3/dice_airlock_hold_02.mp3",
+        "mp3/dice_airlock_hold_03.mp3",
+        "mp3/dice_airlock_hold_04.mp3",
+        "mp3/dice_airlock_hold_05.mp3",
+        "mp3/dice_airlock_hold_06.mp3"
+      ]
+    },
+    "dice_reroll_swipe": {
+      "group": "dice",
+      "event": "reroll_swipe",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNTonl_USABLE-Magic Swipe",
+      "note": "layer with reroll_coin",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.6,
+        "max": 1.834
+      },
+      "ogg": [
+        "ogg/dice_reroll_swipe_01.ogg",
+        "ogg/dice_reroll_swipe_02.ogg",
+        "ogg/dice_reroll_swipe_03.ogg",
+        "ogg/dice_reroll_swipe_04.ogg",
+        "ogg/dice_reroll_swipe_05.ogg",
+        "ogg/dice_reroll_swipe_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_reroll_swipe_01.mp3",
+        "mp3/dice_reroll_swipe_02.mp3",
+        "mp3/dice_reroll_swipe_03.mp3",
+        "mp3/dice_reroll_swipe_04.mp3",
+        "mp3/dice_reroll_swipe_05.mp3",
+        "mp3/dice_reroll_swipe_06.mp3"
+      ]
+    },
+    "dice_reroll_coin": {
+      "group": "dice",
+      "event": "reroll_coin",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNTonl_USABLE-Coin Spend",
+      "note": "layer with reroll_swipe",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.974,
+        "max": 1.088
+      },
+      "ogg": [
+        "ogg/dice_reroll_coin_01.ogg",
+        "ogg/dice_reroll_coin_02.ogg",
+        "ogg/dice_reroll_coin_03.ogg",
+        "ogg/dice_reroll_coin_04.ogg",
+        "ogg/dice_reroll_coin_05.ogg",
+        "ogg/dice_reroll_coin_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_reroll_coin_01.mp3",
+        "mp3/dice_reroll_coin_02.mp3",
+        "mp3/dice_reroll_coin_03.mp3",
+        "mp3/dice_reroll_coin_04.mp3",
+        "mp3/dice_reroll_coin_05.mp3",
+        "mp3/dice_reroll_coin_06.mp3"
+      ]
+    },
+    "dice_loaded_die": {
+      "group": "dice",
+      "event": "loaded_die",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "MAGSpel_CAST-Skill Ready",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.415,
+        "max": 1.51
+      },
+      "ogg": [
+        "ogg/dice_loaded_die_01.ogg",
+        "ogg/dice_loaded_die_02.ogg",
+        "ogg/dice_loaded_die_03.ogg",
+        "ogg/dice_loaded_die_04.ogg",
+        "ogg/dice_loaded_die_05.ogg",
+        "ogg/dice_loaded_die_06.ogg"
+      ],
+      "mp3": [
+        "mp3/dice_loaded_die_01.mp3",
+        "mp3/dice_loaded_die_02.mp3",
+        "mp3/dice_loaded_die_03.mp3",
+        "mp3/dice_loaded_die_04.mp3",
+        "mp3/dice_loaded_die_05.mp3",
+        "mp3/dice_loaded_die_06.mp3"
+      ]
+    },
+    "hull_hull_heartbeat": {
+      "group": "hull",
+      "event": "hull_heartbeat",
+      "tier": "dice",
+      "gain_db": -12,
+      "source": "DSGNSynth_BUFF-Mecha Failing",
+      "note": "loop at 60bpm when hull 6-7, low volume",
+      "variants": 6,
+      "duration_s": {
+        "min": 2.427,
+        "max": 2.637
+      },
+      "ogg": [
+        "ogg/hull_hull_heartbeat_01.ogg",
+        "ogg/hull_hull_heartbeat_02.ogg",
+        "ogg/hull_hull_heartbeat_03.ogg",
+        "ogg/hull_hull_heartbeat_04.ogg",
+        "ogg/hull_hull_heartbeat_05.ogg",
+        "ogg/hull_hull_heartbeat_06.ogg"
+      ],
+      "mp3": [
+        "mp3/hull_hull_heartbeat_01.mp3",
+        "mp3/hull_hull_heartbeat_02.mp3",
+        "mp3/hull_hull_heartbeat_03.mp3",
+        "mp3/hull_hull_heartbeat_04.mp3",
+        "mp3/hull_hull_heartbeat_05.mp3",
+        "mp3/hull_hull_heartbeat_06.mp3"
+      ]
+    },
+    "hull_hull_warning": {
+      "group": "hull",
+      "event": "hull_warning",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Mecha Barrier Fail",
+      "note": "fires at hull 7",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.814,
+        "max": 2.176
+      },
+      "ogg": [
+        "ogg/hull_hull_warning_01.ogg",
+        "ogg/hull_hull_warning_02.ogg",
+        "ogg/hull_hull_warning_03.ogg",
+        "ogg/hull_hull_warning_04.ogg",
+        "ogg/hull_hull_warning_05.ogg",
+        "ogg/hull_hull_warning_06.ogg"
+      ],
+      "mp3": [
+        "mp3/hull_hull_warning_01.mp3",
+        "mp3/hull_hull_warning_02.mp3",
+        "mp3/hull_hull_warning_03.mp3",
+        "mp3/hull_hull_warning_04.mp3",
+        "mp3/hull_hull_warning_05.mp3",
+        "mp3/hull_hull_warning_06.mp3"
+      ]
+    },
+    "hull_vent": {
+      "group": "hull",
+      "event": "vent",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNMisc_SKILL IMPACT-Energy Dissipate",
+      "note": "hull dice reroll",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.08,
+        "max": 1.137
+      },
+      "ogg": [
+        "ogg/hull_vent_01.ogg",
+        "ogg/hull_vent_02.ogg",
+        "ogg/hull_vent_03.ogg",
+        "ogg/hull_vent_04.ogg",
+        "ogg/hull_vent_05.ogg",
+        "ogg/hull_vent_06.ogg"
+      ],
+      "mp3": [
+        "mp3/hull_vent_01.mp3",
+        "mp3/hull_vent_02.mp3",
+        "mp3/hull_vent_03.mp3",
+        "mp3/hull_vent_04.mp3",
+        "mp3/hull_vent_05.mp3",
+        "mp3/hull_vent_06.mp3"
+      ]
+    },
+    "hull_repair_hull": {
+      "group": "hull",
+      "event": "repair_hull",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "UIGlitch_USABLE-Mecha Repair",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.803,
+        "max": 2.368
+      },
+      "ogg": [
+        "ogg/hull_repair_hull_01.ogg",
+        "ogg/hull_repair_hull_02.ogg",
+        "ogg/hull_repair_hull_03.ogg",
+        "ogg/hull_repair_hull_04.ogg",
+        "ogg/hull_repair_hull_05.ogg",
+        "ogg/hull_repair_hull_06.ogg"
+      ],
+      "mp3": [
+        "mp3/hull_repair_hull_01.mp3",
+        "mp3/hull_repair_hull_02.mp3",
+        "mp3/hull_repair_hull_03.mp3",
+        "mp3/hull_repair_hull_04.mp3",
+        "mp3/hull_repair_hull_05.mp3",
+        "mp3/hull_repair_hull_06.mp3"
+      ]
+    },
+    "big_breach_explosion": {
+      "group": "big",
+      "event": "breach_explosion",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNImpt_EXPLOSION-Mecha Limb Explosion",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.948,
+        "max": 2.047
+      },
+      "ogg": [
+        "ogg/big_breach_explosion_01.ogg",
+        "ogg/big_breach_explosion_02.ogg",
+        "ogg/big_breach_explosion_03.ogg",
+        "ogg/big_breach_explosion_04.ogg",
+        "ogg/big_breach_explosion_05.ogg",
+        "ogg/big_breach_explosion_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_breach_explosion_01.mp3",
+        "mp3/big_breach_explosion_02.mp3",
+        "mp3/big_breach_explosion_03.mp3",
+        "mp3/big_breach_explosion_04.mp3",
+        "mp3/big_breach_explosion_05.mp3",
+        "mp3/big_breach_explosion_06.mp3"
+      ]
+    },
+    "big_breach_shatter": {
+      "group": "big",
+      "event": "breach_shatter",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNMisc_SKILL IMPACT-Glassy Sprites",
+      "note": "fire 80ms after breach_explosion",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.292,
+        "max": 1.367
+      },
+      "ogg": [
+        "ogg/big_breach_shatter_01.ogg",
+        "ogg/big_breach_shatter_02.ogg",
+        "ogg/big_breach_shatter_03.ogg",
+        "ogg/big_breach_shatter_04.ogg",
+        "ogg/big_breach_shatter_05.ogg",
+        "ogg/big_breach_shatter_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_breach_shatter_01.mp3",
+        "mp3/big_breach_shatter_02.mp3",
+        "mp3/big_breach_shatter_03.mp3",
+        "mp3/big_breach_shatter_04.mp3",
+        "mp3/big_breach_shatter_05.mp3",
+        "mp3/big_breach_shatter_06.mp3"
+      ]
+    },
+    "big_jettison_confirm": {
+      "group": "big",
+      "event": "jettison_confirm",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNImpt_EXPLOSION-Flare Extinguish",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.574,
+        "max": 1.675
+      },
+      "ogg": [
+        "ogg/big_jettison_confirm_01.ogg",
+        "ogg/big_jettison_confirm_02.ogg",
+        "ogg/big_jettison_confirm_03.ogg",
+        "ogg/big_jettison_confirm_04.ogg",
+        "ogg/big_jettison_confirm_05.ogg",
+        "ogg/big_jettison_confirm_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_jettison_confirm_01.mp3",
+        "mp3/big_jettison_confirm_02.mp3",
+        "mp3/big_jettison_confirm_03.mp3",
+        "mp3/big_jettison_confirm_04.mp3",
+        "mp3/big_jettison_confirm_05.mp3",
+        "mp3/big_jettison_confirm_06.mp3"
+      ]
+    },
+    "big_run_over": {
+      "group": "big",
+      "event": "run_over",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNImpt_EXPLOSION-Forced Shutdown",
+      "note": "follow with 1s of silence",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.809,
+        "max": 1.969
+      },
+      "ogg": [
+        "ogg/big_run_over_01.ogg",
+        "ogg/big_run_over_02.ogg",
+        "ogg/big_run_over_03.ogg",
+        "ogg/big_run_over_04.ogg",
+        "ogg/big_run_over_05.ogg",
+        "ogg/big_run_over_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_run_over_01.mp3",
+        "mp3/big_run_over_02.mp3",
+        "mp3/big_run_over_03.mp3",
+        "mp3/big_run_over_04.mp3",
+        "mp3/big_run_over_05.mp3",
+        "mp3/big_run_over_06.mp3"
+      ]
+    },
+    "big_launch_ignition": {
+      "group": "big",
+      "event": "launch_ignition",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNImpt_EXPLOSION-Mecha Propulsor Ignition",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.706,
+        "max": 1.791
+      },
+      "ogg": [
+        "ogg/big_launch_ignition_01.ogg",
+        "ogg/big_launch_ignition_02.ogg",
+        "ogg/big_launch_ignition_03.ogg",
+        "ogg/big_launch_ignition_04.ogg",
+        "ogg/big_launch_ignition_05.ogg",
+        "ogg/big_launch_ignition_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_launch_ignition_01.mp3",
+        "mp3/big_launch_ignition_02.mp3",
+        "mp3/big_launch_ignition_03.mp3",
+        "mp3/big_launch_ignition_04.mp3",
+        "mp3/big_launch_ignition_05.mp3",
+        "mp3/big_launch_ignition_06.mp3"
+      ]
+    },
+    "big_launch_reveal": {
+      "group": "big",
+      "event": "launch_reveal",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNSynth_BUFF-Mecha Level Up",
+      "note": "on ship reveal, after ignition",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.281,
+        "max": 1.37
+      },
+      "ogg": [
+        "ogg/big_launch_reveal_01.ogg",
+        "ogg/big_launch_reveal_02.ogg",
+        "ogg/big_launch_reveal_03.ogg",
+        "ogg/big_launch_reveal_04.ogg",
+        "ogg/big_launch_reveal_05.ogg",
+        "ogg/big_launch_reveal_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_launch_reveal_01.mp3",
+        "mp3/big_launch_reveal_02.mp3",
+        "mp3/big_launch_reveal_03.mp3",
+        "mp3/big_launch_reveal_04.mp3",
+        "mp3/big_launch_reveal_05.mp3",
+        "mp3/big_launch_reveal_06.mp3"
+      ]
+    },
+    "big_blueprint_drop": {
+      "group": "big",
+      "event": "blueprint_drop",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNMisc_USABLE-Mecha Weapon Equip",
+      "note": "replacement blueprint drops in",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.713,
+        "max": 2.038
+      },
+      "ogg": [
+        "ogg/big_blueprint_drop_01.ogg",
+        "ogg/big_blueprint_drop_02.ogg",
+        "ogg/big_blueprint_drop_03.ogg",
+        "ogg/big_blueprint_drop_04.ogg",
+        "ogg/big_blueprint_drop_05.ogg",
+        "ogg/big_blueprint_drop_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_blueprint_drop_01.mp3",
+        "mp3/big_blueprint_drop_02.mp3",
+        "mp3/big_blueprint_drop_03.mp3",
+        "mp3/big_blueprint_drop_04.mp3",
+        "mp3/big_blueprint_drop_05.mp3",
+        "mp3/big_blueprint_drop_06.mp3"
+      ]
+    },
+    "big_greed_gather": {
+      "group": "big",
+      "event": "greed_gather",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNSynth_CAST-Mecha Energy Gathering",
+      "note": "during slow-mo",
+      "variants": 6,
+      "duration_s": {
+        "min": 2.874,
+        "max": 2.889
+      },
+      "ogg": [
+        "ogg/big_greed_gather_01.ogg",
+        "ogg/big_greed_gather_02.ogg",
+        "ogg/big_greed_gather_03.ogg",
+        "ogg/big_greed_gather_04.ogg",
+        "ogg/big_greed_gather_05.ogg",
+        "ogg/big_greed_gather_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_greed_gather_01.mp3",
+        "mp3/big_greed_gather_02.mp3",
+        "mp3/big_greed_gather_03.mp3",
+        "mp3/big_greed_gather_04.mp3",
+        "mp3/big_greed_gather_05.mp3",
+        "mp3/big_greed_gather_06.mp3"
+      ]
+    },
+    "big_greed_vent": {
+      "group": "big",
+      "event": "greed_vent",
+      "tier": "big",
+      "gain_db": 0,
+      "source": "DSGNImpt_EXPLOSION-Magisplosion",
+      "note": "on the vent",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.139,
+        "max": 1.173
+      },
+      "ogg": [
+        "ogg/big_greed_vent_01.ogg",
+        "ogg/big_greed_vent_02.ogg",
+        "ogg/big_greed_vent_03.ogg",
+        "ogg/big_greed_vent_04.ogg",
+        "ogg/big_greed_vent_05.ogg",
+        "ogg/big_greed_vent_06.ogg"
+      ],
+      "mp3": [
+        "mp3/big_greed_vent_01.mp3",
+        "mp3/big_greed_vent_02.mp3",
+        "mp3/big_greed_vent_03.mp3",
+        "mp3/big_greed_vent_04.mp3",
+        "mp3/big_greed_vent_05.mp3",
+        "mp3/big_greed_vent_06.mp3"
+      ]
+    },
+    "card_deal": {
+      "group": "card",
+      "event": "deal",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "WHSH_MOVEMENT-Simple Whoosh",
+      "note": "rotate per card",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.514,
+        "max": 0.53
+      },
+      "ogg": [
+        "ogg/card_deal_01.ogg",
+        "ogg/card_deal_02.ogg",
+        "ogg/card_deal_03.ogg",
+        "ogg/card_deal_04.ogg",
+        "ogg/card_deal_05.ogg",
+        "ogg/card_deal_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_deal_01.mp3",
+        "mp3/card_deal_02.mp3",
+        "mp3/card_deal_03.mp3",
+        "mp3/card_deal_04.mp3",
+        "mp3/card_deal_05.mp3",
+        "mp3/card_deal_06.mp3"
+      ]
+    },
+    "card_flip": {
+      "group": "card",
+      "event": "flip",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "UIClick_INTERFACE-Metallic Click",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.348,
+        "max": 0.535
+      },
+      "ogg": [
+        "ogg/card_flip_01.ogg",
+        "ogg/card_flip_02.ogg",
+        "ogg/card_flip_03.ogg",
+        "ogg/card_flip_04.ogg",
+        "ogg/card_flip_05.ogg",
+        "ogg/card_flip_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_flip_01.mp3",
+        "mp3/card_flip_02.mp3",
+        "mp3/card_flip_03.mp3",
+        "mp3/card_flip_04.mp3",
+        "mp3/card_flip_05.mp3",
+        "mp3/card_flip_06.mp3"
+      ]
+    },
+    "card_pick": {
+      "group": "card",
+      "event": "pick",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNMisc_MELEE-Bit Sword",
+      "note": "the confident accent",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.81,
+        "max": 1.004
+      },
+      "ogg": [
+        "ogg/card_pick_01.ogg",
+        "ogg/card_pick_02.ogg",
+        "ogg/card_pick_03.ogg",
+        "ogg/card_pick_04.ogg",
+        "ogg/card_pick_05.ogg",
+        "ogg/card_pick_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_pick_01.mp3",
+        "mp3/card_pick_02.mp3",
+        "mp3/card_pick_03.mp3",
+        "mp3/card_pick_04.mp3",
+        "mp3/card_pick_05.mp3",
+        "mp3/card_pick_06.mp3"
+      ]
+    },
+    "card_return_unpicked": {
+      "group": "card",
+      "event": "return_unpicked",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNMisc_INTERFACE-Phasey Swipe",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.35,
+        "max": 1.548
+      },
+      "ogg": [
+        "ogg/card_return_unpicked_01.ogg",
+        "ogg/card_return_unpicked_02.ogg",
+        "ogg/card_return_unpicked_03.ogg",
+        "ogg/card_return_unpicked_04.ogg",
+        "ogg/card_return_unpicked_05.ogg",
+        "ogg/card_return_unpicked_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_return_unpicked_01.mp3",
+        "mp3/card_return_unpicked_02.mp3",
+        "mp3/card_return_unpicked_03.mp3",
+        "mp3/card_return_unpicked_04.mp3",
+        "mp3/card_return_unpicked_05.mp3",
+        "mp3/card_return_unpicked_06.mp3"
+      ]
+    },
+    "card_bounty_tag": {
+      "group": "card",
+      "event": "bounty_tag",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_SKILL IMPACT-Sparkly Star",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.039,
+        "max": 1.371
+      },
+      "ogg": [
+        "ogg/card_bounty_tag_01.ogg",
+        "ogg/card_bounty_tag_02.ogg",
+        "ogg/card_bounty_tag_03.ogg",
+        "ogg/card_bounty_tag_04.ogg",
+        "ogg/card_bounty_tag_05.ogg",
+        "ogg/card_bounty_tag_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_bounty_tag_01.mp3",
+        "mp3/card_bounty_tag_02.mp3",
+        "mp3/card_bounty_tag_03.mp3",
+        "mp3/card_bounty_tag_04.mp3",
+        "mp3/card_bounty_tag_05.mp3",
+        "mp3/card_bounty_tag_06.mp3"
+      ]
+    },
+    "card_cooldown_tap": {
+      "group": "card",
+      "event": "cooldown_tap",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Turn Locked",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.538,
+        "max": 1.721
+      },
+      "ogg": [
+        "ogg/card_cooldown_tap_01.ogg",
+        "ogg/card_cooldown_tap_02.ogg",
+        "ogg/card_cooldown_tap_03.ogg",
+        "ogg/card_cooldown_tap_04.ogg",
+        "ogg/card_cooldown_tap_05.ogg",
+        "ogg/card_cooldown_tap_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_cooldown_tap_01.mp3",
+        "mp3/card_cooldown_tap_02.mp3",
+        "mp3/card_cooldown_tap_03.mp3",
+        "mp3/card_cooldown_tap_04.mp3",
+        "mp3/card_cooldown_tap_05.mp3",
+        "mp3/card_cooldown_tap_06.mp3"
+      ]
+    },
+    "card_asteroid_extra_roll": {
+      "group": "card",
+      "event": "asteroid_extra_roll",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "MAGSpel_CAST-Zap Up",
+      "note": "pitch up each repeat",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.148,
+        "max": 1.231
+      },
+      "ogg": [
+        "ogg/card_asteroid_extra_roll_01.ogg",
+        "ogg/card_asteroid_extra_roll_02.ogg",
+        "ogg/card_asteroid_extra_roll_03.ogg",
+        "ogg/card_asteroid_extra_roll_04.ogg",
+        "ogg/card_asteroid_extra_roll_05.ogg",
+        "ogg/card_asteroid_extra_roll_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_asteroid_extra_roll_01.mp3",
+        "mp3/card_asteroid_extra_roll_02.mp3",
+        "mp3/card_asteroid_extra_roll_03.mp3",
+        "mp3/card_asteroid_extra_roll_04.mp3",
+        "mp3/card_asteroid_extra_roll_05.mp3",
+        "mp3/card_asteroid_extra_roll_06.mp3"
+      ]
+    },
+    "card_distress_beacon": {
+      "group": "card",
+      "event": "distress_beacon",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Mecha Selection",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.452,
+        "max": 1.592
+      },
+      "ogg": [
+        "ogg/card_distress_beacon_01.ogg",
+        "ogg/card_distress_beacon_02.ogg",
+        "ogg/card_distress_beacon_03.ogg",
+        "ogg/card_distress_beacon_04.ogg",
+        "ogg/card_distress_beacon_05.ogg",
+        "ogg/card_distress_beacon_06.ogg"
+      ],
+      "mp3": [
+        "mp3/card_distress_beacon_01.mp3",
+        "mp3/card_distress_beacon_02.mp3",
+        "mp3/card_distress_beacon_03.mp3",
+        "mp3/card_distress_beacon_04.mp3",
+        "mp3/card_distress_beacon_05.mp3",
+        "mp3/card_distress_beacon_06.mp3"
+      ]
+    },
+    "econ_cargo_gain": {
+      "group": "econ",
+      "event": "cargo_gain",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Whimsy Coin",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.135,
+        "max": 1.345
+      },
+      "ogg": [
+        "ogg/econ_cargo_gain_01.ogg",
+        "ogg/econ_cargo_gain_02.ogg",
+        "ogg/econ_cargo_gain_03.ogg",
+        "ogg/econ_cargo_gain_04.ogg",
+        "ogg/econ_cargo_gain_05.ogg",
+        "ogg/econ_cargo_gain_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_cargo_gain_01.mp3",
+        "mp3/econ_cargo_gain_02.mp3",
+        "mp3/econ_cargo_gain_03.mp3",
+        "mp3/econ_cargo_gain_04.mp3",
+        "mp3/econ_cargo_gain_05.mp3",
+        "mp3/econ_cargo_gain_06.mp3"
+      ]
+    },
+    "econ_gold_gain": {
+      "group": "econ",
+      "event": "gold_gain",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Coin Toss",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.7,
+        "max": 2.025
+      },
+      "ogg": [
+        "ogg/econ_gold_gain_01.ogg",
+        "ogg/econ_gold_gain_02.ogg",
+        "ogg/econ_gold_gain_03.ogg",
+        "ogg/econ_gold_gain_04.ogg",
+        "ogg/econ_gold_gain_05.ogg",
+        "ogg/econ_gold_gain_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_gold_gain_01.mp3",
+        "mp3/econ_gold_gain_02.mp3",
+        "mp3/econ_gold_gain_03.mp3",
+        "mp3/econ_gold_gain_04.mp3",
+        "mp3/econ_gold_gain_05.mp3",
+        "mp3/econ_gold_gain_06.mp3"
+      ]
+    },
+    "econ_coin_fly": {
+      "group": "econ",
+      "event": "coin_fly",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNMisc_MOVEMENT-Coin Whoosh",
+      "note": "per coin in the race payout stream",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.622,
+        "max": 0.636
+      },
+      "ogg": [
+        "ogg/econ_coin_fly_01.ogg",
+        "ogg/econ_coin_fly_02.ogg",
+        "ogg/econ_coin_fly_03.ogg",
+        "ogg/econ_coin_fly_04.ogg",
+        "ogg/econ_coin_fly_05.ogg",
+        "ogg/econ_coin_fly_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_coin_fly_01.mp3",
+        "mp3/econ_coin_fly_02.mp3",
+        "mp3/econ_coin_fly_03.mp3",
+        "mp3/econ_coin_fly_04.mp3",
+        "mp3/econ_coin_fly_05.mp3",
+        "mp3/econ_coin_fly_06.mp3"
+      ]
+    },
+    "econ_coin_land": {
+      "group": "econ",
+      "event": "coin_land",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_SKILL IMPACT-Coin Impact",
+      "note": "on land",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.038,
+        "max": 1.151
+      },
+      "ogg": [
+        "ogg/econ_coin_land_01.ogg",
+        "ogg/econ_coin_land_02.ogg",
+        "ogg/econ_coin_land_03.ogg",
+        "ogg/econ_coin_land_04.ogg",
+        "ogg/econ_coin_land_05.ogg",
+        "ogg/econ_coin_land_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_coin_land_01.mp3",
+        "mp3/econ_coin_land_02.mp3",
+        "mp3/econ_coin_land_03.mp3",
+        "mp3/econ_coin_land_04.mp3",
+        "mp3/econ_coin_land_05.mp3",
+        "mp3/econ_coin_land_06.mp3"
+      ]
+    },
+    "econ_spend_gold": {
+      "group": "econ",
+      "event": "spend_gold",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Coin Spend",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.974,
+        "max": 1.088
+      },
+      "ogg": [
+        "ogg/econ_spend_gold_01.ogg",
+        "ogg/econ_spend_gold_02.ogg",
+        "ogg/econ_spend_gold_03.ogg",
+        "ogg/econ_spend_gold_04.ogg",
+        "ogg/econ_spend_gold_05.ogg",
+        "ogg/econ_spend_gold_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_spend_gold_01.mp3",
+        "mp3/econ_spend_gold_02.mp3",
+        "mp3/econ_spend_gold_03.mp3",
+        "mp3/econ_spend_gold_04.mp3",
+        "mp3/econ_spend_gold_05.mp3",
+        "mp3/econ_spend_gold_06.mp3"
+      ]
+    },
+    "econ_part_bought": {
+      "group": "econ",
+      "event": "part_bought",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Mecha Upgrade Equip",
+      "note": "permanent part",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.202,
+        "max": 1.48
+      },
+      "ogg": [
+        "ogg/econ_part_bought_01.ogg",
+        "ogg/econ_part_bought_02.ogg",
+        "ogg/econ_part_bought_03.ogg",
+        "ogg/econ_part_bought_04.ogg",
+        "ogg/econ_part_bought_05.ogg",
+        "ogg/econ_part_bought_06.ogg"
+      ],
+      "mp3": [
+        "mp3/econ_part_bought_01.mp3",
+        "mp3/econ_part_bought_02.mp3",
+        "mp3/econ_part_bought_03.mp3",
+        "mp3/econ_part_bought_04.mp3",
+        "mp3/econ_part_bought_05.mp3",
+        "mp3/econ_part_bought_06.mp3"
+      ]
+    },
+    "ui_denied": {
+      "group": "ui",
+      "event": "denied",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "UIMisc_INTERFACE-Denied",
+      "note": "cant afford / invalid drop",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.668,
+        "max": 0.75
+      },
+      "ogg": [
+        "ogg/ui_denied_01.ogg",
+        "ogg/ui_denied_02.ogg",
+        "ogg/ui_denied_03.ogg",
+        "ogg/ui_denied_04.ogg",
+        "ogg/ui_denied_05.ogg",
+        "ogg/ui_denied_06.ogg"
+      ],
+      "mp3": [
+        "mp3/ui_denied_01.mp3",
+        "mp3/ui_denied_02.mp3",
+        "mp3/ui_denied_03.mp3",
+        "mp3/ui_denied_04.mp3",
+        "mp3/ui_denied_05.mp3",
+        "mp3/ui_denied_06.mp3"
+      ]
+    },
+    "ui_counter_tick": {
+      "group": "ui",
+      "event": "counter_tick",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_INTERFACE-Tonal Click",
+      "note": "pitch up a semitone per tick in code",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.404,
+        "max": 0.43
+      },
+      "ogg": [
+        "ogg/ui_counter_tick_01.ogg",
+        "ogg/ui_counter_tick_02.ogg",
+        "ogg/ui_counter_tick_03.ogg",
+        "ogg/ui_counter_tick_04.ogg",
+        "ogg/ui_counter_tick_05.ogg",
+        "ogg/ui_counter_tick_06.ogg"
+      ],
+      "mp3": [
+        "mp3/ui_counter_tick_01.mp3",
+        "mp3/ui_counter_tick_02.mp3",
+        "mp3/ui_counter_tick_03.mp3",
+        "mp3/ui_counter_tick_04.mp3",
+        "mp3/ui_counter_tick_05.mp3",
+        "mp3/ui_counter_tick_06.mp3"
+      ]
+    },
+    "ui_button_tap": {
+      "group": "ui",
+      "event": "button_tap",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "UIClick_INTERFACE-Positive Click",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.41,
+        "max": 0.432
+      },
+      "ogg": [
+        "ogg/ui_button_tap_01.ogg",
+        "ogg/ui_button_tap_02.ogg",
+        "ogg/ui_button_tap_03.ogg",
+        "ogg/ui_button_tap_04.ogg",
+        "ogg/ui_button_tap_05.ogg",
+        "ogg/ui_button_tap_06.ogg"
+      ],
+      "mp3": [
+        "mp3/ui_button_tap_01.mp3",
+        "mp3/ui_button_tap_02.mp3",
+        "mp3/ui_button_tap_03.mp3",
+        "mp3/ui_button_tap_04.mp3",
+        "mp3/ui_button_tap_05.mp3",
+        "mp3/ui_button_tap_06.mp3"
+      ]
+    },
+    "ui_screen_change": {
+      "group": "ui",
+      "event": "screen_change",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Scifi Select",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.371,
+        "max": 1.522
+      },
+      "ogg": [
+        "ogg/ui_screen_change_01.ogg",
+        "ogg/ui_screen_change_02.ogg",
+        "ogg/ui_screen_change_03.ogg",
+        "ogg/ui_screen_change_04.ogg",
+        "ogg/ui_screen_change_05.ogg",
+        "ogg/ui_screen_change_06.ogg"
+      ],
+      "mp3": [
+        "mp3/ui_screen_change_01.mp3",
+        "mp3/ui_screen_change_02.mp3",
+        "mp3/ui_screen_change_03.mp3",
+        "mp3/ui_screen_change_04.mp3",
+        "mp3/ui_screen_change_05.mp3",
+        "mp3/ui_screen_change_06.mp3"
+      ]
+    },
+    "route_travel_beat": {
+      "group": "route",
+      "event": "travel_beat",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "WHSH_MOVEMENT-Mecha Ship Passby",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 2.314,
+        "max": 2.871
+      },
+      "ogg": [
+        "ogg/route_travel_beat_01.ogg",
+        "ogg/route_travel_beat_02.ogg",
+        "ogg/route_travel_beat_03.ogg",
+        "ogg/route_travel_beat_04.ogg",
+        "ogg/route_travel_beat_05.ogg",
+        "ogg/route_travel_beat_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_travel_beat_01.mp3",
+        "mp3/route_travel_beat_02.mp3",
+        "mp3/route_travel_beat_03.mp3",
+        "mp3/route_travel_beat_04.mp3",
+        "mp3/route_travel_beat_05.mp3",
+        "mp3/route_travel_beat_06.mp3"
+      ]
+    },
+    "route_node_ahead_pulse": {
+      "group": "route",
+      "event": "node_ahead_pulse",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNTonl_USABLE-Chirps",
+      "note": "depot / race node ahead",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.717,
+        "max": 1.258
+      },
+      "ogg": [
+        "ogg/route_node_ahead_pulse_01.ogg",
+        "ogg/route_node_ahead_pulse_02.ogg",
+        "ogg/route_node_ahead_pulse_03.ogg",
+        "ogg/route_node_ahead_pulse_04.ogg",
+        "ogg/route_node_ahead_pulse_05.ogg",
+        "ogg/route_node_ahead_pulse_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_node_ahead_pulse_01.mp3",
+        "mp3/route_node_ahead_pulse_02.mp3",
+        "mp3/route_node_ahead_pulse_03.mp3",
+        "mp3/route_node_ahead_pulse_04.mp3",
+        "mp3/route_node_ahead_pulse_05.mp3",
+        "mp3/route_node_ahead_pulse_06.mp3"
+      ]
+    },
+    "route_race_won": {
+      "group": "route",
+      "event": "race_won",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNMisc_SKILL IMPACT-Dramatic Finish",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 2.49,
+        "max": 2.583
+      },
+      "ogg": [
+        "ogg/route_race_won_01.ogg",
+        "ogg/route_race_won_02.ogg",
+        "ogg/route_race_won_03.ogg",
+        "ogg/route_race_won_04.ogg",
+        "ogg/route_race_won_05.ogg",
+        "ogg/route_race_won_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_race_won_01.mp3",
+        "mp3/route_race_won_02.mp3",
+        "mp3/route_race_won_03.mp3",
+        "mp3/route_race_won_04.mp3",
+        "mp3/route_race_won_05.mp3",
+        "mp3/route_race_won_06.mp3"
+      ]
+    },
+    "route_race_lost": {
+      "group": "route",
+      "event": "race_lost",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Failed Buff",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.243,
+        "max": 1.373
+      },
+      "ogg": [
+        "ogg/route_race_lost_01.ogg",
+        "ogg/route_race_lost_02.ogg",
+        "ogg/route_race_lost_03.ogg",
+        "ogg/route_race_lost_04.ogg",
+        "ogg/route_race_lost_05.ogg",
+        "ogg/route_race_lost_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_race_lost_01.mp3",
+        "mp3/route_race_lost_02.mp3",
+        "mp3/route_race_lost_03.mp3",
+        "mp3/route_race_lost_04.mp3",
+        "mp3/route_race_lost_05.mp3",
+        "mp3/route_race_lost_06.mp3"
+      ]
+    },
+    "route_adventure_unlocked": {
+      "group": "route",
+      "event": "adventure_unlocked",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Stats Up",
+      "note": "",
+      "variants": 6,
+      "duration_s": {
+        "min": 1.82,
+        "max": 1.877
+      },
+      "ogg": [
+        "ogg/route_adventure_unlocked_01.ogg",
+        "ogg/route_adventure_unlocked_02.ogg",
+        "ogg/route_adventure_unlocked_03.ogg",
+        "ogg/route_adventure_unlocked_04.ogg",
+        "ogg/route_adventure_unlocked_05.ogg",
+        "ogg/route_adventure_unlocked_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_adventure_unlocked_01.mp3",
+        "mp3/route_adventure_unlocked_02.mp3",
+        "mp3/route_adventure_unlocked_03.mp3",
+        "mp3/route_adventure_unlocked_04.mp3",
+        "mp3/route_adventure_unlocked_05.mp3",
+        "mp3/route_adventure_unlocked_06.mp3"
+      ]
+    },
+    "route_energy_refill": {
+      "group": "route",
+      "event": "energy_refill",
+      "tier": "ui",
+      "gain_db": -9,
+      "source": "DSGNSynth_BUFF-Mecha Lock In",
+      "note": "new run",
+      "variants": 6,
+      "duration_s": {
+        "min": 0.931,
+        "max": 1.399
+      },
+      "ogg": [
+        "ogg/route_energy_refill_01.ogg",
+        "ogg/route_energy_refill_02.ogg",
+        "ogg/route_energy_refill_03.ogg",
+        "ogg/route_energy_refill_04.ogg",
+        "ogg/route_energy_refill_05.ogg",
+        "ogg/route_energy_refill_06.ogg"
+      ],
+      "mp3": [
+        "mp3/route_energy_refill_01.mp3",
+        "mp3/route_energy_refill_02.mp3",
+        "mp3/route_energy_refill_03.mp3",
+        "mp3/route_energy_refill_04.mp3",
+        "mp3/route_energy_refill_05.mp3",
+        "mp3/route_energy_refill_06.mp3"
+      ]
+    }
+  }
+}

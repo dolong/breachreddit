@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"></helmet>
+<div style="display:flex;flex-direction:column;align-items:center;color:#fff">
+<sc-if value="{{ isOver }}" hint-placeholder-val="{{ false }}"><div style="position:relative;z-index:3;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-family:'Silkscreen',monospace;font-size:13px;letter-spacing:5px;color:#6af5d6;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 10px rgba(0,0,0,.9)"><span style="width:6px;height:6px;background:#ff4d4d;flex:none"></span>STARWRIGHT'S DOMINION<span style="width:6px;height:6px;background:#ff4d4d;flex:none"></span></div></sc-if>
+<div style="position:relative;display:grid">
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#ff4d4d;mix-blend-mode:screen;opacity:.8;clip-path:inset(0 55% 0 0);transform:{{ rL }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#ff4d4d;mix-blend-mode:screen;opacity:.8;clip-path:inset(0 0 0 45%);transform:{{ rR }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#6af5d6;mix-blend-mode:screen;opacity:.8;clip-path:inset(0 55% 0 0);transform:{{ cL }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#6af5d6;mix-blend-mode:screen;opacity:.8;clip-path:inset(0 0 0 45%);transform:{{ cR }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#ff4d4d;opacity:.8;clip-path:inset(22% 55% 70% 0);transform:translate(-26px,-7px)">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:#6af5d6;opacity:.8;clip-path:inset(64% 0 28% 45%);transform:translateX(26px)">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;color:{{ gCol }};opacity:{{ gOp }};clip-path:{{ gClip }};transform:{{ gX }}">BREACH</div>
+<sc-for list="{{ back }}" as="gk" hint-placeholder-count="0"><div style="position:absolute;left:{{ gk.l }};top:{{ gk.t }};width:{{ gk.w }}px;height:{{ gk.h }}px;background:{{ gk.bg }}"></div></sc-for>
+<div style="position:absolute;left:10%;top:72%;width:22px;height:6px;background:#6af5d6;opacity:{{ b1 }}"></div>
+<div style="position:absolute;left:82%;top:30%;width:10px;height:10px;background:#ff4d4d;opacity:{{ b2 }}"></div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(0 55% 75% 0);transform:{{ l0 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(25% 55% 50% 0);transform:{{ l1 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(50% 55% 25% 0);transform:{{ l2 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(75% 55% 0 0);transform:{{ l3 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(0 0 75% 45%);transform:{{ r0 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(25% 0 50% 45%);transform:{{ r1 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(50% 0 25% 45%);transform:{{ r2 }}">BREACH</div>
+<div style="grid-area:1/1;padding:0 10px 10px 0;font-family:'Jersey 15',monospace;font-size:106px;line-height:.82;letter-spacing:3px;position:relative;z-index:1;color:#fff;text-shadow:4px 4px 0 #240011;clip-path:inset(75% 0 0 45%);transform:{{ r3 }}">BREACH</div>
+<div style="position:absolute;left:30%;top:-15px;width:12px;height:5px;background:#f2f2f2;opacity:{{ b3 }}"></div>
+<sc-for list="{{ seam }}" as="sm2" hint-placeholder-count="16"><div style="position:absolute;left:calc(45% + {{ sm2.x }}px);top:{{ sm2.t }};width:{{ sm2.w }}px;height:{{ sm2.h }}px;background:{{ sm2.bg }};opacity:{{ sm2.op }}"></div></sc-for>
+<sc-for list="{{ sparks }}" as="sp2" hint-placeholder-count="1"><div style="position:absolute;left:calc(45% + {{ sp2.x }}px);top:{{ sp2.t }};width:{{ sp2.w }}px;height:1px;background:{{ sp2.bg }}"></div></sc-for>
+<div style="position:absolute;left:calc(45% - 2px);top:-10px;bottom:-4px;width:1px;background:#ff4d4d;opacity:.35"></div>
+<div style="position:absolute;left:45%;top:-12px;bottom:-6px;width:1px;background:#f2f2f2;opacity:{{ coreOp }}"></div>
+<div style="position:absolute;left:calc(45% + 2px);top:-10px;bottom:-4px;width:1px;background:#6af5d6;opacity:.35"></div>
+<sc-for list="{{ front }}" as="gf" hint-placeholder-count="0"><div style="position:absolute;z-index:2;left:{{ gf.l }};top:{{ gf.t }};width:{{ gf.w }}px;height:{{ gf.h }}px;background:{{ gf.bg }}"></div></sc-for>
+<sc-if value="{{ isTag }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;right:-10px;bottom:-22px;z-index:3;display:flex;align-items:center;gap:6px;padding:4px 8px;background:#ffd644;border:2px solid #0a0821;box-shadow:3px 3px 0 #240011;transform:rotate(-4deg);font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:2px;color:#0a0821;white-space:nowrap"><span style="width:14px;height:10px;flex:none;background:repeating-linear-gradient(-45deg,#0a0821 0 3px,#ffd644 3px 6px)"></span>STARWRIGHT'S DOMINION</div></sc-if>
+<div style="position:absolute;left:-16px;right:-16px;top:-14px;bottom:-14px;background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 2px,transparent 2px 4px);pointer-events:none;z-index:2"></div>
+</div>
+<sc-if value="{{ isUnder }}" hint-placeholder-val="{{ false }}"><div style="position:relative;z-index:5;margin-top:-11px;display:flex;align-items:center;gap:8px;font-family:'Silkscreen',monospace;font-size:13px;letter-spacing:5px;color:#6af5d6;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 10px rgba(0,0,0,.9)"><span style="width:6px;height:6px;background:#ff4d4d;flex:none"></span>STARWRIGHT'S DOMINION<span style="width:6px;height:6px;background:#ff4d4d;flex:none"></span></div></sc-if>
+<sc-if value="{{ isPlate }}" hint-placeholder-val="{{ true }}"><div style="position:relative;z-index:3;margin-top:-8px;padding:6px 12px;background:rgba(10,8,33,.88);border:2px solid #3a3a5a;border-radius:4px;box-shadow:3px 3px 0 #240011;font-family:'Silkscreen',monospace;font-size:14px;letter-spacing:3px;color:#ffffff;text-align:center">STARWRIGHT'S DOMINION</div></sc-if>
+<sc-if value="{{ isRule }}" hint-placeholder-val="{{ false }}"><div style="position:relative;z-index:3;align-self:stretch;margin:10px -36px 0;display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:30px;height:2px;background:#ff4d4d"></div><span style="font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:2px;color:#ffffff;white-space:nowrap;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 10px rgba(0,0,0,.9)">STARWRIGHT'S DOMINION</span><div style="flex:1;height:2px;background:#6af5d6"></div></div></sc-if>
+<sc-if value="{{ isSplit }}" hint-placeholder-val="{{ false }}"><div style="position:relative;z-index:3;align-self:stretch;height:30px;margin-top:6px"><span style="position:absolute;right:calc(55% + 9px);top:-7px;font-family:'Silkscreen',monospace;font-size:14px;letter-spacing:3px;color:#ff4d4d;white-space:nowrap;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 10px rgba(0,0,0,.9)">STARWRIGHT'S</span><div style="position:absolute;left:45%;top:-12px;width:1px;height:34px;background:#f2f2f2;opacity:.45"></div><span style="position:absolute;left:calc(45% + 9px);top:0;font-family:'Silkscreen',monospace;font-size:14px;letter-spacing:3px;color:#6af5d6;white-space:nowrap;text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 10px rgba(0,0,0,.9)">DOMINION</span></div></sc-if>
+<sc-if value="{{ isTerm }}" hint-placeholder-val="{{ false }}"><div style="position:relative;z-index:3;margin-top:12px;display:flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(0,0,0,.6);border-left:3px solid #48f320;font-family:'Silkscreen',monospace;font-size:13px;letter-spacing:2px;color:#7dff6a;text-shadow:0 0 6px rgba(72,243,32,.7)"><span>&gt; {{ termTxt }}</span><span style="width:8px;height:13px;background:#7dff6a;opacity:{{ curOp }}"></span></div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:260},&quot;animate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;sub&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;plate&quot;,&quot;overline&quot;,&quot;underline&quot;,&quot;rule&quot;,&quot;split&quot;,&quot;tag&quot;,&quot;terminal&quot;],&quot;default&quot;:&quot;underline&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { t: 0 };
+  componentDidMount() {
+    const rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!rm) this.iv = setInterval(() => { if (this.props.animate ?? true) this.setState(s => ({ t: s.t + 1 })); }, 220);
+  }
+  componentWillUnmount() { clearInterval(this.iv); }
+  renderVals() {
+    const T = this.state.t, px = v => v.toFixed(1) + 'px', hsh = (p, q) => { const x = Math.sin(p * 127.1 + q * 311.7) * 43758.5453; return x - Math.floor(x); };
+    const T3 = T + 2000, g3M = hsh(T3, 50) < 0.4, g3I = Math.floor(hsh(T3, 51) * 8), g3I2 = Math.floor(hsh(T3, 53) * 8);
+    const g3s = i => (g3M && (i === g3I || (hsh(T3, 54) < 0.3 && i === g3I2))) ? (hsh(T3, 52 + i) - 0.5) * 6 : 0, j3 = k => hsh(T3, k) < 0.5 ? (hsh(T3, k + 2) - 0.5) * 3 : 0;
+    const g3Blk = (cols, k, on) => on ? [{ l: (hsh(T3, k) * 90).toFixed(1) + '%', t: (hsh(k, T3) * 96).toFixed(1) + '%', w: 6 + Math.floor(hsh(T3, k + 1) * 3) * 4, h: [2, 3, 4][Math.floor(hsh(k + 2, T3) * 3)], bg: cols[Math.floor(hsh(T3 + k, 3) * cols.length)] }] : [];
+    const g3B = Math.floor(hsh(T3, 90) * 8), g3L = g3B < 4, g3k = g3B % 4;
+    const st3 = {
+      l0: 'translate(' + px(-4 + g3s(0)) + ',-7px)', l1: 'translate(' + px(-4 + g3s(1)) + ',-7px)', l2: 'translate(' + px(-4 + g3s(2)) + ',-7px)', l3: 'translate(' + px(-4 + g3s(3)) + ',-7px)',
+      r0: 'translateX(' + px(4 + g3s(4)) + ')', r1: 'translateX(' + px(4 + g3s(5)) + ')', r2: 'translateX(' + px(4 + g3s(6)) + ')', r3: 'translateX(' + px(4 + g3s(7)) + ')',
+      rL: 'translate(' + px(-8 + j3(1)) + ',-7px)', rR: 'translateX(' + px(j3(1)) + ')', cL: 'translate(' + px(j3(5)) + ',-7px)', cR: 'translateX(' + px(8 + j3(5)) + ')',
+      seam: Array.from({ length: 16 }, (_, i) => { const w = 3 + Math.floor(hsh(T3, 320 + i) * 4) * 2; return { t: (-22 + i * 9) + '%', w, x: Math.round((hsh(i, T3 + 340) - 0.5) * 6 - w / 2), h: 2 + Math.floor(hsh(T3, 360 + i) * 3), bg: ['#f2f2f2', '#6af5d6', '#ff4d4d', '#c79bff'][Math.floor(hsh(i + 380, T3) * 4)], op: hsh(T3, 300 + i) < 0.65 ? 1 : 0 }; }),
+      sparks: Array.from({ length: hsh(T3, 400) < 0.5 ? 2 : 1 }, (_, i) => { const len = 10 + Math.floor(hsh(T3, 420 + i) * 24); return { t: (8 + hsh(T3, 430 + i) * 84).toFixed(0) + '%', x: hsh(T3, 410 + i) < 0.5 ? -len : 0, w: len, bg: ['#f2f2f2', '#6af5d6', '#ff4d4d'][Math.floor(hsh(T3, 440 + i) * 3)] }; }),
+      coreOp: hsh(T3, 450) < 0.2 ? 0.2 : 0.45,
+      tearOp: hsh(T3, 60) < 0.25 ? 0.25 : 0.6, b1: hsh(T3, 61) < 0.85 ? 1 : 0, b2: hsh(T3, 62) < 0.8 ? 1 : 0, b3: hsh(T3, 63) < 0.9 ? 1 : 0,
+      back: g3Blk(['#6af5d6', '#ff4d4d'], 100, hsh(T3, 55) < 0.3), front: g3Blk(['#0a0821'], 200, hsh(T3, 56) < 0.15),
+      gClip: 'inset(' + (g3k * 25) + '% ' + (g3L ? '55%' : '0') + ' ' + (75 - g3k * 25) + '% ' + (g3L ? '0' : '45%') + ')', gX: 'translate(' + px((hsh(T3, 91) < 0.5 ? -1 : 1) * (8 + hsh(T3, 92) * 6)) + ',' + (g3L ? '-7px' : '0px') + ')', gCol: hsh(T3, 93) < 0.5 ? '#ff4d4d' : '#6af5d6', gOp: hsh(T3, 57) < 0.2 ? 0.4 : 0
+    };
+    const sub = this.props.sub || 'underline', full = "STARWRIGHT'S DOMINION", typed = Math.min(full.length, T % 60);
+    return Object.assign(st3, { isPlate: sub === 'plate', isOver: sub === 'overline', isUnder: sub === 'underline', isRule: sub === 'rule', isSplit: sub === 'split', isTag: sub === 'tag', isTerm: sub === 'terminal',
+      termTxt: (this.props.animate ?? true) && T > 0 ? full.slice(0, typed) : full, curOp: Math.floor(T / 3) % 2 ? 1 : 0 });
+  }
+}
+</script>
+</body>
+</html>
