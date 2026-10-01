@@ -1,11 +1,11 @@
 {
   "appType": "devvit",
-  "createdAt": "2026-07-02T20:40:30.345Z",
+  "createdAt": "2026-10-01T16:56:25.536Z",
   "liveGameId": null,
   "live": {
-    "projectName": "",
-    "subredditName": "",
+    "projectName": "breachreddit",
+    "subredditName": "breachreddit",
     "url": "",
-    "postName": ""
+    "postName": "Breachreddit"
   }
 }

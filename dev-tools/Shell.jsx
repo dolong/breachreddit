@@ -1,71 +1,26 @@
-import { useState, useMemo } from 'react';
-import { Splash } from '@src/client/splash';
-import { App } from '@src/client/game';
+import { useState } from 'react';
 
+// Standalone (no ?view=) tab picker for manual iteration in a browser tab.
+// Each tab iframes a real view so the dc-runtime gets its own document.
 const TABS = [
-  { id: 'splash', label: 'Splash (Inline)', render: () => <Splash /> },
-  { id: 'game', label: 'Game (Expanded)', render: () => <App /> },
+  { id: 'post', label: 'Post View (Postview)', w: 390, h: 520 },
+  { id: 'mobile', label: 'Game (Space Dice Run v15)', w: 390, h: 844 },
 ];
 
-// Read ?view= from the URL so the Farnsworth canvas can link to specific
-// modes (post / mobile / desktop) without showing the dev-tools tab UI.
-// Defaults to 'standalone' which renders the tab picker for manual use.
-function readView() {
-  const params = new URLSearchParams(window.location.search);
-  const v = params.get('view');
-  if (v === 'post' || v === 'mobile' || v === 'desktop') return v;
-  return 'standalone';
-}
-
 export const Shell = () => {
-  const view = useMemo(() => readView(), []);
-  const [active, setActive] = useState('splash');
-
-  // Farnsworth canvas iframe mode — render the requested component alone,
-  // sized to fill the iframe. No tab UI, no shell chrome. The Farnsworth
-  // canvas provides the surrounding Reddit / phone / desktop chrome.
-  if (view === 'post') {
-    return (
-      <div className="post-stage">
-        <Splash />
-      </div>
-    );
-  }
-  if (view === 'mobile') {
-    return (
-      <div className="mobile-stage">
-        <App />
-      </div>
-    );
-  }
-  if (view === 'desktop') {
-    return (
-      <div className="desktop-stage">
-        <App />
-      </div>
-    );
-  }
-
-  // Standalone mode — tab picker for manual iteration in a browser tab.
+  const [active, setActive] = useState('post');
+  const tab = TABS.find((t) => t.id === active);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <nav
-        style={{
-          display: 'flex',
-          gap: 4,
-          padding: '8px 12px',
-          background: '#1a1a1a',
-          borderBottom: '1px solid #333',
-        }}
-      >
-        {TABS.map((tab) => (
+      <nav style={{ display: 'flex', gap: 4, padding: '8px 12px', background: '#1a1a1a', borderBottom: '1px solid #333' }}>
+        {TABS.map((t) => (
           <button
-            key={tab.id}
+            key={t.id}
             type="button"
-            onClick={() => setActive(tab.id)}
+            onClick={() => setActive(t.id)}
             style={{
               padding: '6px 14px',
-              background: active === tab.id ? '#d93900' : '#2a2a2a',
+              background: active === t.id ? '#d93900' : '#2a2a2a',
               color: '#fff',
               border: 'none',
               borderRadius: 4,
@@ -74,22 +29,13 @@ export const Shell = () => {
               fontSize: 13,
             }}
           >
-            {tab.label}
+            {t.label}
           </button>
         ))}
-        <span
-          style={{
-            marginLeft: 'auto',
-            alignSelf: 'center',
-            color: '#666',
-            fontSize: 11,
-          }}
-        >
-          Dev Tools · vite · port 5174
-        </span>
+        <span style={{ marginLeft: 'auto', alignSelf: 'center', color: '#666', fontSize: 11 }}>Breach · dev tools</span>
       </nav>
-      <div style={{ flex: 1, overflow: 'auto', background: '#fff' }}>
-        {TABS.find((t) => t.id === active)?.render()}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#111' }}>
+        <iframe key={tab.id} title={tab.label} src={`/?view=${tab.id}`} style={{ width: tab.w, height: tab.h, border: '1px solid #333' }} />
       </div>
     </div>
   );

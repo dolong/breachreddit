@@ -9,12 +9,10 @@
         "entry": "splash.html"
       },
       "game": {
-        "entry": "game.html"
+        "entry": "game.html",
+        "inline": true
       }
     }
-  },
-  "media": {
-    "dir": "public"
   },
   "server": {
     "dir": "dist/server",
@@ -34,7 +32,11 @@
   "permissions": {
     "reddit": {
       "enable": true,
-      "asUser": ["SUBMIT_POST", "SUBMIT_COMMENT", "SUBSCRIBE_TO_SUBREDDIT"]
+      "asUser": [
+        "SUBMIT_POST",
+        "SUBMIT_COMMENT",
+        "SUBSCRIBE_TO_SUBREDDIT"
+      ]
     }
   },
   "triggers": {

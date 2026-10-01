@@ -1,0 +1,10 @@
+{
+  "name": "Breach probe: load the game view and report dc-runtime boot state to logs/harness-console.log",
+  "steps": [
+    { "action": "reload", "waitMs": 1500 },
+    { "action": "eval", "expression": "(() => { navigator.sendBeacon('/__harness-log', '[probe] before-nav ' + location.href + ' ' + innerWidth + 'x' + innerHeight); if (!location.search.includes('view=mobile')) location.href = location.origin + '/?view=mobile'; return 1; })()" },
+    { "action": "sleep", "ms": 6000 },
+    { "action": "eval", "expression": "(() => { const r = window.__dcRegistry || {}; navigator.sendBeacon('/__harness-log', '[probe] ' + JSON.stringify({ url: location.href, dcRoot: !!document.getElementById('dc-root'), bootName: window.__dcBootName || null, rootName: typeof window.__dcRootName === 'function' ? window.__dcRootName() : 'no-runtime', React: !!window.React, reg: Object.fromEntries(Object.entries(r).map(([k,v]) => [k, v && (v.logicError || (v.Logic ? 'logic-ok' : 'no-logic')) + (v && v.tpl ? '+tpl' : '-tpl')])), text: (document.body.innerText || '').slice(0, 200), htmlLen: document.body.innerHTML.length })); return 1; })()" },
+    { "action": "screenshot", "path": "/tmp/breach-probe.png" }
+  ]
+}

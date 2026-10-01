@@ -1,0 +1,111 @@
+{
+  "name": "Breach (mobile 390x844): fresh save -> NEW RUN -> skip tutorial -> LAUNCH -> pick card -> TAKE ADVENTURE -> ROLL",
+  "steps": [
+    {
+      "action": "reload",
+      "waitMs": 1000
+    },
+    {
+      "action": "eval",
+      "expression": "(() => { Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); location.href = location.origin + '/?view=mobile'; return 1; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 2500
+    },
+    {
+      "action": "waitFor",
+      "selector": "#dc-root",
+      "timeout": 10000
+    },
+    {
+      "action": "waitFor",
+      "selector": "text=NEW RUN",
+      "timeout": 10000
+    },
+    {
+      "action": "click",
+      "selector": "text=NEW RUN"
+    },
+    {
+      "action": "waitFor",
+      "selector": "text=SKIP",
+      "timeout": 5000
+    },
+    {
+      "action": "click",
+      "selector": "text=SKIP"
+    },
+    {
+      "action": "waitFor",
+      "selector": "text=SECTOR 1",
+      "timeout": 8000
+    },
+    {
+      "action": "click",
+      "selector": "text=LAUNCH"
+    },
+    {
+      "action": "waitFor",
+      "selector": "text=CHOOSE AN ADVENTURE",
+      "timeout": 8000
+    },
+    {
+      "action": "sleep",
+      "ms": 1500,
+      "_comment": "deal animation must finish before cards accept picks"
+    },
+    {
+      "action": "click",
+      "selector": "[data-flip=\"1\"]"
+    },
+    {
+      "action": "sleep",
+      "ms": 600
+    },
+    {
+      "action": "sleep",
+      "ms": 800
+    },
+    {
+      "action": "click",
+      "selector": "text=TAKE ADVENTURE"
+    },
+    {
+      "action": "sleep",
+      "ms": 3500
+    },
+    {
+      "action": "eval",
+      "expression": "(async () => { const m = await fetch('sfx/manifest.json').then(r => r.status).catch(e => 'ERR ' + e); const o = await fetch('sfx/ogg/dice_roll_shake_01.ogg').then(r => r.status + ' ' + r.headers.get('content-type')).catch(e => 'ERR ' + e); const res = performance.getEntriesByType('resource').map(e => e.name).filter(n => !n.startsWith(location.origin)); navigator.sendBeacon('/__harness-log', '[probe] after TAKE: manifest=' + m + ' ogg=' + o + ' offOrigin=' + JSON.stringify(res) + ' text=' + (document.body.innerText || '').replace(/\\s+/g,' ').slice(0, 400)); return 1; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 500
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=ROLL 1"
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=ROLL 2"
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=ROLL 3"
+    },
+    {
+      "action": "sleep",
+      "ms": 3000
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/breach-run-4.png"
+    }
+  ]
+}

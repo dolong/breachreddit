@@ -1,0 +1,14 @@
+/* The concept owns all of its styling; this only makes the page a clean,
+   full-bleed, non-scrolling stage (matches the dc-runtime FULL_PAGE_CSS). */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #07060f;
+  -webkit-tap-highlight-color: transparent;
+}
+#dc-root,
+#dc-root > .sc-host {
+  height: 100%;
+}

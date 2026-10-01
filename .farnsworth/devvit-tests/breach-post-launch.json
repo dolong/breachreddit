@@ -1,0 +1,14 @@
+{
+  "name": "Breach Post View: Postview renders its CTA, and tapping it stays in the post (expanded mode is Reddit-only, so the shim just logs)",
+  "steps": [
+    { "action": "reload", "waitMs": 1000 },
+    { "action": "eval", "expression": "(() => { location.href = location.origin + '/?view=post'; return 1; })()" },
+    { "action": "sleep", "ms": 2500 },
+    { "action": "waitFor", "selector": "#dc-root", "timeout": 10000 },
+    { "action": "waitFor", "selector": "text=CHOOSE AN ADVENTURE", "timeout": 10000 },
+    { "action": "click", "selector": "a[href]", "_comment": "ROLL YOUR FIRST ADVENTURE -> requestExpandedMode(e, 'game')" },
+    { "action": "sleep", "ms": 1000 },
+    { "action": "waitFor", "selector": "text=CHOOSE AN ADVENTURE", "timeout": 3000, "_comment": "Post did not navigate to the raw .dc.html link" },
+    { "action": "screenshot", "path": "/tmp/breach-post-launch.png" }
+  ]
+}
