@@ -27,9 +27,17 @@ report('boot', [navigator.userAgent.slice(0, 60), innerWidth + 'x' + innerHeight
 const view = new URLSearchParams(window.location.search).get('view');
 const root = document.getElementById('root');
 
+// Post View routes by devvit.json entrypoint so Farnsworth can show any post
+// type: default -> splash (Postview), game -> Space Dice Run.
+const ENTRIES = {
+  default: () => import('@src/client/splash'),
+  game: () => import('@src/client/game'),
+};
+
 if (view === 'post') {
   root.remove();
-  import('@src/client/splash');
+  const entry = new URLSearchParams(window.location.search).get('entry') || 'default';
+  (ENTRIES[entry] || ENTRIES.default)();
 } else if (view === 'mobile' || view === 'desktop' || view === 'game') {
   root.remove();
   import('@src/client/game');
