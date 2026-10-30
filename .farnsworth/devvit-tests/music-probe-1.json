@@ -1,0 +1,67 @@
+{
+  "name": "music probe: s1 -> gate -> boss win -> spoils -> s2, log every music play/pause",
+  "frame": "mobile",
+  "steps": [
+    {
+      "action": "reload",
+      "waitMs": 1000
+    },
+    {
+      "action": "eval",
+      "expression": "(() => { Object.keys(localStorage).forEach(k => localStorage.removeItem(k)); location.href = 'http://localhost:5175/?view=mobile'; return 1; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 2500
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=WAIT"
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=WAIT"
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=NEW RUN"
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "clickIfPresent",
+      "selector": "text=SKIP"
+    },
+    {
+      "action": "sleep",
+      "ms": 1500
+    },
+    {
+      "action": "eval",
+      "saveAs": "log",
+      "expression": "(async () => { try { const W = ms => new Promise(r => setTimeout(r, ms)); const root = document.querySelector('#dc-root'); let M = null; for (const el of root.querySelectorAll('*')) { const fk = Object.keys(el).find(k => k.startsWith('__reactFiber')); if (!fk) continue; let f = el[fk]; while (f) { const sn = f.stateNode, lg = sn && (sn.updateMusic ? sn : sn.logic); if (lg && lg.updateMusic) { M = lg; break; } f = f.return; } if (M) break; } if (!M) { navigator.sendBeacon('/__harness-log', '[musprobe] NO INSTANCE'); return 0; } const t0 = performance.now(), L = []; const name = a => { const m = window.__breachMus || {}; return Object.keys(m).find(k => m[k] === a) || '?'; }; const T = () => Math.round(performance.now() - t0); const P = HTMLMediaElement.prototype, op = P.play, opa = P.pause; P.play = function () { L.push(T() + ' play ' + name(this) + ' tgt=' + (this._target || 0).toFixed(2) + ' t=' + this.currentTime.toFixed(1)); return op.call(this); }; P.pause = function () { if (!this.paused) L.push(T() + ' pause ' + name(this)); return opa.call(this); }; const snap = tag => { const m = window.__breachMus || {}; L.push(T() + ' [' + tag + '] screen=' + M.g.screen + ' sec=' + M.sec() + ' PLAYING=' + Object.keys(m).filter(k => !m[k].paused).map(k => k + '@' + m[k].currentTime.toFixed(1) + '/v' + m[k].volume.toFixed(2)).join(',')); }; if (!M.g.run) { navigator.sendBeacon('/__harness-log', '[musprobe] no run, screen=' + M.g.screen); return 0; } M.g.meta.sound = true; M.g.meta.musVol = 35; M.musicOn = true; M.updateMusic(); await W(3000); snap('s1'); M.g.screen = 'race'; M.gateSongOff = false; M.sync(); await W(3000); snap('gate'); M.gateAmbush(true, false); await W(1500); snap('ambush'); M.encWarnFn(); await W(1500); snap('warn'); M.encDone({ kind: 'won', purse: 40 }); await W(300); snap('won'); await W(1500); snap('spoils'); M.takeSpoils('gold'); for (let i = 0; i < 8; i++) { await W(500); snap('after s2 +' + (i + 1) * 500); } P.play = op; P.pause = opa; navigator.sendBeacon('/__harness-log', '[musprobe]\\n' + L.join('\\n')); return L.length; } catch (err) { navigator.sendBeacon('/__harness-log', '[musprobe] ERR ' + (err && err.stack || err)); return -1; } })()"
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/mp1.png"
+    },
+    {
+      "action": "eval",
+      "expression": "window.__x=1"
+    }
+  ]
+}

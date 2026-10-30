@@ -1,0 +1,18 @@
+{
+  "name": "boss song probe: gate ambush -> real CONTINUE click -> win -> spoils -> sector 2, log music players",
+  "frame": "mobile",
+  "steps": [
+    { "action": "reload", "waitMs": 1000 },
+    { "action": "eval", "expression": "(() => { location.href = 'http://localhost:5175/?view=mobile'; return 1; })()" },
+    { "action": "sleep", "ms": 3000 },
+    { "action": "clickIfPresent", "selector": "text=WAIT" },
+    { "action": "sleep", "ms": 1500 },
+    { "action": "clickIfPresent", "selector": "text=NEW RUN" },
+    { "action": "sleep", "ms": 1500 },
+    { "action": "clickIfPresent", "selector": "text=SKIP" },
+    { "action": "sleep", "ms": 2000 },
+    { "action": "eval", "saveAs": "n", "expression": "(async () => { const L = []; const send = () => navigator.sendBeacon('/__harness-log', '[bossprobe]\\n' + L.join('\\n')); try { const W = ms => new Promise(r => setTimeout(r, ms)); let M = null; for (const el of document.querySelectorAll('*')) { const fk = Object.keys(el).find(k => k.startsWith('__reactFiber') || k.startsWith('__reactInternalInstance')); if (!fk) continue; let f = el[fk]; while (f) { const sn = f.stateNode, lg = sn && (sn.updateMusic ? sn : sn.logic); if (lg && lg.updateMusic && lg.gateAmbush) { M = lg; break; } f = f.return; } if (M) break; } if (!M) { L.push('NO MAIN LOGIC FOUND'); send(); return 0; } if (!M.g.run) { L.push('NO RUN, screen=' + M.g.screen + ' text=' + document.body.innerText.replace(/\\s+/g, ' ').slice(0, 200)); send(); return 0; } const t0 = performance.now(), T = () => String(Math.round(performance.now() - t0)).padStart(6); const nm = a => { const m = window.__breachMus || {}; const u = Object.keys(m).find(k => m[k] === a) || '?'; return u.split('/').pop(); }; const P = HTMLMediaElement.prototype, op = P.play, opa = P.pause; P.play = function () { if (this.paused) L.push(T() + '  play  ' + nm(this) + ' from t=' + this.currentTime.toFixed(1)); return op.call(this); }; P.pause = function () { if (!this.paused) L.push(T() + '  pause ' + nm(this) + ' at t=' + this.currentTime.toFixed(1)); return opa.call(this); }; const snap = tag => { const m = window.__breachMus || {}; const on = Object.keys(m).filter(k => !m[k].paused).map(k => k.split('/').pop() + ' t=' + m[k].currentTime.toFixed(1) + ' vol=' + m[k].volume.toFixed(2)); L.push(T() + '  [' + tag + '] screen=' + M.g.screen + ' sector=' + M.sec() + ' bossCarry=' + !!M.bossCarry + ' PLAYING: ' + (on.join(' | ') || 'none')); }; M.g.meta.sound = true; if (!(M.g.meta.musVol > 0)) M.g.meta.musVol = 35; M.musicOn = true; M.updateMusic(); await W(2500); snap('sector 1'); M.g.screen = 'race'; M.gateSongOff = false; M.gateAmbush(true, false); await W(500); snap('gate ambush'); let btn = null; for (let i = 0; i < 60 && !btn; i++) { await W(250); btn = [...document.querySelectorAll('*')].find(el => el.children.length === 0 && el.textContent.trim() === 'CONTINUE' && el.getBoundingClientRect().width > 0); } snap('warning band (alarm)'); if (!btn) { L.push('CONTINUE BUTTON NOT FOUND, band text=' + document.body.innerText.replace(/\\s+/g, ' ').slice(0, 300)); send(); P.play = op; P.pause = opa; return 0; } btn.click(); L.push(T() + '  >>> clicked real CONTINUE button'); await W(3000); snap('boss reveal +3s'); await W(3000); snap('boss fight +6s'); M.encDone({ kind: 'won', purse: 40, prestige: 0, gold: 0, lost: [] }); await W(800); snap('won -> spoils'); M.takeSpoils('gold'); await W(1500); snap('sector 2 +1.5s'); await W(3000); snap('sector 2 +4.5s'); P.play = op; P.pause = opa; send(); return L.length; } catch (err) { L.push('ERR ' + (err && err.stack || err)); send(); return -1; } })()" },
+    { "action": "sleep", "ms": 1000 },
+    { "action": "screenshot", "path": "/tmp/boss-probe.png" }
+  ]
+}
