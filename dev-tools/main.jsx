@@ -5,7 +5,7 @@ import { Shell } from './Shell.jsx';
 // Farnsworth canvas views boot the REAL client entries (same code that ships),
 // one per document — the dc-runtime owns the whole page, so no React wrapper.
 //   ?view=post             → src/client/splash.ts  (Postview, inline)
-//   ?view=mobile|desktop   → src/client/game.ts    (Space Dice Run v15, expanded)
+//   ?view=mobile|desktop   → src/client/game.ts    (Main, expanded)
 //   ?view=game             → same as desktop; target of the shim's requestExpandedMode
 // Forward errors to the dev server (logs/harness-console.log) — the canvas
 // console isn't otherwise visible to tooling.
@@ -28,7 +28,7 @@ const view = new URLSearchParams(window.location.search).get('view');
 const root = document.getElementById('root');
 
 // Post View routes by devvit.json entrypoint so Farnsworth can show any post
-// type: default -> splash (Postview), game -> Space Dice Run.
+// type: default -> splash (Postview), game -> Main.
 const ENTRIES = {
   default: () => import('@src/client/splash'),
   game: () => import('@src/client/game'),

@@ -1,6 +1,6 @@
 // Post View (inline): the "Choose an adventure" card screen from
 // breach-concept/Postview.dc.html. Its CTA links to the full game
-// (ctaHref = "Space Dice Run v15.dc.html"); here that link opens the
+// (ctaHref = "Main.dc.html"); here that link opens the
 // expanded "game" entrypoint instead of navigating the iframe.
 import './breach.css';
 import './breach/env-splash';

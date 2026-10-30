@@ -5,7 +5,7 @@
  * rewrite only `screen` in the save. Meta progress (energy, bank, unlocks)
  * and the run object are left as-is.
  */
-export const SAVE_KEY = 'spacedice-proto2'; // Space Dice Run v15 · SAVE_KEY
+export const SAVE_KEY = 'spacedice-proto2'; // Main.dc.html · SAVE_KEY
 
 export const forceStartScreen = (storage: Pick<Storage, 'getItem' | 'setItem'>) => {
   try {

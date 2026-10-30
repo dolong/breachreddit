@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Each tab iframes a real view so the dc-runtime gets its own document.
 const TABS = [
   { id: 'post', label: 'Post View (Postview)', w: 390, h: 520 },
-  { id: 'mobile', label: 'Game (Space Dice Run v15)', w: 390, h: 844 },
+  { id: 'mobile', label: 'Game (Main)', w: 390, h: 844 },
 ];
 
 export const Shell = () => {
