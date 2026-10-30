@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="audio-sprite.js"></script>
+<script src="boss-sfx.js"></script>
+<title>Breach — Jump Gate</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet">
+<style>html,body{margin:0;height:100%;background:#000;overflow:hidden}a{color:#6af5d6}a:hover{color:#b8fff0}@keyframes blink{50%{opacity:.3}}</style>
+</helmet>
+<div ref="{{ wrapRef }}" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden">
+<div ref="{{ stageRef }}" data-screen-label="Jump Gate v4" style="position:relative;flex:none;width:390px;height:844px;overflow:hidden;background:#000;image-rendering:pixelated;color:#ffffff;transform-origin:center center;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent">
+<div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+<div ref="{{ driftA }}" style="position:absolute;inset:0;background:#000 url(assets/space.png) 0 0/600px 900px repeat"></div>
+<div ref="{{ driftB }}" style="position:absolute;inset:0;background:url(assets/space.png) 120px 300px/900px 1350px repeat;opacity:.28;mix-blend-mode:screen"></div>
+<div style="position:absolute;inset:0;background:radial-gradient(75% 34% at 50% 24%,{{ glow }} 0%,rgba(0,0,0,0) 100%);transition:background .4s"></div>
+</div>
+<div ref="{{ shakeRef }}" style="position:absolute;inset:0">
+
+<sc-if value="{{ isSector }}" hint-placeholder-val="{{ true }}">
+<div data-screen="race" style="position:absolute;inset:0;display:flex;flex-direction:column">
+<div style="position:relative;padding:16px 16px 0;display:flex;flex-direction:column;gap:4px">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ secName }} · COMPLETE</div>
+<div style="font-family:'Jersey 15',monospace;font-size:46px;line-height:.9;letter-spacing:2px;color:#6af5d6;text-shadow:3px 3px 0 #0f4a4a;white-space:nowrap">JUMP GATE</div>
+<div style="align-self:flex-start;margin-top:4px;background:#0f4a4a;border:2px solid #6af5d6;border-radius:4px;padding:3px 8px;font-family:'Silkscreen',monospace;font-size:12px;color:#6af5d6;opacity:{{ securedOp }};transition:opacity .3s">SECTOR SECURED</div>
+</div>
+<div ref="{{ sceneRef }}" style="position:relative;margin:12px 16px 0;height:388px;border:3px solid {{ sceneBd }};border-radius:8px;box-shadow:4px 4px 0 #240011;overflow:hidden;background:#05040f url(assets/space.png) center -260px/600px 900px no-repeat;transition:border-color .2s">
+<div ref="{{ scoreRef }}" style="position:absolute;left:0;right:0;top:8px;display:flex;flex-direction:column;align-items:center;gap:2px;z-index:2"><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">FLEET SCORE</div><div style="font-family:'Jersey 15',monospace;font-size:44px;line-height:1;color:#ffd644;text-shadow:3px 3px 0 #000">{{ score }}</div></div>
+<div ref="{{ gateRef }}" style="position:absolute;left:50%;top:72px;width:100px;height:100px;margin-left:-50px;border-radius:50%;box-sizing:border-box;border:6px solid {{ gate.col }};box-shadow:0 0 26px 6px {{ gate.glow }},inset 0 0 24px 6px {{ gate.glow }};background:radial-gradient(circle,{{ gate.core }} 0,#05040f 70%);transition:border-color .15s,box-shadow .15s"></div>
+<div style="position:absolute;left:0;right:0;top:182px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:{{ gate.lblCol }}">{{ gate.lbl }}</div>
+<sc-if value="{{ isJump }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;top:200px;display:flex;flex-direction:column;align-items:center;gap:2px;pointer-events:none"><div ref="{{ jcRef }}" style="font-family:'Jersey 15',monospace;font-size:48px;line-height:1;color:#ffffff;text-shadow:2px 2px 0 #000">{{ jumpN }}</div></div></sc-if>
+<div style="position:absolute;left:0;right:0;bottom:24px;margin:0 auto;max-width:330px;display:flex;justify-content:center;flex-wrap:wrap;gap:12px 10px">
+<sc-for list="{{ parade }}" as="pd" hint-placeholder-count="0"><div ref="{{ pd.ref }}"><img ref="{{ pd.hov }}" src="{{ pd.src }}" alt="{{ pd.name }}" style="width:{{ pd.w }}px;height:{{ pd.h }}px;display:block;filter:drop-shadow(2px 2px 0 #000)"></div></sc-for>
+</div>
+</div>
+<div style="flex:1"></div>
+<button onClick="{{ jump }}" style="position:relative;margin:0 16px 18px;height:60px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:30px;letter-spacing:2px;color:#fff;text-shadow:2px 2px 0 #7a1a0e;white-space:nowrap;cursor:pointer;opacity:{{ jumpOp }};transition:opacity .2s" style-active="transform:translate(2px,2px);box-shadow:inset 0 -5px 0 #b3201c,2px 2px 0 #240011">JUMP</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isBoss }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0">
+<div style="position:absolute;left:16px;right:16px;top:28px;height:50px;z-index:2;box-sizing:border-box;display:flex;align-items:center;overflow:hidden;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011"><div ref="{{ marqRef }}" style="flex:none;display:flex;width:max-content;margin-top:-4px"><div style="flex:none;display:flex;align-items:center;gap:12px;padding-right:12px"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">ENEMY ENCOUNTER</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">HIGH ALERT</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">ENEMY ENCOUNTER</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">HIGH ALERT</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div></div><div style="flex:none;display:flex;align-items:center;gap:12px;padding-right:12px"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">ENEMY ENCOUNTER</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">HIGH ALERT</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">ENEMY ENCOUNTER</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e">HIGH ALERT</span><div style="width:10px;height:10px;flex:none;background:#ffffff;box-shadow:2px 2px 0 #7a1a0e;animation:blink .6s steps(2) infinite"></div></div></div></div>
+<div style="position:absolute;left:0;right:0;top:58px;height:226px;display:flex;align-items:center;justify-content:center;pointer-events:none">
+<div style="position:absolute;width:320px;height:220px;background:radial-gradient(closest-side,{{ boss.halo }},rgba(0,0,0,0))"></div>
+<div ref="{{ bossRef }}" style="position:relative"><sc-if value="{{ boss.ready }}" hint-placeholder-val="{{ false }}"><img src="{{ boss.src }}" alt="{{ boss.name }}" style="width:{{ boss.w }}px;height:{{ boss.h }}px;display:block;transform:rotate({{ boss.rot }}deg);filter:drop-shadow(0 0 16px {{ boss.halo }})"></sc-if></div>
+</div>
+<div ref="{{ nameRef }}" style="position:absolute;left:0;right:0;top:294px;text-align:center;font-family:'Jersey 15',monospace;font-size:66px;line-height:.86;letter-spacing:2px;white-space:nowrap;color:{{ boss.col }};text-shadow:4px 4px 0 #240011,-3px 0 0 rgba(255,77,77,.85),3px 0 0 rgba(106,245,214,.85)">{{ boss.name }}</div>
+<div ref="{{ blurbRef }}" style="position:absolute;left:24px;right:24px;top:356px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:2px;color:{{ boss.col }}">{{ boss.title }}</span><span style="font-family:'Jersey 15',monospace;font-size:21px;line-height:1.1;letter-spacing:.5px;text-wrap:balance;color:#ffffff">{{ boss.quote }}</span></div>
+<div ref="{{ ctrlRef }}" style="position:absolute;left:16px;right:16px;top:462px;bottom:18px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:{{ ctrlOp }}">
+<sc-if value="{{ hasTwist }}" hint-placeholder-val="{{ false }}"><div style="width:100%;display:flex;flex-direction:column;gap:4px;padding:8px 12px;background:#0a0821;border:2px solid {{ twist.col }};border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;white-space:nowrap;color:{{ twist.col }}">{{ twist.tag }}</span></div><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;text-wrap:pretty;color:#ffffff">{{ twist.sub }}</span><sc-if value="{{ hasReward }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;text-wrap:pretty;color:#ffd644">{{ twist.reward }}</span></sc-if></div></sc-if>
+<div style="display:flex;justify-content:center;gap:8px">
+<div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#0a0821;border:2px solid {{ boss.col }};border-radius:6px;box-sizing:border-box"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#a9b0c0">HP</span><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#ffffff">{{ boss.hp }}</span></div>
+<div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#0a0821;border:2px solid #48f320;border-radius:6px;box-sizing:border-box"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#a9b0c0">HULL</span><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#48f320">{{ boss.hull }}</span></div>
+<div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#0a0821;border:2px solid #ffd644;border-radius:6px;box-sizing:border-box"><img src="assets/coin.png" alt="" style="width:14px;height:14px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#ffd644">{{ boss.bounty }}</span></div>
+<div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#0a0821;border:2px solid {{ twist.col }};border-radius:6px;box-sizing:border-box"><img src="assets/spaceship_icon.png" alt="Fleet" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:{{ twist.col }}">{{ fleetN }}</span></div>
+</div>
+<sc-if value="{{ noShips }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#ff4d4d">NO SHIPS TO FIGHT WITH</span></sc-if>
+<div style="flex:1"></div>
+<button onClick="{{ fight }}" style="width:100%;flex:none;height:56px;display:flex;align-items:center;justify-content:center;background:{{ fightBg }};border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 {{ fightShade }},4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:30px;letter-spacing:2px;color:{{ fightInk }};text-shadow:2px 2px 0 {{ fightInkSh }};cursor:pointer;opacity:{{ fightOp }}" style-active="transform:translate(2px,2px);box-shadow:inset 0 -5px 0 #b3201c,2px 2px 0 #240011">{{ fightLbl }}</button>
+<div style="width:100%;flex:none;display:flex;gap:8px">
+<sc-if value="{{ canLetGo }}" hint-placeholder-val="{{ false }}"><button onClick="{{ letGo }}" style="flex:1;min-width:0;height:48px;display:flex;align-items:center;justify-content:center;background:#0a0821;border:3px solid #ffd644;border-radius:8px;box-shadow:4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:22px;letter-spacing:1px;white-space:nowrap;color:#ffd644;cursor:pointer" style-active="transform:translate(2px,2px);box-shadow:2px 2px 0 #240011">{{ letGoLbl }}</button></sc-if>
+<sc-if value="{{ canDecoy }}" hint-placeholder-val="{{ true }}"><button onClick="{{ decoy }}" style="flex:1;min-width:0;height:48px;display:flex;align-items:center;justify-content:center;background:#0a0821;border:3px solid #f2f2f2;border-radius:8px;box-shadow:4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:22px;letter-spacing:1px;white-space:nowrap;color:#ffffff;cursor:pointer" style-active="transform:translate(2px,2px);box-shadow:2px 2px 0 #240011">{{ decoyLbl }}</button></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:16px;right:16px;top:24px;bottom:18px;display:flex;flex-direction:column;justify-content:center">
+<div ref="{{ endRef }}" style="display:flex;flex-direction:column;align-items:center;gap:16px">
+<span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#a9b0c0">{{ end.kicker }}</span>
+<div style="font-family:'Jersey 15',monospace;font-size:54px;line-height:.9;letter-spacing:2px;text-align:center;color:{{ end.col }};text-shadow:4px 4px 0 #240011,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000">{{ end.title }}</div>
+<span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#ffffff">{{ end.sub }}</span>
+<div style="width:100%;display:flex;flex-direction:column">
+<div style="height:8px;background:linear-gradient(to top right,#f2f2f2 50%,transparent 50%) 0 0/12px 8px repeat-x"></div>
+<div style="background:#f2f2f2 repeating-linear-gradient(0deg,rgba(10,8,33,.05) 0 1px,transparent 1px 4px);color:#0a0821;padding:8px 16px 14px;display:flex;flex-direction:column;gap:8px">
+<div style="text-align:center;font-family:'Jersey 15',monospace;font-size:28px;line-height:1;letter-spacing:2px">GATE REPORT</div>
+<div style="text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#3a3a5a">{{ end.stamp }}</div>
+<div style="border-top:2px dashed #0a0821;margin:2px 0"></div>
+<sc-for list="{{ end.rows }}" as="r" hint-placeholder-count="0">
+<div style="display:flex;align-items:center;gap:8px;min-height:28px">
+<div style="width:26px;height:26px;flex:none;display:flex;align-items:center;justify-content:center"><img src="{{ r.src }}" alt="" style="width:18px;height:18px;display:block"></div>
+<span style="flex:1;min-width:0;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px">{{ r.label }}</span>
+<span style="font-family:'Jersey 15',monospace;font-size:20px;line-height:1;white-space:nowrap;color:{{ r.col }}">{{ r.value }}</span>
+</div>
+</sc-for>
+</div>
+<div style="height:8px;background:linear-gradient(to bottom right,#f2f2f2 50%,transparent 50%) 0 0/12px 8px repeat-x"></div>
+</div>
+<sc-if value="{{ gr.show }}" hint-placeholder-val="{{ false }}">
+<div style="width:100%;display:flex;flex-direction:column;gap:10px;padding:12px;background:#0a0821;border:3px solid #c79bff;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:12px">
+<img src="{{ gr.src }}" alt="" style="flex:none;display:block;width:32px;height:36px;image-rendering:pixelated">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#a9b0c0">{{ gr.label }}</span><span style="font-family:'Jersey 15',monospace;font-size:28px;line-height:1;letter-spacing:1px;color:#ffffff">{{ gr.name }}</span></div>
+<div style="flex:none;display:flex;align-items:center;gap:5px"><img src="assets/prestige.png" alt="" style="width:18px;height:18px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:28px;line-height:1;color:#c79bff">{{ gr.v }}</span></div>
+</div>
+<sc-if value="{{ gr.bar }}" hint-placeholder-val="{{ true }}"><div style="position:relative;height:14px;background:#1c1a3a;border:2px solid #f2f2f2;box-sizing:border-box;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:{{ gr.pct }}%;background:#c79bff;box-shadow:inset 0 -3px 0 #8a5cd6"></div></div></sc-if>
+</div>
+</sc-if>
+<button onClick="{{ next }}" style="width:100%;height:56px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e;cursor:pointer" style-active="transform:translate(2px,2px);box-shadow:inset 0 -5px 0 #b3201c,2px 2px 0 #240011">{{ end.btn }}</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ isBand }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ bandTap }}" style="position:absolute;inset:0;z-index:15;cursor:pointer">
+<div ref="{{ giantRef }}" style="position:absolute;left:0;top:{{ band.gTop }}px;width:{{ band.gw }}px;height:{{ band.gh }}px;transform:translateX(400px);pointer-events:none"><div style="position:absolute;left:{{ band.ix }}px;top:{{ band.iy }}px;width:{{ band.iw }}px;height:{{ band.ih }}px;background:url({{ band.src }}) 0 0/{{ band.bgw }}px {{ band.ih }}px no-repeat;image-rendering:pixelated;transform:rotate({{ band.rot }}deg);opacity:{{ band.gOp }};filter:{{ band.gFx }}"></div></div>
+<div ref="{{ bandRef }}" style="position:absolute;left:0;right:0;top:295px;height:254px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 20px;box-sizing:border-box;overflow:hidden;background:rgba(140,33,8,.85);border-top:1px solid #ffa63c;border-bottom:1px solid #ffa63c;transform-origin:50% 50%">
+<div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(180deg,rgba(0,0,0,.16) 0,rgba(0,0,0,.16) 1px,transparent 1px,transparent 3px)"></div>
+<div ref="{{ shimRef }}" style="position:absolute;top:0;bottom:0;left:0;width:55%;pointer-events:none;background:linear-gradient(90deg,rgba(255,196,110,0),rgba(255,196,110,.14),rgba(255,196,110,0))"></div>
+<div ref="{{ warnRef }}" style="position:relative;opacity:0">
+<div style="font-family:'Jersey 15',monospace;font-size:88px;line-height:.8;letter-spacing:4px;white-space:nowrap;color:#2a0500;-webkit-text-stroke:8px #2a0500;text-shadow:0 0 22px rgba(255,150,40,.75)">WARNING</div>
+<div style="position:absolute;left:0;top:0;font-family:'Jersey 15',monospace;font-size:88px;line-height:.8;letter-spacing:4px;white-space:nowrap;color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(180deg,#fff27a 0%,#ffc23a 42%,#ff7a1c 100%);-webkit-background-clip:text;background-clip:text">WARNING</div>
+</div>
+<div ref="{{ glyphRef }}" style="position:relative;height:21px;display:flex;align-items:flex-end;gap:6px">
+<sc-for list="{{ band.glyphs }}" as="gl" hint-placeholder-count="8"><div data-gl="1" style="width:{{ gl.w }}px;height:21px;display:grid;grid-template-columns:repeat(5,3px);grid-auto-rows:3px;opacity:0"><sc-for list="{{ gl.px }}" as="p" hint-placeholder-count="35"><div style="background:{{ p.c }}"></div></sc-for></div></sc-for>
+</div>
+<div ref="{{ transRef }}" style="position:relative;max-width:350px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;text-wrap:balance;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.3;color:#ffe6c8"></div>
+</div>
+<sc-if value="{{ bandBtn }}" hint-placeholder-val="{{ false }}"><button ref="{{ bandBtnRef }}" onClick="{{ bandContinue }}" style="position:absolute;left:16px;right:16px;top:577px;height:56px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;color:#ffffff;text-shadow:2px 2px 0 #7a1a0e;cursor:pointer" style-active="transform:translate(2px,2px);box-shadow:inset 0 -5px 0 #b3201c,2px 2px 0 #240011">CONTINUE</button></sc-if>
+</div>
+</sc-if>
+</div>
+<div ref="{{ fxRef }}" style="position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden"></div>
+</div>
+
+<sc-if value="{{ isFight }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:100;background:#000">
+<dc-import name="Boss-Fight" boss="{{ fx.boss }}" sector="{{ fx.sector }}" band="{{ fx.band }}" fleet="{{ fx.fleet }}" hangar="{{ fx.hangar }}" hull="{{ fx.hull }}" hp="{{ fx.hp }}" atk-bonus="{{ fx.atkBonus }}" ii0="{{ fx.ii0 }}" frenzy0="{{ fx.frenzy0 }}" gold="{{ gold }}" prestige-bal="{{ fx.pres }}" run-prestige="{{ fx.runP }}" boss-prestige="{{ fx.bossP }}" ej-avail="{{ fx.ej }}" on-done="{{ onFightDone }}" hint-size="100%,100%"></dc-import>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sector&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;], &quot;default&quot;: &quot;2&quot;, &quot;tsType&quot;: &quot;'1' | '2' | '3'&quot;, &quot;section&quot;: &quot;Mock&quot;}, &quot;fleetSize&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;min&quot;: 0, &quot;max&quot;: 50, &quot;default&quot;: 14, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Mock&quot;}, &quot;encounter&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;random&quot;, &quot;marauder&quot;, &quot;mothercore&quot;, &quot;garganta&quot;], &quot;default&quot;: &quot;random&quot;, &quot;tsType&quot;: &quot;'random' | 'marauder' | 'mothercore' | 'garganta'&quot;, &quot;section&quot;: &quot;Mock&quot;}, &quot;prestige&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;min&quot;: 0, &quot;max&quot;: 500, &quot;default&quot;: 150, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Mock&quot;}, &quot;runPrestige&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;min&quot;: 0, &quot;max&quot;: 300, &quot;default&quot;: 20, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Mock&quot;}, &quot;$preview&quot;: {&quot;width&quot;: 390, &quot;height&quot;: 844}}">
+class Component extends DCLogic {
+  // asset table: each image path written inside url(...) so the canvas embeds it; code-built paths resolve through __A
+  static __AM = {
+    'anim/garganta_swim.png': 'url(assets/anim/garganta_swim.png)',
+    'coin.png': 'url(assets/coin.png)',
+    'garganta.png': 'url(assets/garganta.png)',
+    'garganta_v4.png': 'url(assets/garganta_v4.png)',
+    'kestrel_h11.png': 'url(assets/kestrel_h11.png)',
+    'mother_core.png': 'url(assets/mother_core.png)',
+    'prestige.png': 'url(assets/prestige.png)',
+    'ship_amber.png': 'url(assets/ship_amber.png)',
+    'ship_blue.png': 'url(assets/ship_blue.png)',
+    'ship_gold.png': 'url(assets/ship_gold.png)',
+    'ship_ice.png': 'url(assets/ship_ice.png)',
+    'ship_magenta.png': 'url(assets/ship_magenta.png)',
+    'ship_obsidian.png': 'url(assets/ship_obsidian.png)',
+    'ship_teal.png': 'url(assets/ship_teal.png)',
+    'ship_violet.png': 'url(assets/ship_violet.png)',
+    'spaceship_icon.png': 'url(assets/spaceship_icon.png)'
+  };
+  static __A(p) { const k = typeof p === 'string' && p.indexOf('assets/') === 0 ? p.slice(7) : null, v = k && (Component.__AM[k] || (window.__BREACH_AM && window.__BREACH_AM[k])); return v ? v.slice(4, -1) : p; }
+
+  // embedded in Space Dice Run: props launched (ship type ids, oldest first), sector, gold, prestige (bank), runPrestige, ejUsed, launch (false = the boss waits at the final gate, no launch), onDone(result)
+  get emb() { return !!(this.props && typeof this.props.onDone === 'function'); }
+  ROLES = {
+    herald: { name: 'HERALD', ship: 'ship_blue', col: '#7ab8ff', lo: 3, hi: 6, need: '3+', dmg: 1, pts: 10 },
+    warden: { name: 'WARDEN', ship: 'ship_teal', col: '#6af5d6', lo: 1, hi: 2, need: '1-2', block: 2, pts: 14 },
+    kestrel: { name: 'KESTREL', ship: 'ship_violet', col: '#c79bff', lo: 5, hi: 6, need: '5+', dmg: 2, pts: 15 },
+    sovereign: { name: 'SOVEREIGN', ship: 'ship_gold', col: '#ffd644', lo: 6, hi: 6, need: '6', dmg: 4, pts: 20 },
+    barnacle: { name: 'BARNACLE', ship: 'ship_amber', col: '#ffb36a', lo: 1, hi: 3, need: '1-3', repair: 1, pts: 12 },
+    siren: { name: 'SIREN', ship: 'ship_magenta', col: '#ff5cd6', lo: 2, hi: 4, need: '2-4', block: 1, pts: 12 },
+    wraith: { name: 'WRAITH', ship: 'ship_ice', col: '#bfe8ff', lo: 3, hi: 4, need: '3-4', dmg: 2, pts: 12 },
+    obsidian: { name: 'OBSIDIAN', ship: 'ship_obsidian', col: '#a99cff', lo: 4, hi: 4, need: '4', dmg: 3, pts: 16 }
+  };
+  LOG = ['herald', 'warden', 'kestrel', 'sovereign', 'barnacle', 'siren', 'wraith', 'obsidian'];
+  ORDER = ['marauder', 'mothercore', 'garganta'];
+  // expected fleet per sector (the whole fleet fights). below = short (harder), inside = even, above = big (pays more) · keep in sync with Boss Fight v7
+  EXPECT = { 1: [6, 9], 2: [12, 16], 3: [20, 26] };
+  // hp is the boss's HP at the sector's expected fleet, ±per for each ship more or fewer. short/even/big: how it reacts to your fleet size
+  BOSSES = {
+    marauder: { name: 'MARAUDER', src: Component.__A('assets/kestrel_h11.png'), rot: 180, w: 132, h: 160, col: '#ff4d4d', halo: 'rgba(255,77,77,.4)', title: 'CORSAIR OF THE OUTER LANES', quote: 'Its hull is stitched together from the ships it has taken. Yours would make a fine patch.', hp: { 1: 20, 2: 32, 3: 50 }, bounty: 30, prestige: 20, decoy: 20,
+      short: { tag: 'EASY PREY', sub: 'A fleet this thin looks like easy pickings. The Marauder presses in: every attack +1.', atk: 1 }, even: { tag: 'WORTH THE RISK', sub: 'Your fleet is a fair prize, and a prize is what it came for. It will not back down.' }, big: { tag: 'SURRENDER', sub: 'Intimidated by your fleet size and prestige, the Marauder surrenders and hands over its cargo.', flee: true, reward: 'TAKE ITS CARGO' } },
+    mothercore: { name: 'MOTHER CORE', src: Component.__A('assets/mother_core.png'), rot: 0, w: 240, h: 174, col: '#8fc0ff', halo: 'rgba(63,123,255,.45)', title: 'THE SLEEPLESS FOUNDRY', quote: 'A machine that outlived its makers, still building the war they lost.', hp: { 1: 32, 2: 70, 3: 120 }, bounty: 60, prestige: 40, decoy: 60,
+      short: { tag: 'PURGE PROTOCOL', sub: 'It rates your fleet as cleanup and skips the scan. Full power from the first shot: every attack +1.', atk: 1 }, even: { tag: 'LOGGED AND ASSESSED', sub: 'It has fought fleets like yours before. Its foundry hums: business as usual.' }, big: { tag: 'PRIORITY TARGET', sub: 'It reads your fleet as a real threat and hardens its plating: +25% HP.', hpK: 1.25, reward: 'WIN FOR +50% BOUNTY & PRESTIGE' } },
+    garganta: { name: 'GARGANTA', src: Component.__A('assets/garganta_v4.png'), rot: 0, w: 224, h: 200, col: '#9dff5a', halo: 'rgba(120,220,70,.35)', title: 'THE HUNGER BETWEEN STARS', quote: 'Every legend about it ends the same way: with static.', hp: { 1: 36, 2: 80, 3: 140 }, bounty: 90, prestige: 60, decoy: 60,
+      short: { tag: 'EASY MEAL', sub: 'So few ships, it does not bother circling. It lunges straight in: every bite +1.', atk: 1 }, even: { tag: 'APPETITE STIRS', sub: 'It has noticed you. It opens slowly, the way it always does.' }, big: { tag: 'FEAST', sub: 'A fleet this size is a feast. It swells to take it all in: +25% HP.', hpK: 1.25, reward: 'WIN FOR +50% BOUNTY & PRESTIGE' } }
+  };
+  ODDS = { 1: [70, 25, 5], 2: [40, 40, 20], 3: [15, 40, 45] };
+  SEC = { 1: 'THE SHALLOWS', 2: 'THE DRIFT', 3: 'THE DEEP' };
+  DIFF = { 1: 'easy', 2: 'normal', 3: 'hard' };
+  GOLD0 = 120; SMULT = { 1: 1, 2: 1.5, 3: 2 };
+  // tuning: boss HP multiplier per sector (keep in sync with Boss Fight v4) · mock gold = expected gold carried into each sector's gate
+  BOSS_K = { marauder: 3.2, mothercore: 2.8, garganta: 2.6 }; SECTOR_K = { 1: .8, 2: 1, 3: 1.15 };
+  // ranks (keep in sync with Boss Fight v5) · reset every run; the prestige balance is separate
+  RANKS = [{ id: 'ensign', name: 'ENSIGN', at: 0 }, { id: 'sublt', name: 'SQUAD LEADER', at: 8 }, { id: 'lieutenant', name: 'LIEUTENANT', at: 25 }, { id: 'srlt', name: 'SR. LIEUTENANT', at: 50 }, { id: 'ltcmdr', name: 'LT. COMMANDER', at: 80 }, { id: 'commander', name: 'COMMANDER', at: 120 }, { id: 'captain', name: 'CAPTAIN', at: 170 }, { id: 'commodore', name: 'COMMODORE', at: 230 }, { id: 'viceadm', name: 'VICE ADMIRAL', at: 300 }, { id: 'admiral', name: 'ADMIRAL', at: 400 }];
+  BADGES = [
+    { pal: ['#0e0d0d', '#fcae7b', '#2f2620', '#4c291b', '#834a30', '#b87556'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEEEEEEEBBA', 'AFFEEEEEEEEEEFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AACDDAAA....', '......AAAA......'] },  // ENSIGN
+    { pal: ['#101112', '#272a2b', '#6b7173', '#fcfcfc', '#464c4d', '#9ba2a3'],
+      rows: ['....AAAAAAAA....', '..AAADDDDDDCAA..', 'AAADDDDEEDDDDAAA', 'ADDDDEECCEEDDDDA', 'ADDEECCCCCCEEDDA', 'ADDCCCCDDCCCCDDA', 'ADDCCCCDDCCCCDDA', 'AFFCCCCDDCCCCFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEBBEEEEFFA', 'AFFFFEEEEEEFFFFA', 'AEEFFFFEEFFFFEEA', 'AEEEEFFFFFFEEEEA', 'AAAEEEEFFEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },  // SQUAD LEADER
+    { pal: ['#11110e', '#fcd435', '#8d4018', '#ba6f20', '#e3932a', '#5d250f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDDDDDCCBBA', 'ABBDDBBDDBBDDBBA', 'ABBDDBBDDBBDDBBA', 'AEEDDBBDDBBDDEEA', 'AEECCEECCEECCEEA', 'AEECCEECCEECCEEA', 'AEECCFFCCFFCCEEA', 'AEEEECCCCCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAACCCCEECCCCAAA', '..AAACCCCCCAAA..', '....AAACCAAA....', '......AAAA......'] },  // LIEUTENANT
+    { pal: ['#0e1012', '#58adfc', '#1d2c9c', '#2848c2', '#3771fc', '#181c53', '#10122c'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDBBDDCCBBA', 'ABBDBBDBBDBBDBBA', 'ABBDBBDBBDBBDBBA', 'AEEDBBDBBDBBDEEA', 'AEECEECEECEECEEA', 'AEECEECEECEECEEA', 'AEECFFCEECFFCEEA', 'AEEEECCFFCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAGCCCDEECCCCAAA', '..AAACCDCCCGAA..', '....AAGCCAAA....', '......AAAA......'] },  // SR. LIEUTENANT
+    { pal: ['#0e1210', '#122f18', '#53fcbd', '#156923', '#22a23f', '#2ac273', '#113e17'],
+      rows: ['....AAAAAAAA....', '..AAACCCCCCAAA..', 'AAACCCCDDCCCCAAA', 'ACCCCDDEEDDCCCCA', 'ACCDDEEEEEEDDCCA', 'ACCEEEEEEEEEECCA', 'ACCECEEEEEECECCA', 'AFFECCCEECCCEFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AABDDAAA....', '......AAAA......'] },  // LT. COMMANDER
+    { pal: ['#0c0c0d', '#405557', '#b4f8fc', '#097f6e', '#19c9b4', '#31e4ef', '#085247'],
+      rows: ['....AAAAAAAA....', '..AABCCECCCBAA..', 'AAACCCCDDCCCCGAA', 'ACCCCDDEEDDCCCCA', 'ACCDFEEEEEEFDCCA', 'ACCECCCEECCCECCA', 'ACCEDCCCCCCDECCA', 'AFFECDDCCDDCEFFA', 'AFFDFFFDDFFFDFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFFFDDGGDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },  // COMMANDER
+    { pal: ['#0c0c0d', '#efa5fc', '#181329', '#4a31a3', '#9d60fc', '#6f3bd5', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDEFFEDBBBBA', 'ABBDDFBBBBFDDBBA', 'ABBFBFDBBDFBFBBA', 'ABBFBBBDDBBBFBBA', 'AEEFDBBBBBBDFEEA', 'AEEDEDDEEDDEDEEA', 'AEEDEEEDDEEEDEEA', 'AEEDGEEEEEEGDEEA', 'AEEEEGGEEGGEEEEA', 'ADDEEEEGGEEEEDDA', 'ADDDDEEEEEEDDDDA', 'AAADDDDEEDDDDAAA', '..AACDDDDDDAAA..', '....AAADDCAA....', '......AAAA......'] },  // CAPTAIN
+    { pal: ['#0c0c0d', '#fcd435', '#3b2e3f', '#4a31a3', '#6f3bd5', '#9d60fc', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEBBEEEEBBA', 'AFFEEEBBBBEEEFFA', 'AFFDDDGFFGDDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },  // COMMODORE
+    { pal: ['#0c0c0d', '#fcd435', '#6b7173', '#423246', '#4a31a3', '#251f28', '#6f3bd5', '#fcfcfc', '#464c4d', '#9d60fc', '#9ba2a3', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBEEBBBBFAA', 'ABBBBEEGGEEBBBBA', 'ABBEEGGHHGGEEBBA', 'ABBGGGHHHHGGGBBA', 'ABBGGGIHHIGGGBBA', 'AJJGGGGIIGGGGJJA', 'AJJEEKKEEKKEEJJA', 'AJJEKKKKCKKKEJJA', 'AJJELKKLLKKLEJJA', 'AJJJJLLEELLJJJJA', 'AEEJJJJEEJJJJEEA', 'AEEEEJJJJJJEEEEA', 'AAAEEEEJJEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },  // VICE ADMIRAL
+    { pal: ['#0c1213', '#53fcbd', '#0b3129', '#156923', '#22a23f', '#fcd435', '#b4f8fc', '#19c9b4', '#8d4018', '#31e4ef', '#097f6e', '#085247', '#e3932a'],
+      rows: ['....AAAAAAAA....', '..AALBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEFFEEDDBBA', 'ABBEEEFFFFEEEBBA', 'AGGHFHIFFIHFHGGA', 'AJJHFFFIIFFFHJJA', 'AJJKLMMKKMMLKJJA', 'AJJKKLLMMLLKKJJA', 'AJJKKKMMMMKKKJJA', 'AJJJJKLMMLKJJJJA', 'AKKJJJJLLJJJJKKA', 'AKKKKJJJJJJKKKKA', 'AACKKKKJJKKKKAAA', '..AAAKKKKKKCAA..', '....AAAKKAAA....', '......AAAA......'] }  // ADMIRAL
+  ];
+  badgeCache = {};
+  // one image per rank badge (drawn once, scaled with image-rendering:pixelated so there are no seams)
+  insigSrc(i) { const k = Math.max(0, Math.min(this.BADGES.length - 1, i | 0)); if (this.badgeCache[k]) return this.badgeCache[k]; const b = this.BADGES[k], L = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', cv = document.createElement('canvas'); cv.width = 16; cv.height = 18; const c = cv.getContext('2d'); b.rows.forEach((row, y) => { for (let x = 0; x < row.length; x++) { const n = L.indexOf(row[x]); if (n >= 0) { c.fillStyle = b.pal[n]; c.fillRect(x, y, 1, 1); } } }); return (this.badgeCache[k] = cv.toDataURL('image/png')); }
+  insig() { return []; }
+  rankIdx(v) { let i = 0; this.RANKS.forEach((r, j) => { if (v >= r.at) i = j; }); return i; }
+  GATE_GOLD_MOCK = { 1: 10, 2: 20, 3: 30 };
+  wrapRef = React.createRef(); stageRef = React.createRef(); shakeRef = React.createRef(); fxRef = React.createRef(); driftA = React.createRef(); driftB = React.createRef();
+  sceneRef = React.createRef(); gateRef = React.createRef(); bossRef = React.createRef(); nameRef = React.createRef(); blurbRef = React.createRef(); ctrlRef = React.createRef(); endRef = React.createRef();
+  paradeRefs = Array.from({ length: 50 }, () => React.createRef()); hovRefs = Array.from({ length: 50 }, () => React.createRef());
+  hv = Array.from({ length: 50 }, () => ({ ph: Math.random() * 6.28, f: 1.1 + Math.random() * .8 }));
+  ts = []; gen = 0; t0 = performance.now();
+  fresh() {
+    if (this.emb) { const p = this.props, sec = [1, 2, 3].includes(+p.sector) ? +p.sector : 1; return { phase: 'sector', sector: sec, launched: (p.launched || []).map(id => this.ROLES[id] ? id : 'herald'), gold: Math.max(0, +p.gold || 0), prestige: Math.max(0, +p.prestige || 0), runP: Math.max(0, +p.runPrestige || 0), ejUsed: !!p.ejUsed, score: 0, secured: false, boss: null, ready: false, res: null }; }
+    const p = this.props || {}, fs = parseInt(p.fleetSize, 10), n = Math.max(0, Math.min(50, fs >= 0 ? fs : 14)), sec = [1, 2, 3].includes(+p.sector) ? +p.sector : 2;
+    const pr = parseInt(p.prestige, 10);
+    return { phase: 'sector', sector: sec, launched: Array.from({ length: n }, (_, i) => this.LOG[i % this.LOG.length]), gold: this.GATE_GOLD_MOCK[sec], prestige: pr >= 0 ? pr : 150, runP: Math.max(0, parseInt(p.runPrestige, 10) || 0), ejUsed: false, score: 0, secured: false, boss: null, ready: false, res: null };
+  }
+  state = this.fresh();
+  componentDidMount() {
+    this.loadTakeoff();
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const loop = () => { this.tick(); this.raf = requestAnimationFrame(loop); }; this.raf = requestAnimationFrame(loop);
+    this.onResize = () => this.fit(); window.addEventListener('resize', this.onResize);
+    if (window.ResizeObserver && this.wrapRef.current) { this.ro = new ResizeObserver(this.onResize); this.ro.observe(this.wrapRef.current); }
+    this.fit(); this.countUp();
+    if (this.emb) { const lz = this.props.launch === false; this.later(() => lz ? this.alarm() : this.jump(), lz ? 300 : 700); }
+  }
+  componentDidUpdate(pp) { if (this.emb) return; if (pp && (pp.sector !== this.props.sector || pp.fleetSize !== this.props.fleetSize || pp.encounter !== this.props.encounter || pp.runPrestige !== this.props.runPrestige)) this.reset(this.fresh()); }
+  componentWillUnmount() { this.clearAll(); cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize); if (this.ro) this.ro.disconnect(); }
+  fit() { const w = this.wrapRef.current, st = this.stageRef.current; if (!w || !st) return; st.style.transform = 'scale(' + Math.min(w.clientWidth / 390, w.clientHeight / 844) + ')'; }
+  later(f, ms) { const g = this.gen; this.ts.push(setTimeout(() => { if (g === this.gen) f(); }, ms)); }
+  clearAll() { this.gen++; this.ts.forEach(clearTimeout); this.ts = []; const fx = this.fxRef.current; if (fx) fx.innerHTML = ''; }
+  reset(st) { this.clearAll(); this.paradeRefs.forEach(r => { const el = r.current; if (el && el.getAnimations) el.getAnimations().forEach(a => a.cancel()); }); this.setState(st, () => this.countUp()); }
+  hexA(h, a) { return 'rgba(' + parseInt(h.slice(1, 3), 16) + ',' + parseInt(h.slice(3, 5), 16) + ',' + parseInt(h.slice(5, 7), 16) + ',' + a + ')'; }
+  total(S) { return S.launched.reduce((a, id) => a + this.ROLES[id].pts, 0); }
+  calc(S) {
+    const fighting = S.launched.slice(), N = fighting.length, B = this.BOSSES[S.boss || 'marauder'], diff = this.DIFF[S.sector], base = B.hp[S.sector], ex = this.EXPECT[S.sector];
+    const band0 = N === 0 ? 'none' : N < ex[0] ? 'short' : N > ex[1] ? 'big' : 'even', hp = Math.round(base * ((band0 === 'big' && (B.big.hpK || 0)) || 1)), hull = N, band = N === 0 ? 'none' : N < ex[0] ? 'short' : N > ex[1] ? 'big' : 'even';
+    const m = band === 'short' ? B.short : band === 'big' ? B.big : band === 'even' ? B.even : {};
+    // fixed HP per boss × sector (no per-ship scaling) · win gold = base bounty × 1 / 1.5 / 2
+    const bounty = B.bounty, over = band === 'big', r5 = v => Math.round(v / 5) * 5;   // boss gold is the same in every sector
+    // fleet bigger than it expected: half again on bounty + prestige. a surrendering marauder hands over half the bounty instead of fighting
+    return { fighting, N, B, diff, hp, hull, band, m, bounty, bonus: over ? r5(bounty * .25) : 0, pBonus: over ? Math.round(B.prestige * .25) : 0, cargo: r5(bounty * .5), exp: ex };
+  }
+  // sound: shared boss SFX engine (boss-sfx.js)
+  sfx(n, o) { return window.BossSFX ? window.BossSFX.play(n, o) : null; }
+  // alert banner: two identical halves, slide one half-width right→left on loop
+  marq = el => { if (!el || el._a || this.reduced || !el.animate) return; const w = el.scrollWidth / 2; el._a = el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(' + (-w) + 'px)' }], { duration: w / 55 * 1000, iterations: Infinity }); };
+  // ─── fx ───
+  rect(el) { const st = this.stageRef.current; if (!st || !el) return null; const S = st.getBoundingClientRect(), k = S.width / st.offsetWidth || 1, r = el.getBoundingClientRect(); return { x: (r.left - S.left) / k, y: (r.top - S.top) / k, w: r.width / k, h: r.height / k }; }
+  center(el) { const r = this.rect(el); return r ? { x: r.x + r.w / 2, y: r.y + r.h / 2 } : null; }
+  fxEl(css) { const fx = this.fxRef.current; if (!fx) return null; const d = document.createElement('div'); d.style.cssText = 'position:absolute;' + css; fx.appendChild(d); return d; }
+  anim(d, kf, o) { if (!d) return; if (!d.animate) { d.remove(); return; } d.animate(kf, o).onfinish = () => d.remove(); }
+  shake(p, ms) { const el = this.shakeRef.current; if (!el || !el.animate || this.reduced) return; el.animate([{ transform: 'translate(0,0)' }, { transform: 'translate(' + (-p) + 'px,' + (p * .5) + 'px)' }, { transform: 'translate(' + p + 'px,' + (-p * .4) + 'px)' }, { transform: 'translate(' + (-p * .6) + 'px,' + (p * .3) + 'px)' }, { transform: 'translate(0,0)' }], { duration: ms || 260 }); }
+  flash(col, a, ms, st) { if (this.reduced) return; this.anim(this.fxEl('inset:0;background:' + col + ';opacity:0'), [{ opacity: a }, { opacity: 0 }], { duration: ms || 320, easing: st ? 'steps(' + st + ')' : 'ease-out' }); }
+  streaks(c, col) { for (let i = 0; i < 12; i++) { const x = c.x + (Math.random() - .5) * 300, h = 40 + Math.random() * 100; this.anim(this.fxEl('left:' + x + 'px;top:' + (c.y - h) + 'px;width:2px;height:' + h + 'px;background:linear-gradient(rgba(255,255,255,0),' + col + ')'), [{ transform: 'translateY(-60px) scaleY(.4)', opacity: 0 }, { transform: 'translateY(0) scaleY(1)', opacity: .9, offset: .4 }, { transform: 'translateY(40px) scaleY(.2)', opacity: 0 }], { duration: 420 + Math.random() * 220, easing: 'ease-out' }); } }
+  // ─── flow: sector score → jump → alarm → boss reveal → fight → gate report ───
+  countUp() {
+    const tot = this.total(this.state), steps = 16;
+    this.setState({ score: 0, secured: false });
+    if (this.emb && this.props.launch !== false && this.state.launched.length) return;   // ships are about to jump: each jump adds its points instead
+    for (let i = 1; i <= steps; i++) this.later(() => { this.setState({ score: Math.round(tot * i / steps) }); if (i % 2) this.sfx('tonal_click', { semi: (i - 1) / 2 }); }, 300 + i * 50);
+    this.later(() => { this.setState({ secured: true }); this.sfx('dramatic_finish'); }, 300 + steps * 50 + 220);
+  }
+  jcRef = React.createRef();
+  GATE_IV = [500, .88, 180]; // v15 GATE_INTERVAL_START / DECAY / FLOOR
+  TAKEOFF = ['https://pub-3d18c0cc748f418297166885dea0c707.r2.dev/sfx/mp3/big_launch_ignition_01.mp3', 'https://pub-3d18c0cc748f418297166885dea0c707.r2.dev/sfx/ogg/big_launch_ignition_01.ogg'];
+  loadTakeoff() { if (this.toP) return this.toP; const tryU = i => i >= this.TAKEOFF.length ? Promise.resolve(null) : fetch(this.TAKEOFF[i]).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).catch(() => tryU(i + 1)); return (this.toP = tryU(0)); }
+  takeoff(pitch) {
+    const S = window.BossSFX && window.BossSFX._s; if (S && S.muted) return;
+    const a = (S && (S.ctx || S.ac)) || this.ac || (this.ac = new (window.AudioContext || window.webkitAudioContext)()); if (!a) return;
+    const go = buf => { const s = a.createBufferSource(), gn = a.createGain(); s.buffer = buf; s.playbackRate.value = pitch; gn.gain.value = .8; s.connect(gn); gn.connect((S && S.master) || a.destination); s.start(); };
+    if (this.toBuf) return go(this.toBuf);
+    (window.BreachAudio ? window.BreachAudio.clip('main', 'big_launch_ignition_01') : Promise.reject()).then(buf => { if (buf) { this.toBuf = buf; go(buf); } }).catch(() => {});
+  }
+  trail(el, ms) {
+    if (this.reduced) return; const t0 = performance.now(), g = this.gen;
+    const iv = setInterval(() => { const r = this.rect(el); if (g !== this.gen || performance.now() - t0 > ms || !el.isConnected || !r) return clearInterval(iv);
+      const z = 3 + Math.round(Math.random() * 3), p = this.fxEl('left:' + (r.x + r.w / 2 + Math.random() * 10 - 5) + 'px;top:' + (r.y + r.h * .85) + 'px;width:' + z + 'px;height:' + z + 'px;background:' + (Math.random() > .5 ? '#ffd644' : '#e8522c') + ';pointer-events:none');
+      this.anim(p, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translate(' + (Math.random() * 12 - 6) + 'px,' + (12 + Math.random() * 14) + 'px) scale(.3)' }], { duration: 380, easing: 'ease-out' }); }, 30);
+    this.ts.push(iv);
+  }
+  // a ship has entered the gate: the fleet score climbs by its points
+  jumpScore(i, k, col) {
+    const S = this.state, id = S.launched[i], pts = id && this.ROLES[id] ? this.ROLES[id].pts : 0;
+    const sum = S.launched.slice(0, i + 1).reduce((a, x) => a + (this.ROLES[x] ? this.ROLES[x].pts : 0), 0);
+    this.setState({ score: sum });
+    this.sfx('tonal_click', { semi: Math.min(k, 14) });
+    const sc = this.scoreRef.current; if (sc && sc.animate && !this.reduced) sc.animate([{ transform: 'scale(' + Math.min(1.5, 1.12 + 0.04 * k) + ')' }, { transform: 'scale(1)' }], { duration: 220, easing: 'cubic-bezier(.2,.8,.3,1.4)' });
+    const g = this.center(this.gateRef.current); if (!pts || !g || this.reduced) return;
+    const t = this.fxEl('left:' + (g.x - 40) + 'px;top:' + (g.y - 14) + 'px;width:80px;text-align:center;font-family:"Jersey 15",monospace;font-size:' + Math.min(34, 22 + k) + 'px;line-height:1;color:' + col + ';text-shadow:2px 2px 0 #000;pointer-events:none;z-index:6');
+    if (t) { t.textContent = '+' + pts; this.anim(t, [{ transform: 'translateY(0) scale(.6)', opacity: 0 }, { transform: 'translateY(-14px) scale(1.15)', opacity: 1, offset: .25 }, { transform: 'translateY(-46px) scale(1)', opacity: 0 }], { duration: 650, easing: 'cubic-bezier(.2,.8,.3,1)' }); }
+  }
+  jump() {
+    const S = this.state; if (S.phase !== 'sector') return;
+    this.setState({ phase: 'jump', jumpN: 0 }); this.sfx('gate_jump_charge');
+    const g = this.center(this.gateRef.current), n = S.launched.length;
+    // v15 departure: ships launch one at a time, each a little sooner than the last, with a rising shake and colour ladder
+    const gEl = this.gateRef.current, cols = ['#ffffff', '#48f320', '#ffd644', '#ff9a3c', '#ff4d4d', '#ff5cd6', '#b07cff', '#fffbe6'];
+    let at = 400;
+    this.paradeRefs.slice(0, n).forEach((r, i) => {
+      const k = i + 1, iv = Math.max(this.GATE_IV[2], this.GATE_IV[0] * Math.pow(this.GATE_IV[1], i)), col = cols[Math.min(k, 7)];
+      this.later(() => {
+        const el = r.current, c = this.center(el); if (!el || !c || !g) return;
+        this.takeoff(Math.pow(2, Math.min(k, 12) / 12)); this.shake(Math.min(14, 2 + 3 * k), 220);
+        if (this.reduced || !el.animate) { el.style.opacity = 0; this.jumpScore(i, k, col); this.setState({ jumpN: k }); return; }
+        el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translate(0,10px) scale(1.12)', offset: .18 }, { transform: 'translate(' + (g.x - c.x).toFixed(0) + 'px,' + (g.y - c.y).toFixed(0) + 'px) scale(.2)', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.6,0,.3,1)', fill: 'forwards' });
+        this.trail(el, 380);
+        this.later(() => { if (gEl && gEl.animate) gEl.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 220, easing: 'cubic-bezier(.2,.8,.3,1.4)' }); this.flash(col, .12, 260); this.jumpScore(i, k, col); this.setState({ jumpN: k }, () => { const jc = this.jcRef.current; if (jc && jc.animate) { jc.style.color = col; jc.animate([{ transform: 'scale(' + Math.min(1.6, 1.08 + .06 * k) + ')' }, { transform: 'scale(1)' }], { duration: 200, easing: 'cubic-bezier(.2,.8,.3,1.4)' }); } }); }, 380);
+      }, at);
+      at += iv;
+    });
+    const t = at + 260;
+    this.later(() => { this.setState({ secured: true, score: this.total(this.state) }); }, t - 260);
+    this.later(() => this.sfx('gate_jump_exit'), t - 120); // the teleport swell peaks ~120ms in, on the flash
+    this.later(() => this.flash('#ffffff', .7, 380, 3), t);
+    this.later(() => this.alarm(), t + 380);
+  }
+  // ─── encounter warning band (Ikaruga-style) ───
+  // opens from a line, WARNING flickers on, the boss's name in an alien script, a typed transmission, the live reaction stamps in, hold, collapse → reveal
+  // the band holds after the stamp until CONTINUE (btn = when it appears); the siren's second crank (2797ms) heaves under the hold and it winds down on its own
+  BAND_T = { open: 180, warn: 200, glyph: 400, type: 700, typeDur: 900, stamp: 1650, crank2: 2797, btn: 2150, closeDur: 150, giant: 9000 };
+  // per-boss flyby art behind the warning (default: the boss sprite at ~540px tall); frames > 1 = a horizontal spritesheet stepped at fps
+  GIANT = { marauder: { src: Component.__A('assets/kestrel_h11.png'), w: 132, h: 160, rot: -90, tall: 540 }, garganta: { src: Component.__A('assets/anim/garganta_swim.png'), w: 404, h: 170, frames: 16, fps: 10, tall: 3873, dur: 2750, delay: 1000, op: .8 } };
+  bandBtnRef = React.createRef(); scoreRef = React.createRef(); giantRef = React.createRef();
+  TRANSMIT = {
+    marauder: ['RAIDER CRAFT CLOSING AT FULL BURN.', "FLEET RECORDS IDENTIFY IT AS 'MARAUDER'."],
+    mothercore: ['A MACHINE MIND IS WAKING INSIDE THE GATE.', "FLEET RECORDS IDENTIFY IT AS 'MOTHER CORE'."],
+    garganta: ['SOMETHING VAST IS MOVING IN THE DARK.', "FLEET RECORDS IDENTIFY IT AS 'GARGANTA'."]
+  };
+  // original 5×7 script, one glyph per letter: the glyph line spells the boss's name
+  GLYPHS = { A: '#.#.#/#.#.#/#####/..#../..#../.#.#./#...#', B: '#...#/#####/#...#/#.#.#/#...#/#####/#...#', C: '####./...#./.#.#./.#.##/.#.../.####/.....', D: '.###./#...#/#.#.#/#...#/.###./..#../.###.', E: '..#../.###./#.#.#/..#../..#../.#.#./##.##', F: '###../..#../..###/....#/..###/..#../###..', G: '#####/#.#.#/#.#.#/#...#/#...#/#.#.#/#####', H: '..#../##.##/..#../##.##/..#../##.##/..#..', I: '...../..#../.#.#./#.#.#/.#.#./..#../.....', J: '#..##/#...#/#####/....#/.##.#/.#..#/.####', K: '#####/..#../..#../#.#.#/#.#.#/#####/.....', L: '##.../.#.../.##../..#../..##./...#./...##', M: '#####/#.#.#/#.#.#/#.#.#/...../#.#.#/.....', N: '#...#/.#.#./..#../#####/..#../.#.#./#...#', O: '...../#####/#...#/#.#.#/#...#/#####/.....', P: '.##../#..#./.##../..#../..###/..#../..##.', Q: '#####/...../.###./.#.#./.###./...../#####', R: '#.#.#/.###./..#../.###./#.#.#/..#../..#..', S: '###../#..../#.#../#..#./#.#../#..../###..', T: '..#../.#.#./#...#/..#../.#.#./#...#/.....', U: '.###./..#../#####/..#../..#../.###./##.##', V: '#####/#...#/..#../..#../.###./..#../..#..', W: '#####/.#.#./.#.#./...../.#.#./.#.#./#####', X: '..#../.#.#./#...#/.#.#./..#../..#../..#..', Y: '#####/....#/.##.#/.#..#/.####/...../#####', Z: '#.#../###../#.#../#.###/#.#.#/#.###/#.#..' };
+  bandRef = React.createRef(); shimRef = React.createRef(); warnRef = React.createRef(); glyphRef = React.createRef(); transRef = React.createRef(); ruleRef = React.createRef(); epiRef = React.createRef();
+  pickBoss() {
+    const S = this.state, forced = this.ORDER.indexOf((this.props || {}).encounter);
+    let w = forced; if (w < 0) { const o = this.ODDS[S.sector]; let r = Math.random() * 100; w = 0; while (w < 2 && r >= o[w]) { r -= o[w]; w++; } }
+    return this.ORDER[w];
+  }
+  alarm() {
+    if (this.emb && typeof this.props.onWarn === 'function') this.props.onWarn();
+    const key = this.pickBoss(); this.nextBoss = key; this.bandStage = 'open'; this.bandSnd = []; this.bandT = [];
+    this.setState({ phase: 'alarm', boss: key, band: true, bandBtn: false }, () => this.bandRun());
+  }
+  bandLater(f, ms) { const g = this.gen, id = setTimeout(() => { if (g === this.gen) f(); }, ms); this.ts.push(id); this.bandT.push(id); }
+  bandCancel() { (this.bandT || []).forEach(clearTimeout); this.bandT = []; cancelAnimationFrame(this.typeRaf); this.typeRaf = 0; }
+  bandRun() {
+    const T = this.BAND_T, b = this.bandRef.current, sh = this.shimRef.current;
+    this.bandSnd.push(this.sfx('encounter_alarm')); this.gatePulse(); this.bandBack(); this.bandTypeSetup();
+    if (this.reduced) {
+      this.bandShowAll(); this.bandStage = 'stamp';
+      return this.bandShowBtn();
+    }
+    if (b && b.animate) b.animate([{ transform: 'scaleY(.012)' }, { transform: 'scaleY(1)' }], { duration: T.open, easing: 'cubic-bezier(.2,.9,.3,1)' });
+    if (sh && sh.animate) sh.animate([{ transform: 'translateX(300%)' }, { transform: 'translateX(-110%)' }], { duration: 3200, iterations: Infinity });
+    this.shake(6, 260);
+    this.bandLater(() => this.bandWarn(), T.warn); this.bandLater(() => this.bandGlyphs(), T.glyph); this.bandLater(() => this.bandType(), T.type); this.bandLater(() => this.bandStamp(), T.stamp);
+    this.bandLater(() => { const el = this.bandRef.current; if (el && el.animate) el.animate([{ filter: 'brightness(1.35)' }, { filter: 'none' }], { duration: 360, easing: 'ease-out' }); }, T.crank2);
+  }
+  // the scene recedes: the fleet score fades out and a giant shadow of the boss drifts right→left behind the band
+  bandBack() {
+    const sc = this.scoreRef.current, gi = this.giantRef.current, fr = this.sceneRef.current; if (fr) fr.style.boxShadow = 'none';
+    if (sc) { if (this.reduced || !sc.animate) sc.style.opacity = '0'; else sc.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }); }
+    if (!gi) return; if (this.reduced || !gi.animate) { gi.style.display = 'none'; return; }
+    const GI = this.GIANT[this.state.boss], inner = gi.firstElementChild;
+    if (GI && GI.frames > 1 && inner) { let k = 0; const fw = inner.offsetWidth, id = setInterval(() => { if (!inner.isConnected) return clearInterval(id); k = (k + 1) % GI.frames; inner.style.backgroundPosition = (-k * fw) + 'px 0'; }, 1000 / GI.fps); this.ts.push(id); }
+    gi.animate([{ transform: 'translate(400px,-14px)' }, { transform: 'translate(' + (-(gi.offsetWidth || 700) - 10) + 'px,14px)' }], { duration: (GI && GI.dur) || this.BAND_T.giant, delay: (GI && GI.delay) || 0, easing: 'linear', fill: 'both' });
+  }
+  // behind the band the gate dims and pulses red
+  gatePulse() { const el = this.gateRef.current; if (!el || !el.animate) return; el.animate(this.reduced ? [{ filter: 'brightness(.55)' }, { filter: 'brightness(.55)' }] : [{ filter: 'brightness(.4)' }, { filter: 'brightness(1)' }], { duration: 480, direction: 'alternate', iterations: Infinity, easing: 'ease-in-out' }); }
+  bandWarn() {
+    const w = this.warnRef.current; if (!w) return; w.style.opacity = '1'; if (!w.animate) return;
+    w.animate([{ opacity: 0 }, { opacity: 0, offset: .14 }, { opacity: 1, offset: .15 }, { opacity: 1, offset: .3 }, { opacity: 0, offset: .31 }, { opacity: 0, offset: .44 }, { opacity: 1, offset: .45 }, { opacity: 1, offset: .6 }, { opacity: .25, offset: .61 }, { opacity: .25, offset: .72 }, { opacity: 1, offset: .73 }, { opacity: 1 }], { duration: 320 });
+  }
+  bandGlyphs() { const box = this.glyphRef.current; if (!box) return; const els = [...box.querySelectorAll('[data-gl]')], n = els.length; els.forEach((el, i) => { el.style.opacity = '1'; if (el.animate) el.animate([{ transform: 'translateX(44px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 170, delay: Math.round(i * 130 / Math.max(1, n - 1)), easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' }); }); }
+  // each line holds its full text from the start (the untyped rest is transparent), so wrapping never shifts while it types
+  bandTypeSetup() {
+    const box = this.transRef.current; this.tyL = []; if (!box) return; box.textContent = '';
+    this.tyL = (this.TRANSMIT[this.state.boss] || []).map(t => { const d = document.createElement('div'), a = document.createElement('span'), r = document.createElement('span'); r.style.color = 'transparent'; r.textContent = t; d.appendChild(a); d.appendChild(r); box.appendChild(d); return { t, a, r }; });
+  }
+  bandTypeShow(n) { let left = n; (this.tyL || []).forEach(L => { const k = Math.max(0, Math.min(L.t.length, left)); L.a.textContent = L.t.slice(0, k); L.r.textContent = L.t.slice(k); left -= L.t.length; }); }
+  bandType() {
+    const T = this.BAND_T, all = (this.tyL || []).map(L => L.t).join(''), tot = all.length, t0 = performance.now(), g = this.gen; let n = 0, ch = 0;
+    const step = now => {
+      if (g !== this.gen || this.bandStage !== 'open') return;
+      const m = Math.min(tot, Math.floor((now - t0) / T.typeDur * tot) + 1);
+      if (m > n) { let tick = false; for (let i = n; i < m; i++) if (all[i] !== ' ' && ++ch % 2 === 1) tick = true; n = m; this.bandTypeShow(n); if (tick) this.sfx('tonal_click', { db: -18, jitter: false }); }
+      if (n < tot) this.typeRaf = requestAnimationFrame(step);
+    };
+    this.typeRaf = requestAnimationFrame(step);
+  }
+  bandShowAll() {
+    const gl = this.glyphRef.current, els = [this.warnRef.current].concat(gl ? [...gl.querySelectorAll('[data-gl]')] : []);
+    els.forEach(el => { if (!el) return; if (el.getAnimations) el.getAnimations().forEach(a => a.cancel()); el.style.opacity = '1'; el.style.transform = 'none'; });
+    this.bandTypeShow(Infinity);
+  }
+  bandStamp() {
+    if (this.bandStage !== 'open') return; this.bandStage = 'stamp';
+    const T = this.BAND_T;
+    this.bandLater(() => this.bandShowBtn(), T.btn - T.stamp);
+  }
+  bandEnd(now) {
+    if (this.bandStage === 'close') return; this.bandStage = 'close'; this.bandCancel();
+    const T = this.BAND_T, b = this.bandRef.current; if (now) (this.bandSnd || []).forEach(h => h && h.stop && h.stop(80)); this.bandSnd = []; // a normal collapse lets the siren wind down under the reveal, as before
+    if (now || this.reduced || !b || !b.animate) return this.reveal();
+    b.animate([{ transform: 'scaleY(1)', opacity: 1 }, { transform: 'scaleY(.012)', opacity: 1, offset: .75 }, { transform: 'scaleY(.012)', opacity: 0 }], { duration: T.closeDur, easing: 'cubic-bezier(.6,0,.8,.4)', fill: 'forwards' });
+    this.later(() => this.reveal(), T.closeDur);
+  }
+  // a tap before the stamp jumps to it; after that only CONTINUE moves on
+  bandTap() { if (this.state.band && this.bandStage === 'open') { this.bandCancel(); this.bandShowAll(); this.bandStamp(); } }
+  bandShowBtn() { if (this.bandStage === 'close') return; this.setState({ bandBtn: true }, () => { const el = this.bandBtnRef.current; if (el && el.animate && !this.reduced) el.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.2,.8,.3,1)' }); }); }
+  bandContinue(e) { if (e && e.stopPropagation) e.stopPropagation(); if (this.bandStage === 'close') return; this.sfx('metallic_click'); this.bandEnd(); if (this.emb && typeof this.props.onBossSong === 'function') this.props.onBossSong(); else this.sfx('continue_swell', { jitter: false }); }
+  bandVals(S, C) {
+    const B = C.B, tag = (C.m && C.m.tag) || B.even.tag;
+    const glyphs = B.name.split('').map(ch => ch === ' ' ? { w: 9, px: [] } : { w: 15, px: (this.GLYPHS[ch] || this.GLYPHS.A).replace(/\//g, '').split('').map(c => ({ c: c === '#' ? '#f0661c' : 'transparent' })) });
+    const GI = this.GIANT[S.boss], bw = GI ? GI.w : B.w, bh = GI ? GI.h : B.h, K = (GI ? GI.tall : 540) / bh, iw = Math.round(bw * K), ih = Math.round(bh * K), rot = GI && GI.rot != null ? GI.rot : GI ? 0 : B.rot, side = Math.abs(rot) % 180 === 90, gw = side ? ih : iw, gh = side ? iw : ih;
+    return { glyphs, col: B.col, epi: tag, epiSz: Math.min(40, Math.floor(340 / (tag.length * .52 + .1))), src: GI ? GI.src : B.src, rot, gw, gh, iw, ih, ix: Math.round((gw - iw) / 2), iy: Math.round((gh - ih) / 2), bgw: iw * ((GI && GI.frames) || 1), gOp: GI && GI.op != null ? GI.op : .55, gFx: GI && GI.op != null ? 'none' : 'brightness(.6)', gTop: Math.round(422 - gh / 2) };
+  }
+  reveal() {
+    const key = this.nextBoss || this.pickBoss(), B = this.BOSSES[key]; this.nextBoss = null;
+    this.setState({ phase: 'boss', boss: key, ready: false, band: false, bandBtn: false }, () => {
+      const b = this.bossRef.current, nm = this.nameRef.current, bl = this.blurbRef.current, ct = this.ctrlRef.current;
+      this.flash('#000000', .9, 260); this.later(() => { this.flash(B.col, .45, 420); this.shake(12, 460); const c = this.center(b); if (c) this.streaks(c, B.col); }, 220);
+      this.sfx('reveal_' + key); // hits baked in at +0.22s (colour flash) and +0.96s (name slam)
+      if (!this.reduced) {
+        if (b && b.animate) b.animate([{ transform: 'scale(.15)', opacity: 0, filter: 'brightness(0)' }, { transform: 'scale(.15)', opacity: 0, filter: 'brightness(0)', offset: .3 }, { transform: 'scale(1.18)', opacity: 1, filter: 'brightness(3)', offset: .75 }, { transform: 'none', opacity: 1, filter: 'none' }], { duration: 760, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'backwards' });
+        if (nm && nm.animate) nm.animate([{ transform: 'scale(3) rotate(-6deg)', opacity: 0 }, { transform: 'scale(1) rotate(-2deg)', opacity: 1, offset: .55 }, { transform: 'none', opacity: 1 }], { duration: 420, delay: 720, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' });
+        if (bl && bl.animate) bl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 1150, fill: 'backwards' });
+        if (ct && ct.animate) ct.animate([{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: 1500, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' });
+      }
+      this.later(() => this.shake(9, 300), 960);
+      this.later(() => this.setState({ ready: true }), this.reduced ? 0 : 1700);
+    });
+  }
+  fight() { const S = this.state; if (S.phase !== 'boss' || !S.ready || !this.calc(S).N) return; this.sfx('boss_engage'); this.setState({ phase: 'fight' }); }
+  letGo() { const S = this.state, C = this.calc(S); if (S.phase !== 'boss' || !S.ready || !C.m.flee) return; this.sfx('coin_toss'); this.settle({ kind: 'letgo', gold: C.cargo, prestige: 0, lost: [] }); }
+  decoy() { const S = this.state, C = this.calc(S); if (S.phase !== 'boss' || !S.ready || C.m.flee) return; this.sfx('gate_decoy'); this.settle({ kind: 'decoy', gold: -C.B.decoy, prestige: 0, lost: [] }); }
+  onFightDone(r) {
+    const S = this.state, C = this.calc(S), off = 0, lost = ((r && r.lost) || []).map(k => k + off), fg = r && r.gold != null ? r.gold - S.gold : 0, sp = (r && r.spentP) || 0;
+    // emergency jump: no bounty, no prestige, lost ships stay lost, the run goes on
+    if (r && r.outcome === 'jumped') return this.settle({ kind: 'jumped', gold: fg, fightGold: fg, spentP: sp, prestige: -sp, lost, rounds: r.rounds, ej: true });
+    if (!(r && r.outcome === 'won')) return this.settle({ kind: 'lost', gold: 0, prestige: 0, lost: [], rounds: r && r.rounds });
+    this.settle({ kind: 'won', gold: fg + C.bounty + C.bonus, fightGold: fg, spentP: sp, bounty: C.bounty, bonus: C.bonus, flee: !!C.m.flee, reward: C.B.prestige + C.pBonus, prestige: C.B.prestige + C.pBonus - sp, lost, rounds: r.rounds });
+  }
+  // playtest log: every gate's real fleet size → localStorage 'breach.gateLog' · window.breachGateLog() prints it
+  logGate(S, C, kind) {
+    try { const K = 'breach.gateLog', L = JSON.parse(localStorage.getItem(K) || '[]'); L.push({ t: new Date().toISOString(), sector: S.sector, boss: S.boss || 'marauder', fleet: C.N, band: C.band, outcome: kind }); localStorage.setItem(K, JSON.stringify(L.slice(-500))); } catch (e) {}
+    window.breachGateLog = () => { try { const L = JSON.parse(localStorage.getItem('breach.gateLog') || '[]'); console.table(L); return L; } catch (e) { return []; } };
+  }
+  settle(res) {
+    this.logGate(this.state, this.calc(this.state), res.kind);
+    const S = this.state, C = this.calc(S), names = res.lost.map(i => this.ROLES[S.launched[i]].name);
+    if (res.kind === 'won') { this.sfx('coin_toss'); this.sfx('whimsy_coin', { delay: 150 }); }
+    this.setState({ phase: 'result', ejUsed: S.ejUsed || !!res.ej, runP: S.runP + (res.kind === 'won' ? (res.reward || 0) : 0), launched: S.launched.filter((_, i) => !res.lost.includes(i)), gold: S.gold + res.gold, prestige: S.prestige + res.prestige, res: { ...res, names, boss: C.B.name, N: C.N } }, () => { const el = this.endRef.current; if (el && el.animate && !this.reduced) el.animate([{ opacity: 0, transform: 'scale(.94)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2,.8,.3,1.2)' }); });
+  }
+  next() {
+    const S = this.state;
+    if (this.emb) { const Rs = S.res || {}; return this.props.onDone({ kind: Rs.kind, gold: Rs.gold || 0, purse: Rs.kind === 'won' ? (Rs.bounty || 0) + (Rs.bonus || 0) : 0, prestige: Rs.kind === 'won' ? (Rs.reward || 0) : 0, spent: Rs.spentP || 0, lost: Rs.lost || [], boss: Rs.boss, ej: !!Rs.ej }); }
+    if (S.res && S.res.kind === 'lost') return this.reset({ ...this.fresh(), runP: 0 }); // new run: run prestige and rank reset
+    this.reset({ ...S, phase: 'sector', sector: S.sector % 3 + 1, gold: this.GATE_GOLD_MOCK[S.sector % 3 + 1], boss: null, ready: false, res: null });
+  }
+  tick() {
+    const t = (performance.now() - this.t0) / 1000, A = this.driftA.current, B = this.driftB.current;
+    if (A) A.style.backgroundPosition = '0px ' + ((t * 14) % 900).toFixed(1) + 'px';
+    if (B) B.style.backgroundPosition = '120px ' + (300 + (t * 30) % 1350).toFixed(1) + 'px';
+    if (this.reduced) return;
+    this.hovRefs.forEach((r, i) => { const el = r.current, p = this.hv[i]; if (!el) return; el.style.transform = 'translate(' + (Math.sin(t * p.f * .7 + p.ph) * 2).toFixed(2) + 'px,' + (Math.sin(t * p.f + p.ph) * 3).toFixed(2) + 'px)'; });
+    const b = this.bossRef.current; if (b && this.state.phase === 'boss' && this.state.ready) b.style.translate = (Math.sin(t * .8) * 6).toFixed(1) + 'px ' + (Math.sin(t * 1.5) * 4).toFixed(1) + 'px';
+  }
+  renderVals() {
+    const S = this.state, ph = S.phase, C = this.calc(S), B = C.B, alarm = ph === 'alarm';
+    const R = S.res, gl = R ? R.gold : 0;
+    const lostRow = R && { src: Component.__A('assets/spaceship_icon.png'), label: R.names.length ? 'LOST · ' + R.names.join(', ') : 'SHIPS LOST', value: R.names.length ? '-' + R.names.length : 'NONE', col: R.names.length ? '#b3201c' : '#2e8a12' };
+    const fleetRow = { src: Component.__A('assets/spaceship_icon.png'), label: 'FLEET NOW', value: S.launched.length + (S.launched.length === 1 ? ' SHIP' : ' SHIPS'), col: '#0a0821' };
+    const kick = 'SECTOR ' + S.sector + ' · JUMP GATE', nxt = this.emb ? 'CONTINUE' : 'NEXT SECTOR';
+    const fgRow = R && R.fightGold ? [{ src: Component.__A('assets/coin.png'), label: 'IN-FIGHT GOLD', value: (R.fightGold > 0 ? '+' : '') + R.fightGold, col: R.fightGold < 0 ? '#b3201c' : '#2e8a12' }] : [];
+    const evRow = R && R.kind === 'won' && R.spentP ? [{ src: Component.__A('assets/prestige.png'), label: 'EVASIVE MANEUVERS', value: '-' + R.spentP, col: '#b3201c' }] : [];
+    const end = !R ? { kicker: '', title: '', col: '#ffffff', sub: '', stamp: '', rows: [], btn: '' }
+      : R.kind === 'won' ? { kicker: kick, title: R.boss + (R.flee ? ' CAUGHT' : ' DOWN'), col: '#48f320', sub: R.flee ? 'RUN DOWN BEFORE THE GATE' : 'THROUGH THE GATE', stamp: R.N + ' SHIPS FOUGHT · ' + (R.rounds || 0) + ' ROUNDS', btn: nxt,
+        rows: [{ src: Component.__A('assets/coin.png'), label: 'SPOILS \u00b7 GOLD OR AN EPIC PART', value: '+' + (R.bounty + (R.bonus || 0)), col: '#0a0821' }].concat( [{ src: Component.__A('assets/prestige.png'), label: 'PRESTIGE', value: '+' + (R.reward != null ? R.reward : R.prestige), col: '#0a0821' }], evRow, fgRow, [lostRow, fleetRow]) }
+      : R.kind === 'letgo' ? { kicker: kick, title: 'SURRENDERED', col: '#ffd644', sub: 'IT HANDS OVER ITS CARGO', stamp: R.N + ' SHIPS WAS ENOUGH', btn: nxt, rows: [{ src: Component.__A('assets/coin.png'), label: 'SURRENDERED CARGO', value: '+' + gl, col: '#0a0821' }, fleetRow] }
+      : R.kind === 'decoy' ? { kicker: kick, title: 'SLIPPED THROUGH', col: '#ffd644', sub: 'THE FLEET SLIPS PAST UNSEEN', stamp: 'NO CONTACT', btn: nxt, rows: [{ src: Component.__A('assets/coin.png'), label: 'SLIP PAST', value: '' + gl, col: '#b3201c' }, fleetRow] }
+      : R.kind === 'jumped' ? { kicker: kick, title: 'EMERGENCY JUMP', col: '#ffd644', sub: 'THE FLEET ESCAPES THROUGH THE GATE', stamp: 'NO BOUNTY · NO PRESTIGE', btn: nxt, rows: [{ src: Component.__A('assets/prestige.png'), label: 'JUMP COST', value: '-' + R.spentP, col: '#b3201c' }].concat(fgRow, [lostRow, fleetRow]) }
+      : { kicker: kick, title: 'BREACHED', col: '#ff4d4d', sub: 'THE RUN ENDS AT THE GATE', stamp: R.boss + ' · ROUND ' + (R.rounds || 0), btn: (this.emb ? 'CONTINUE' : 'NEW RUN'), rows: [{ src: Component.__A('assets/spaceship_icon.png'), label: 'FLEET LOST', value: (R.N || 0) + ((R.N || 0) === 1 ? ' SHIP' : ' SHIPS'), col: '#b3201c' }] };
+    const rate = C.band === 'short' ? { w: 'RISKY', c: '#ff4d4d' } : C.band === 'big' ? { w: 'GREAT', c: '#ffd644' } : { w: 'GOOD', c: '#6af5d6' };
+    const read = 'IT EXPECTED ' + C.exp[0] + '–' + C.exp[1] + ' SHIPS';
+    return {
+      wrapRef: this.wrapRef, stageRef: this.stageRef, shakeRef: this.shakeRef, fxRef: this.fxRef, driftA: this.driftA, driftB: this.driftB,
+      sceneRef: this.sceneRef, gateRef: this.gateRef, bossRef: this.bossRef, nameRef: this.nameRef, blurbRef: this.blurbRef, ctrlRef: this.ctrlRef, endRef: this.endRef,
+      secName: this.SEC[S.sector], gold: S.gold, score: S.score, securedOp: S.secured ? 1 : 0,
+      glow: ph === 'boss' ? B.halo : alarm ? 'rgba(0,0,0,0)' : 'rgba(106,245,214,.12)',
+      isSector: ph === 'sector' || ph === 'jump' || ph === 'alarm', isBoss: ph === 'boss', isResult: ph === 'result', isFight: ph === 'fight',
+      isBand: !!S.band, bandTap: () => this.bandTap(), bandBtn: !!S.bandBtn, bandBtnRef: this.bandBtnRef, bandContinue: e => this.bandContinue(e), bandRef: this.bandRef, shimRef: this.shimRef, warnRef: this.warnRef, glyphRef: this.glyphRef, transRef: this.transRef, ruleRef: this.ruleRef, epiRef: this.epiRef,
+      band: S.band ? this.bandVals(S, C) : { glyphs: [], col: '#ff4d4d', epi: '', epiSz: 40, src: Component.__A('assets/mother_core.png'), rot: 0, gw: 0, gh: 0, bgw: 0, iw: 0, ih: 0, ix: 0, iy: 0, gOp: .55, gFx: 'brightness(.6)', gTop: 0 }, scoreRef: this.scoreRef, giantRef: this.giantRef,
+      sceneBd: alarm ? 'transparent' : '#f2f2f2',
+      gate: alarm ? { col: '#ff4d4d', glow: 'rgba(255,77,77,.6)', core: '#4a0f14', lbl: '', lblCol: '#ff4d4d' }
+        : { col: '#6af5d6', glow: 'rgba(106,245,214,.5)', core: '#0f4a4a', lbl: ph === 'jump' ? 'JUMPING' : 'PREPARING TO JUMP', lblCol: '#6af5d6' },
+      parade: S.launched.map((id, i) => ({ ref: this.paradeRefs[i], hov: this.hovRefs[i], src: Component.__A('assets/' + this.ROLES[id].ship + '.png'), name: this.ROLES[id].name, w: S.launched.length > 24 ? 17 : S.launched.length > 10 ? 22 : 34, h: S.launched.length > 24 ? 21 : S.launched.length > 10 ? 27 : 42 })),
+      jumpOp: this.emb ? 0 : ph === 'sector' ? 1 : alarm ? 0 : .4, jump: () => this.jump(), isJump: ph === 'jump', jcRef: this.jcRef, jumpN: '' + (S.jumpN || 0),
+      marqRef: this.marq, boss: { ready: !!S.boss, src: B.src, rot: B.rot, w: B.w, h: B.h, name: B.name, col: B.col, halo: B.halo, title: B.title, quote: B.quote, hp: C.hp, hull: C.hull, bounty: C.bounty + C.bonus },
+      hasTwist: C.N > 0, hasReward: !!C.m.reward, twist: { tag: C.m.tag || 'EVEN MATCH', rate: rate.w, read, sub: C.m.sub || 'About the fleet it expected. A win pays the standard bounty.', reward: !C.m.reward ? '' : C.m.flee ? 'TAKE ' + C.cargo + ' GOLD' : 'WIN ' + (C.bounty + C.bonus) + ' GOLD & ' + (C.B.prestige + C.pBonus) + ' PRESTIGE', col: rate.c },
+      fleetN: C.N,
+      hasShips: C.N > 0, noShips: C.N === 0, ctrlOp: 1,
+      fightOp: C.N ? 1 : .35, fightLbl: C.m.flee ? 'TAKE ' + C.cargo + ' GOLD' : 'FIGHT', canLetGo: false, fightBg: C.m.flee ? '#ffd644' : '#e8522c', fightShade: C.m.flee ? '#c98a1a' : '#b3201c', fightInk: C.m.flee ? '#2a1a05' : '#ffffff', fightInkSh: C.m.flee ? 'rgba(255,255,255,.35)' : '#7a1a0e', canDecoy: !C.m.flee, letGoLbl: 'LET IT GO · +' + C.cargo, decoyLbl: 'SLIP PAST · -' + B.decoy + ' GOLD',
+      fight: () => (C.m.flee ? this.letGo() : this.fight()), letGo: () => this.letGo(), decoy: () => this.decoy(),
+      fx: { boss: S.boss || 'marauder', sector: '' + S.sector, band: C.band === 'none' ? 'short' : C.band, fleet: C.fighting.map(id => ({ id, ...this.ROLES[id] })), hull: C.hull, hp: C.hp, atkBonus: C.m.atk || 0, ii0: C.m.ii0 || 0, frenzy0: !!C.m.frenzy0,
+        pres: S.prestige, runP: S.runP, bossP: C.B.prestige, ej: !S.ejUsed, hangar: S.launched.slice() },
+      onFightDone: r => this.onFightDone(r),
+      end, gr: (() => { const R = S.res, ri = this.rankIdx(S.runP), RK = this.RANKS[ri], nR = this.RANKS[ri + 1]; return { show: !!R && (R.kind === 'won' || R.kind === 'lost'), bar: !!R && R.kind !== 'lost', label: R && R.kind === 'lost' ? 'HIGHEST RANK' : 'RANK', src: this.insigSrc(ri), name: RK.name, v: '' + S.runP, pct: (nR ? 100 * (S.runP - RK.at) / (nR.at - RK.at) : 100).toFixed(1) }; })(), next: () => this.next()
+    };
+  }
+}
+</script>
+</body>
+</html>

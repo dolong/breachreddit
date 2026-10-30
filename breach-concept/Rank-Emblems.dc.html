@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<title>Breach · Rank Emblems</title>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"><style>body{margin:0;background:#07060f}button{font:inherit;color:inherit;cursor:pointer}</style></helmet>
+<div style="width:430px;min-height:2300px;box-sizing:border-box;padding:22px 16px 28px;background:#07060f;color:#f2f2f2;font-family:'Silkscreen',monospace">
+<div style="font-family:'Jersey 15',monospace;font-size:40px;line-height:1;letter-spacing:2px;color:#ffd644">RANK EMBLEMS</div>
+<div style="margin-top:6px;font-size:11px;letter-spacing:2px;color:#a9b0c0">10 RANKS · A NEW COLOUR AND TIER EACH RANK · TAP TO EDIT</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ cards }}" as="cd" hint-placeholder-count="10"><div onClick="{{ cd.pick }}" style="position:relative;padding:12px 6px 10px;background:#0a0821;border:3px solid {{ cd.bd }};border-radius:8px;box-shadow:3px 3px 0 #240011;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px">
+<div style="position:absolute;left:0;right:0;top:0;height:5px;background:{{ cd.stripe }};border-radius:4px 4px 0 0"></div>
+<div style="align-self:stretch;display:flex;justify-content:space-between;padding:0 4px;font-size:10px;letter-spacing:1px;color:#8a90a8"><span>RANK {{ cd.num }}</span><span>{{ cd.at }}+</span></div>
+<img src="{{ cd.src }}" alt="" style="flex:none;display:block;width:128px;height:144px;image-rendering:pixelated">
+<div style="font-family:'Jersey 15',monospace;font-size:21px;line-height:1;letter-spacing:1px;white-space:nowrap;color:{{ cd.col }}">{{ cd.name }}</div>
+<div style="display:flex;align-items:flex-end;gap:10px"><img src="{{ cd.src }}" alt="" style="flex:none;display:block;width:48px;height:54px;image-rendering:pixelated"><img src="{{ cd.src }}" alt="" style="flex:none;display:block;width:32px;height:36px;image-rendering:pixelated"><span style="font-size:9px;color:#6b7390;line-height:1.2">×3<br>×2</span></div>
+</div></sc-for>
+</div>
+<div style="margin-top:26px;padding:16px 12px;background:#0a0821;border:3px solid #f2f2f2;border-radius:8px;box-shadow:4px 4px 0 #240011">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:11px;letter-spacing:2px;color:#a9b0c0">EDITING</span><span style="font-size:10px;letter-spacing:1px;color:{{ ed.col }}">{{ ed.famName }}</span></div>
+<div style="margin-top:4px;font-family:'Jersey 15',monospace;font-size:32px;line-height:1;letter-spacing:1px;color:{{ ed.col }}">{{ ed.name }}</div>
+<div style="margin-top:12px;display:flex;justify-content:center"><div style="display:grid;grid-template-columns:repeat(16,{{ ed.cell }}px);grid-auto-rows:{{ ed.cell }}px;gap:{{ ed.gap }}px;padding:{{ ed.gap }}px;background:{{ ed.gridBg }};border:2px solid #05040f">
+<sc-for list="{{ ed.cells }}" as="c" hint-placeholder-count="288"><div onClick="{{ c.tap }}" style="background:{{ c.bg }};cursor:pointer"><div style="width:100%;height:100%;background:{{ c.c }};box-shadow:{{ c.seal }}"></div></div></sc-for>
+</div></div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+<sc-for list="{{ ed.pal }}" as="p" hint-placeholder-count="8"><div onClick="{{ p.pick }}" style="cursor:pointer;padding:3px;border:2px solid {{ p.bd }};border-radius:6px;background:#07060f"><div style="width:30px;height:30px;background:{{ p.sw }};border:1px solid #3a3a5a"></div></div></sc-for>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:repeat(6,1fr);gap:5px">
+<button onClick="{{ ed.toggleGrid }}" style="padding:9px 0;background:#1c1a3a;border:2px solid #c98bff;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#c98bff">{{ ed.gridLabel }}</button>
+<button onClick="{{ ed.mirror }}" style="padding:9px 0;background:#1c1a3a;border:2px solid #6af5d6;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#6af5d6">MIRROR</button>
+<button onClick="{{ ed.reset }}" style="padding:9px 0;background:#1c1a3a;border:2px solid #a9b0c0;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#c9cfdc">RESET</button>
+<button onClick="{{ ed.clear }}" style="padding:9px 0;background:#1c1a3a;border:2px solid #ff4d4d;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#ff4d4d">CLEAR</button>
+<button onClick="{{ ed.copyOne }}" style="padding:9px 0;background:#ffd644;border:2px solid #05040f;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#05040f">{{ ed.oneLabel }}</button>
+<button onClick="{{ ed.copyAll }}" style="padding:9px 0;background:#ffd644;border:2px solid #05040f;border-radius:6px;font-family:'Silkscreen',monospace;font-size:9px;color:#05040f">{{ ed.allLabel }}</button>
+</div>
+<div style="margin-top:8px;font-size:9px;line-height:1.4;letter-spacing:1px;color:#6b7390;text-align:center">TAP A PIXEL TO PAINT · TAP AGAIN TO ERASE · MIRROR COPIES THE LEFT HALF TO THE RIGHT</div>
+<div style="margin-top:16px;font-size:10px;letter-spacing:2px;color:#a9b0c0">IN GAME</div>
+<div style="margin-top:8px;display:flex;align-items:flex-end;justify-content:space-around;gap:8px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="position:relative;width:110px;height:130px;box-sizing:border-box;border:3px solid {{ ed.col }};border-radius:8px;background:linear-gradient(165deg,#1b1546 0%,#0a0821 58%,#1a0f3c 100%);box-shadow:0 0 0 3px #05040f,0 0 22px {{ ed.glow }};display:flex;align-items:center;justify-content:center"><img src="{{ ed.src }}" alt="" style="flex:none;display:block;width:80px;height:90px;image-rendering:pixelated"></div><span style="font-size:9px;color:#6b7390">PROMOTION CARD</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><img src="{{ ed.src }}" alt="" style="flex:none;display:block;width:48px;height:54px;image-rendering:pixelated"><span style="font-size:9px;color:#6b7390">RANK PANEL</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:#0a0821;border:3px solid #6af5d6;border-radius:6px"><img src="{{ ed.src }}" alt="" style="flex:none;display:block;width:32px;height:36px;image-rendering:pixelated"><span style="font-family:'Jersey 15',monospace;font-size:20px;line-height:1;color:#6af5d6">42</span></div><span style="font-size:9px;color:#6b7390">HUD SIZE</span></div>
+</div>
+<div style="margin-top:18px;display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:10px;letter-spacing:2px;color:#a9b0c0">CODE · {{ ed.name }}</span><span style="font-size:9px;color:#6b7390">PASTE BACK TO CLAUDE</span></div>
+<div style="margin-top:6px;padding:10px;background:#05040f;border:2px solid #2a2752;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;line-height:1.3;color:#c9cfdc;white-space:pre;overflow-x:auto;user-select:text;-webkit-user-select:text">{{ ed.code }}</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:430,&quot;height&quot;:2300}}">
+class Component extends DCLogic {
+  // rank badges: 16 x 18 pixel hexagons, one colour family and one tier higher per rank (the top three combine colours: purple + gold, purple + gold with silver dots, then a gold emblem on a prism).
+  // Placeholders lifted from the badge-pack screenshot; swap in the pack's PNG when it is in the repo.
+  ORIG = [
+    { name: 'ENSIGN', fam: 'bronze', at: 0, pal: ['#0e0d0d', '#fcae7b', '#2f2620', '#4c291b', '#834a30', '#b87556'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEEEEEEEBBA', 'AFFEEEEEEEEEEFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AACDDAAA....', '......AAAA......'] },
+    { name: 'SQUAD LEADER', fam: 'silver', at: 8, pal: ['#101112', '#272a2b', '#6b7173', '#fcfcfc', '#464c4d', '#9ba2a3'],
+      rows: ['....AAAAAAAA....', '..AAADDDDDDCAA..', 'AAADDDDEEDDDDAAA', 'ADDDDEECCEEDDDDA', 'ADDEECCCCCCEEDDA', 'ADDCCCCDDCCCCDDA', 'ADDCCCCDDCCCCDDA', 'AFFCCCCDDCCCCFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEBBEEEEFFA', 'AFFFFEEEEEEFFFFA', 'AEEFFFFEEFFFFEEA', 'AEEEEFFFFFFEEEEA', 'AAAEEEEFFEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },
+    { name: 'LIEUTENANT', fam: 'gold', at: 25, pal: ['#11110e', '#fcd435', '#8d4018', '#ba6f20', '#e3932a', '#5d250f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDDDDDCCBBA', 'ABBDDBBDDBBDDBBA', 'ABBDDBBDDBBDDBBA', 'AEEDDBBDDBBDDEEA', 'AEECCEECCEECCEEA', 'AEECCEECCEECCEEA', 'AEECCFFCCFFCCEEA', 'AEEEECCCCCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAACCCCEECCCCAAA', '..AAACCCCCCAAA..', '....AAACCAAA....', '......AAAA......'] },
+    { name: 'SR. LIEUTENANT', fam: 'blue', at: 50, pal: ['#0e1012', '#58adfc', '#1d2c9c', '#2848c2', '#3771fc', '#181c53', '#10122c'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDBBDDCCBBA', 'ABBDBBDBBDBBDBBA', 'ABBDBBDBBDBBDBBA', 'AEEDBBDBBDBBDEEA', 'AEECEECEECEECEEA', 'AEECEECEECEECEEA', 'AEECFFCEECFFCEEA', 'AEEEECCFFCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAGCCCDEECCCCAAA', '..AAACCDCCCGAA..', '....AAGCCAAA....', '......AAAA......'] },
+    { name: 'LT. COMMANDER', fam: 'green', at: 80, pal: ['#0e1210', '#122f18', '#53fcbd', '#156923', '#22a23f', '#2ac273', '#113e17'],
+      rows: ['....AAAAAAAA....', '..AAACCCCCCAAA..', 'AAACCCCDDCCCCAAA', 'ACCCCDDEEDDCCCCA', 'ACCDDEEEEEEDDCCA', 'ACCEEEEEEEEEECCA', 'ACCECEEEEEECECCA', 'AFFECCCEECCCEFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AABDDAAA....', '......AAAA......'] },
+    { name: 'COMMANDER', fam: 'cyan', at: 120, pal: ['#0c0c0d', '#405557', '#b4f8fc', '#097f6e', '#19c9b4', '#31e4ef', '#085247'],
+      rows: ['....AAAAAAAA....', '..AABCCECCCBAA..', 'AAACCCCDDCCCCGAA', 'ACCCCDDEEDDCCCCA', 'ACCDFEEEEEEFDCCA', 'ACCECCCEECCCECCA', 'ACCEDCCCCCCDECCA', 'AFFECDDCCDDCEFFA', 'AFFDFFFDDFFFDFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFFFDDGGDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },
+    { name: 'CAPTAIN', fam: 'purple', at: 170, pal: ['#0c0c0d', '#efa5fc', '#181329', '#4a31a3', '#9d60fc', '#6f3bd5', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDEFFEDBBBBA', 'ABBDDFBBBBFDDBBA', 'ABBFBFDBBDFBFBBA', 'ABBFBBBDDBBBFBBA', 'AEEFDBBBBBBDFEEA', 'AEEDEDDEEDDEDEEA', 'AEEDEEEDDEEEDEEA', 'AEEDGEEEEEEGDEEA', 'AEEEEGGEEGGEEEEA', 'ADDEEEEGGEEEEDDA', 'ADDDDEEEEEEDDDDA', 'AAADDDDEEDDDDAAA', '..AACDDDDDDAAA..', '....AAADDCAA....', '......AAAA......'] },
+    { name: 'COMMODORE', fam: 'commodore', at: 230, pal: ['#0c0c0d', '#fcd435', '#3b2e3f', '#4a31a3', '#6f3bd5', '#9d60fc', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEBBEEEEBBA', 'AFFEEEBBBBEEEFFA', 'AFFDDDGFFGDDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },
+    { name: 'VICE ADMIRAL', fam: 'viceadm', at: 300, pal: ['#0c0c0d', '#fcd435', '#6b7173', '#423246', '#4a31a3', '#251f28', '#6f3bd5', '#fcfcfc', '#464c4d', '#9d60fc', '#9ba2a3', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBEEBBBBFAA', 'ABBBBEEGGEEBBBBA', 'ABBEEGGHHGGEEBBA', 'ABBGGGHHHHGGGBBA', 'ABBGGGIHHIGGGBBA', 'AJJGGGGIIGGGGJJA', 'AJJEEKKEEKKEEJJA', 'AJJEKKKKCKKKEJJA', 'AJJELKKLLKKLEJJA', 'AJJJJLLEELLJJJJA', 'AEEJJJJEEJJJJEEA', 'AEEEEJJJJJJEEEEA', 'AAAEEEEJJEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },
+    { name: 'ADMIRAL', fam: 'admiral', at: 400, pal: ['#0c1213', '#53fcbd', '#0b3129', '#156923', '#22a23f', '#fcd435', '#b4f8fc', '#19c9b4', '#8d4018', '#31e4ef', '#097f6e', '#085247', '#e3932a'],
+      rows: ['....AAAAAAAA....', '..AALBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEFFEEDDBBA', 'ABBEEEFFFFEEEBBA', 'AGGHFHIFFIHFHGGA', 'AJJHFFFIIFFFHJJA', 'AJJKLMMKKMMLKJJA', 'AJJKKLLMMLLKKJJA', 'AJJKKKMMMMKKKJJA', 'AJJJJKLMMLKJJJJA', 'AKKJJJJLLJJJJKKA', 'AKKKKJJJJJJKKKKA', 'AACKKKKJJKKKKAAA', '..AAAKKKKKKCAA..', '....AAAKKAAA....', '......AAAA......'] }
+  ];
+  FAM = { bronze: { name: 'BRONZE', col: '#f0a070', glow: 'rgba(240,160,112,.6)' }, silver: { name: 'SILVER', col: '#e8ebf2', glow: 'rgba(232,235,242,.55)' }, gold: { name: 'GOLD', col: '#ffc53a', glow: 'rgba(255,197,58,.65)' },
+    blue: { name: 'BLUE', col: '#5b93ff', glow: 'rgba(91,147,255,.65)' }, green: { name: 'GREEN', col: '#43e08f', glow: 'rgba(67,224,143,.6)' }, cyan: { name: 'CYAN', col: '#6ff3ee', glow: 'rgba(111,243,238,.6)' }, purple: { name: 'PURPLE', col: '#c890ff', glow: 'rgba(200,144,255,.7)' },
+    commodore: { name: 'PURPLE + GOLD', col: '#ffc53a', glow: 'rgba(200,144,255,.7)', stripe: 'linear-gradient(90deg,#c890ff,#ffc53a,#c890ff)' },
+    viceadm: { name: 'PURPLE + GOLD + SILVER', col: '#e8ebf2', glow: 'rgba(200,144,255,.7)', stripe: 'linear-gradient(90deg,#ffc53a,#e8ebf2,#c890ff)' },
+    admiral: { name: 'PRISM + GOLD', col: '#ffc53a', glow: 'rgba(255,214,120,.8)', stripe: 'linear-gradient(90deg,#43e08f,#6ff3ee,#1a9a8c)' } };
+  LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  state = { em: this.ORIG.map(b => b.rows.slice()), sel: 0, brush: 'B', copied: '', grid: true };
+  colOf(i, ch) { const k = this.LET.indexOf(ch); return k >= 0 ? this.ORIG[i].pal[k] : 'transparent'; }
+  imgCache = {};
+  src(i, rows) {
+    const key = i + ':' + rows.join('|'); if (this.imgCache[key]) return this.imgCache[key];
+    const cv = document.createElement('canvas'); cv.width = rows[0].length; cv.height = rows.length; const c = cv.getContext('2d');
+    rows.forEach((row, y) => { for (let x = 0; x < row.length; x++) { if (row[x] !== '.') { c.fillStyle = this.colOf(i, row[x]); c.fillRect(x, y, 1, 1); } } });
+    return (this.imgCache[key] = cv.toDataURL('image/png'));
+  }
+  edit(fn) { const em = this.state.em.map(g => g.slice()); em[this.state.sel] = fn(em[this.state.sel].slice()); this.setState({ em, copied: '' }); }
+  paint(x, y) { const b = this.state.brush; this.edit(g => { const row = g[y].split(''); row[x] = row[x] === b ? '.' : b; g[y] = row.join(''); return g; }); }
+  codeOf(i) { const b = this.ORIG[i]; return "  // " + b.name + "\n  { pal: ['" + b.pal.join("', '") + "'],\n    rows: ['" + this.state.em[i].join("',\n           '") + "'] }"; }
+  copy(txt, tag) { try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => this.setState({ copied: tag }), () => {}); } catch (e) {} }
+  renderVals() {
+    const { em, sel, brush, copied, grid } = this.state;
+    const cards = em.map((rows, i) => { const b = this.ORIG[i], f = this.FAM[b.fam];
+      return { num: String(i + 1).padStart(2, '0'), at: b.at, name: b.name, col: f.col, stripe: f.stripe || f.col, bd: i === sel ? '#ffffff' : '#2a2752', src: this.src(i, rows), pick: () => this.setState({ sel: i, copied: '', brush: 'B' }) }; });
+    const rows = em[sel], b = this.ORIG[sel], f = this.FAM[b.fam], cells = [];
+    for (let y = 0; y < rows.length; y++) for (let x = 0; x < 16; x++) { const c = this.colOf(sel, rows[y][x]); cells.push({ c, seal: grid ? 'none' : '0 0 0 .6px ' + c, bg: grid ? ((x + y) % 2 ? '#12102b' : '#0e0c24') : '#07060f', tap: () => this.paint(x, y) }); }
+    const ed = {
+      name: b.name, col: f.col, glow: f.glow, famName: f.name, cells, src: this.src(sel, rows),
+      pal: [{ ch: '.', sw: 'repeating-linear-gradient(45deg,#2a2752 0 4px,#07060f 4px 8px)' }].concat(b.pal.map((c, k) => ({ ch: this.LET[k], sw: c }))).map(p => ({ sw: p.sw, bd: brush === p.ch ? '#ffffff' : '#2a2752', pick: () => this.setState({ brush: p.ch }) })),
+      cell: grid ? 22 : 23, gap: grid ? 1 : 0, gridBg: grid ? '#2a2752' : '#07060f', toggleGrid: () => this.setState({ grid: !grid }), gridLabel: grid ? 'GRID ON' : 'GRID OFF',
+      mirror: () => this.edit(gr => gr.map(r => r.slice(0, 8) + r.slice(0, 8).split('').reverse().join(''))),
+      reset: () => this.edit(() => this.ORIG[sel].rows.slice()),
+      clear: () => this.edit(gr => gr.map(() => '.'.repeat(16))),
+      copyOne: () => this.copy(this.codeOf(sel), 'one'), oneLabel: copied === 'one' ? 'COPIED' : 'COPY',
+      copyAll: () => this.copy('BADGES = [\n' + em.map((_, i) => this.codeOf(i)).join(',\n') + '\n];', 'all'), allLabel: copied === 'all' ? 'COPIED' : 'COPY ALL',
+      code: this.codeOf(sel)
+    };
+    return { cards, ed };
+  }
+}
+</script>
+</body>
+</html>

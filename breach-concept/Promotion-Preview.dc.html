@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="audio-sprite.js"></script>
+<title>Breach · Promotion Preview</title>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"><style>body{margin:0;background:#07060f}button{font:inherit;color:inherit;cursor:pointer}@keyframes prFade{from{opacity:0}to{opacity:1}}@keyframes prSpin{to{transform:rotate(360deg)}}@keyframes prBurst{0%{transform:scale(.2) rotate(-30deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}@keyframes prPart{0%{transform:translate(0,0) scale(1);opacity:0}2%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}@keyframes prDrop{0%{transform:translateY(-70px) scale(.25) rotate(-16deg);opacity:0}55%{transform:translateY(8px) scale(1.2) rotate(5deg);opacity:1}76%{transform:translateY(0) scale(.94) rotate(-2deg)}100%{transform:none;opacity:1}}@keyframes prSway{0%,100%{rotate:-2deg;translate:0 0}50%{rotate:2deg;translate:0 -5px}}@keyframes prSheen{0%{transform:translateX(-70%)}55%,100%{transform:translateX(70%)}}@keyframes prRise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}@keyframes prLetter{0%{transform:translateY(24px) scale(.1) rotate(var(--r));opacity:0}55%{transform:translateY(-9px) scale(1.32) rotate(calc(var(--r) * -.6));opacity:1}80%{transform:translateY(2px) scale(.95) rotate(0deg)}100%{transform:none;opacity:1}}@keyframes prPop{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.28);opacity:1}100%{transform:scale(1);opacity:1}}@keyframes prRing{0%{transform:scale(.3);opacity:0}2%{opacity:.9}100%{transform:scale(2.7);opacity:0}}@keyframes prFlash{0%{opacity:0}2%{opacity:.85}100%{opacity:0}}@keyframes prBar{from{width:0}}@keyframes prBlink{0%,100%{opacity:.25}50%{opacity:.75}}@keyframes prCoin{0%{transform:translate(0,0) scale(1);opacity:0}3%{opacity:1}35%{transform:translate(calc(var(--dx) * .2),calc(var(--dy) * .05 - 46px)) scale(1.25)}96%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:0}}</style></helmet>
+<div ref="{{ stageRef }}" style="position:relative;width:390px;height:844px;overflow:hidden;background:#07060f url(assets/space.png) center/cover;color:#f2f2f2;font-family:'Silkscreen',monospace">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,6,15,.35),rgba(7,6,15,.78))"></div>
+<div style="position:absolute;left:16px;right:16px;top:14px;height:44px;display:flex;align-items:center;gap:8px">
+<div style="display:flex;align-items:center;gap:6px;height:40px;padding:0 8px;box-sizing:border-box;background:#0a0821;border:3px solid #6af5d6;border-radius:6px;box-shadow:3px 3px 0 #240011"><img src="{{ hud.badge }}" alt="" style="width:16px;height:18px;image-rendering:pixelated;display:block"><span data-counter="prestige" style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#6af5d6;display:inline-block">{{ hud.p }}</span></div>
+<div style="display:flex;align-items:center;gap:6px;height:40px;padding:0 8px;box-sizing:border-box;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011"><img src="assets/coin.png" alt="" style="width:16px;height:16px;display:block"><span data-counter="bank" style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;display:inline-block">{{ hud.gold }}</span></div>
+<div style="margin-left:auto;font-size:10px;letter-spacing:2px;color:#8a90a8">SECTOR 2 · STATION 4</div>
+</div>
+<div style="position:absolute;left:16px;right:16px;top:84px">
+<div style="font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px;color:#ffd644">PROMOTION PREVIEW</div>
+<div style="margin-top:6px;font-size:10px;line-height:1.4;letter-spacing:1px;color:#a9b0c0">TAP A RANK TO PLAY ITS PROMOTION · TAP THE ANIMATION TO SKIP</div>
+</div>
+<div style="position:absolute;left:16px;right:16px;top:150px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ ranks }}" as="rk" hint-placeholder-count="10"><div onClick="{{ rk.play }}" style="display:flex;align-items:center;gap:10px;height:62px;padding:0 10px;box-sizing:border-box;background:#0a0821;border:3px solid {{ rk.bd }};border-radius:8px;box-shadow:3px 3px 0 #240011;cursor:pointer;opacity:{{ rk.op }}"><img src="{{ rk.src }}" alt="" style="flex:none;width:32px;height:36px;image-rendering:pixelated;display:block"><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-family:'Jersey 15',monospace;font-size:17px;line-height:1;white-space:nowrap;color:{{ rk.col }}">{{ rk.name }}</span><span style="font-size:8px;letter-spacing:1px;color:#6b7390">{{ rk.sub }}</span></div></div></sc-for>
+</div>
+<div style="position:absolute;left:16px;right:16px;top:514px">
+<div style="font-size:10px;letter-spacing:2px;color:#a9b0c0">BOSS-REWARD JUMPS</div>
+<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ jumps }}" as="j" hint-placeholder-count="4"><button onClick="{{ j.play }}" style="height:46px;padding:0 8px;background:#1c1a3a;border:2px solid {{ j.bd }};border-radius:6px;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:1px;color:{{ j.col }};text-align:left;line-height:1.3">{{ j.label }}<br><span style="color:#8a90a8">{{ j.sub }}</span></button></sc-for>
+</div>
+<div style="margin-top:14px;display:flex;gap:8px">
+<button onClick="{{ ctl.replay }}" style="flex:1;height:42px;background:#ffd644;border:2px solid #05040f;border-radius:6px;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:1px;color:#05040f">REPLAY LAST</button>
+<button onClick="{{ ctl.sound }}" style="flex:1;height:42px;background:#1c1a3a;border:2px solid #6af5d6;border-radius:6px;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:1px;color:#6af5d6">{{ ctl.soundLabel }}</button>
+</div>
+<div style="margin-top:10px;font-size:9px;line-height:1.5;letter-spacing:1px;color:#6b7390">LIEUTENANT, COMMANDER AND ADMIRAL ARE THE BIG PROMOTIONS: WHITE FLASH, SHOCKWAVE RING, MORE SPARKS. SOUND STARTS AFTER YOUR FIRST TAP.</div>
+</div>
+<sc-if value="{{ promo.on }}" hint-placeholder-val="{{ false }}"><div ref="{{ promo.ref }}" onClick="{{ promo.close }}" style="position:absolute;inset:0;z-index:70;overflow:hidden;cursor:pointer">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,4,15,.15) 0,rgba(5,4,15,.15) 70px,rgba(5,4,15,.84) 132px,rgba(5,4,15,.9) 100%);animation:{{ promo.aBack }}"></div>
+<div style="position:absolute;left:50%;top:250px;width:820px;height:820px;margin:-410px 0 0 -410px;border-radius:50%;background:repeating-conic-gradient({{ promo.ray }} 0deg 8deg,transparent 8deg 16deg);-webkit-mask-image:radial-gradient(circle,#000 16%,transparent 58%);mask-image:radial-gradient(circle,#000 16%,transparent 58%);animation:{{ promo.aRays }}"></div>
+<div style="position:absolute;left:50%;top:250px;width:320px;height:320px;margin:-160px 0 0 -160px;border-radius:50%;background:radial-gradient(circle,{{ promo.glow }} 0,transparent 66%);opacity:.6;animation:{{ promo.aBack }}"></div>
+<sc-if value="{{ promo.major }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:#ffffff;opacity:0;pointer-events:none;animation:{{ promo.aFlash }}"></div><div style="position:absolute;left:50%;top:250px;width:180px;height:180px;margin:-90px 0 0 -90px;box-sizing:border-box;border-radius:50%;border:6px solid {{ promo.edge }};opacity:0;animation:{{ promo.aRing }}"></div></sc-if>
+<sc-for list="{{ promo.parts }}" as="p" hint-placeholder-count="0"><div style="position:absolute;left:50%;top:250px;width:{{ p.s }}px;height:{{ p.s }}px;margin:-{{ p.h }}px 0 0 -{{ p.h }}px;background:{{ p.c }};--dx:{{ p.dx }}px;--dy:{{ p.dy }}px;opacity:0;animation:{{ p.anim }}"></div></sc-for>
+<div style="position:absolute;left:0;right:0;top:148px;display:flex;flex-direction:column;align-items:center">
+<div style="position:relative">
+<div ref="{{ promo.cardRef }}" style="position:relative;width:172px;height:204px;box-sizing:border-box;border:4px solid {{ promo.edge }};border-radius:14px;background:linear-gradient(165deg,#1b1546 0%,#0a0821 58%,#1a0f3c 100%);box-shadow:0 0 0 4px #05040f,0 10px 0 4px #05040f,0 0 46px {{ promo.glow }};overflow:hidden;animation:{{ promo.aCard }}">
+<div style="position:absolute;inset:7px;border:2px solid rgba(255,255,255,.08);border-radius:8px"></div>
+<div style="position:absolute;top:13px;left:0;right:0;text-align:center;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:2px;color:{{ promo.edge }}">{{ promo.tier }}</div>
+<img ref="{{ promo.insRef }}" src="{{ promo.src }}" alt="" style="position:absolute;left:50%;top:55%;width:{{ promo.w }}px;height:{{ promo.h }}px;transform:translate(-50%,-50%);filter:drop-shadow(0 5px 0 #05040f) drop-shadow(0 0 10px {{ promo.glow }});image-rendering:pixelated">
+<div style="position:absolute;top:-40%;bottom:-40%;left:-60%;right:-60%;background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.42) 50%,transparent 58%);pointer-events:none;animation:{{ promo.aSheen }}"></div>
+</div>
+<sc-if value="{{ promo.isMulti }}" hint-placeholder-val="{{ false }}"><div ref="{{ promo.multiRef }}" style="position:absolute;right:-24px;top:-16px;padding:4px 9px;background:#ff4d4d;border:3px solid #05040f;border-radius:8px;box-shadow:0 4px 0 #05040f;font-family:'Jersey 15',monospace;font-size:30px;line-height:1;color:#ffffff;transform:rotate(8deg)">{{ promo.stepText }}</div></sc-if>
+</div>
+<div style="margin-top:26px;font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:5px;color:#c9cfdc;animation:{{ promo.aLabel }}">PROMOTED</div>
+<div ref="{{ promo.nameRef }}" style="height:54px;margin-top:4px;display:flex;align-items:center;justify-content:center;white-space:nowrap">
+<sc-if value="{{ promo.isFinal }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ promo.letters }}" as="L" hint-placeholder-count="0"><span style="display:inline-block;font-family:'Jersey 15',monospace;font-size:48px;line-height:1;color:{{ promo.nameCol }};text-shadow:0 4px 0 #05040f,3px 0 0 #05040f,-3px 0 0 #05040f,0 -3px 0 #05040f,0 0 22px {{ promo.glow }};--r:{{ L.r }}deg;animation:{{ L.anim }}">{{ L.ch }}</span></sc-for></sc-if>
+<sc-if value="{{ promo.notFinal }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Jersey 15',monospace;font-size:40px;line-height:1;color:#8a90a8;text-shadow:0 3px 0 #05040f">{{ promo.stepName }}</span></sc-if>
+</div>
+<sc-if value="{{ promo.reward }}" hint-placeholder-val="{{ false }}"><div ref="{{ promo.chipRef }}" style="margin-top:14px;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;background:#0a0821;border:3px solid #ffd644;border-radius:8px;box-shadow:0 4px 0 #05040f;animation:{{ promo.aPop }}"><img src="assets/coin.png" alt="" style="width:22px;height:22px;image-rendering:pixelated"><span style="font-family:'Jersey 15',monospace;font-size:34px;line-height:1;color:#ffd644">{{ promo.gold }}</span></div></sc-if>
+<sc-if value="{{ promo.showBar }}" hint-placeholder-val="{{ false }}"><div style="margin-top:16px;width:230px;animation:{{ promo.aLabel }}"><sc-if value="{{ promo.hasNext }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:1px;color:#8a90a8"><span>NEXT</span><span style="color:#c9cfdc">{{ promo.nextName }}</span></div><div style="margin-top:5px;height:10px;background:#1c1a3a;border:2px solid #05040f;border-radius:3px;overflow:hidden"><div style="height:100%;width:{{ promo.nextPct }}%;background:{{ promo.edge }};animation:{{ promo.aBar }}"></div></div></sc-if><sc-if value="{{ promo.maxRank }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:3px;color:{{ promo.edge }}">HIGHEST RANK</div></sc-if></div></sc-if>
+</div>
+<sc-for list="{{ promo.coins }}" as="c" hint-placeholder-count="0"><img src="assets/coin.png" alt="" style="position:absolute;left:{{ c.x }}px;top:{{ c.y }}px;width:16px;height:16px;image-rendering:pixelated;--dx:{{ c.dx }}px;--dy:{{ c.dy }}px;opacity:0;animation:{{ c.anim }}"></sc-for>
+<div style="position:absolute;left:0;right:0;bottom:46px;text-align:center;font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:3px;color:#6b7390;opacity:.4;animation:{{ promo.aHint }}">TAP TO CONTINUE</div>
+</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  // Preview of the run promotion: the same promotion code, overlay and badges as Space Dice Run (copied from it; keep in sync)
+  RANKS = [{ id: 'ensign', name: 'ENSIGN', at: 0 }, { id: 'sublt', name: 'SQUAD LEADER', at: 8 }, { id: 'lieutenant', name: 'LIEUTENANT', at: 25 }, { id: 'srlt', name: 'SR. LIEUTENANT', at: 50 }, { id: 'ltcmdr', name: 'LT. COMMANDER', at: 80 }, { id: 'commander', name: 'COMMANDER', at: 120 }, { id: 'captain', name: 'CAPTAIN', at: 170 }, { id: 'commodore', name: 'COMMODORE', at: 230 }, { id: 'viceadm', name: 'VICE ADMIRAL', at: 300 }, { id: 'admiral', name: 'ADMIRAL', at: 400 }];
+  BADGES = [
+    { pal: ['#0e0d0d', '#fcae7b', '#2f2620', '#4c291b', '#834a30', '#b87556'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEEEEEEEBBA', 'AFFEEEEEEEEEEFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AACDDAAA....', '......AAAA......'] },  // ENSIGN
+    { pal: ['#101112', '#272a2b', '#6b7173', '#fcfcfc', '#464c4d', '#9ba2a3'],
+      rows: ['....AAAAAAAA....', '..AAADDDDDDCAA..', 'AAADDDDEEDDDDAAA', 'ADDDDEECCEEDDDDA', 'ADDEECCCCCCEEDDA', 'ADDCCCCDDCCCCDDA', 'ADDCCCCDDCCCCDDA', 'AFFCCCCDDCCCCFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEFFEEEEFFA', 'AFFEEEEBBEEEEFFA', 'AFFFFEEEEEEFFFFA', 'AEEFFFFEEFFFFEEA', 'AEEEEFFFFFFEEEEA', 'AAAEEEEFFEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },  // SQUAD LEADER
+    { pal: ['#11110e', '#fcd435', '#8d4018', '#ba6f20', '#e3932a', '#5d250f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDDDDDCCBBA', 'ABBDDBBDDBBDDBBA', 'ABBDDBBDDBBDDBBA', 'AEEDDBBDDBBDDEEA', 'AEECCEECCEECCEEA', 'AEECCEECCEECCEEA', 'AEECCFFCCFFCCEEA', 'AEEEECCCCCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAACCCCEECCCCAAA', '..AAACCCCCCAAA..', '....AAACCAAA....', '......AAAA......'] },  // LIEUTENANT
+    { pal: ['#0e1012', '#58adfc', '#1d2c9c', '#2848c2', '#3771fc', '#181c53', '#10122c'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AAABBBBCCBBBBAAA', 'ABBBBCCDDCCBBBBA', 'ABBCCDDBBDDCCBBA', 'ABBDBBDBBDBBDBBA', 'ABBDBBDBBDBBDBBA', 'AEEDBBDBBDBBDEEA', 'AEECEECEECEECEEA', 'AEECEECEECEECEEA', 'AEECFFCEECFFCEEA', 'AEEEECCFFCCEEEEA', 'ACCEEEECCEEEECCA', 'ACCCCEEEEEECCCCA', 'AAGCCCDEECCCCAAA', '..AAACCDCCCGAA..', '....AAGCCAAA....', '......AAAA......'] },  // SR. LIEUTENANT
+    { pal: ['#0e1210', '#122f18', '#53fcbd', '#156923', '#22a23f', '#2ac273', '#113e17'],
+      rows: ['....AAAAAAAA....', '..AAACCCCCCAAA..', 'AAACCCCDDCCCCAAA', 'ACCCCDDEEDDCCCCA', 'ACCDDEEEEEEDDCCA', 'ACCEEEEEEEEEECCA', 'ACCECEEEEEECECCA', 'AFFECCCEECCCEFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AABDDAAA....', '......AAAA......'] },  // LT. COMMANDER
+    { pal: ['#0c0c0d', '#405557', '#b4f8fc', '#097f6e', '#19c9b4', '#31e4ef', '#085247'],
+      rows: ['....AAAAAAAA....', '..AABCCECCCBAA..', 'AAACCCCDDCCCCGAA', 'ACCCCDDEEDDCCCCA', 'ACCDFEEEEEEFDCCA', 'ACCECCCEECCCECCA', 'ACCEDCCCCCCDECCA', 'AFFECDDCCDDCEFFA', 'AFFDFFFDDFFFDFFA', 'AFFDGFFFFFFGDFFA', 'AFFDDGGFFGGDDFFA', 'AFFFFDDGGDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },  // COMMANDER
+    { pal: ['#0c0c0d', '#efa5fc', '#181329', '#4a31a3', '#9d60fc', '#6f3bd5', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDEFFEDBBBBA', 'ABBDDFBBBBFDDBBA', 'ABBFBFDBBDFBFBBA', 'ABBFBBBDDBBBFBBA', 'AEEFDBBBBBBDFEEA', 'AEEDEDDEEDDEDEEA', 'AEEDEEEDDEEEDEEA', 'AEEDGEEEEEEGDEEA', 'AEEEEGGEEGGEEEEA', 'ADDEEEEGGEEEEDDA', 'ADDDDEEEEEEDDDDA', 'AAADDDDEEDDDDAAA', '..AACDDDDDDAAA..', '....AAADDCAA....', '......AAAA......'] },  // CAPTAIN
+    { pal: ['#0c0c0d', '#fcd435', '#3b2e3f', '#4a31a3', '#6f3bd5', '#9d60fc', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AAABBBBBBAAA..', 'AACBBBBDDBBBBAAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEEEEEDDBBA', 'ABBEEEEEEEEEEBBA', 'ABBEEEEBBEEEEBBA', 'AFFEEEBBBBEEEFFA', 'AFFDDDGFFGDDDFFA', 'AFFDDDDGGDDDDFFA', 'AFFDDDDDDDDDDFFA', 'AFFFFDDDDDDFFFFA', 'ADDFFFFDDFFFFDDA', 'ADDDDFFFFFFDDDDA', 'AAADDDDFFDDDDAAA', '..AAADDDDDDAAA..', '....AAADDAAA....', '......AAAA......'] },  // COMMODORE
+    { pal: ['#0c0c0d', '#fcd435', '#6b7173', '#423246', '#4a31a3', '#251f28', '#6f3bd5', '#fcfcfc', '#464c4d', '#9d60fc', '#9ba2a3', '#2b208f'],
+      rows: ['....AAAAAAAA....', '..AADBBBBBBAAA..', 'AAABBBBEEBBBBFAA', 'ABBBBEEGGEEBBBBA', 'ABBEEGGHHGGEEBBA', 'ABBGGGHHHHGGGBBA', 'ABBGGGIHHIGGGBBA', 'AJJGGGGIIGGGGJJA', 'AJJEEKKEEKKEEJJA', 'AJJEKKKKCKKKEJJA', 'AJJELKKLLKKLEJJA', 'AJJJJLLEELLJJJJA', 'AEEJJJJEEJJJJEEA', 'AEEEEJJJJJJEEEEA', 'AAAEEEEJJEEEEAAA', '..AAAEEEEEEAAA..', '....AAAEEAAA....', '......AAAA......'] },  // VICE ADMIRAL
+    { pal: ['#0c1213', '#53fcbd', '#0b3129', '#156923', '#22a23f', '#fcd435', '#b4f8fc', '#19c9b4', '#8d4018', '#31e4ef', '#097f6e', '#085247', '#e3932a'],
+      rows: ['....AAAAAAAA....', '..AALBBBBBBAAA..', 'AAABBBBDDBBBBCAA', 'ABBBBDDEEDDBBBBA', 'ABBDDEEFFEEDDBBA', 'ABBEEEFFFFEEEBBA', 'AGGHFHIFFIHFHGGA', 'AJJHFFFIIFFFHJJA', 'AJJKLMMKKMMLKJJA', 'AJJKKLLMMLLKKJJA', 'AJJKKKMMMMKKKJJA', 'AJJJJKLMMLKJJJJA', 'AKKJJJJLLJJJJKKA', 'AKKKKJJJJJJKKKKA', 'AACKKKKJJKKKKAAA', '..AAAKKKKKKCAA..', '....AAAKKAAA....', '......AAAA......'] }  // ADMIRAL
+  ];
+  badgeCache = {};
+  // one image per rank badge (drawn once, scaled with image-rendering:pixelated so there are no seams)
+  insigSrc(i) { const k = Math.max(0, Math.min(this.BADGES.length - 1, i | 0)); if (this.badgeCache[k]) return this.badgeCache[k]; const b = this.BADGES[k], L = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', cv = document.createElement('canvas'); cv.width = 16; cv.height = 18; const c = cv.getContext('2d'); b.rows.forEach((row, y) => { for (let x = 0; x < row.length; x++) { const n = L.indexOf(row[x]); if (n >= 0) { c.fillStyle = b.pal[n]; c.fillRect(x, y, 1, 1); } } }); return (this.badgeCache[k] = cv.toDataURL('image/png')); }
+  promo = null; promoRef = React.createRef(); promoIns = React.createRef(); promoCard = React.createRef(); promoMulti = React.createRef(); promoName = React.createRef(); promoChip = React.createRef();
+  PROMO_BANDS = [{ at: 0, edge: '#f0a070', glow: 'rgba(240,160,112,.6)', ray: 'rgba(240,160,112,.18)', name: '#ffc8a4' }, { at: 1, edge: '#e8ebf2', glow: 'rgba(232,235,242,.55)', ray: 'rgba(232,235,242,.16)', name: '#ffffff' }, { at: 2, edge: '#ffc53a', glow: 'rgba(255,197,58,.65)', ray: 'rgba(255,197,58,.2)', name: '#ffd644' }, { at: 3, edge: '#5b93ff', glow: 'rgba(91,147,255,.65)', ray: 'rgba(91,147,255,.2)', name: '#a9c6ff' }, { at: 4, edge: '#43e08f', glow: 'rgba(67,224,143,.6)', ray: 'rgba(67,224,143,.2)', name: '#9df5c4' }, { at: 5, edge: '#6ff3ee', glow: 'rgba(111,243,238,.6)', ray: 'rgba(111,243,238,.2)', name: '#c4fffb' }, { at: 6, edge: '#c890ff', glow: 'rgba(200,144,255,.7)', ray: 'rgba(200,144,255,.22)', name: '#ead2ff' }, { at: 7, edge: '#ffc53a', glow: 'rgba(200,144,255,.75)', ray: 'rgba(255,197,58,.22)', name: '#ffd644' }, { at: 8, edge: '#e8ebf2', glow: 'rgba(200,144,255,.75)', ray: 'rgba(232,235,242,.2)', name: '#ffffff' }, { at: 9, edge: '#ffc53a', glow: 'rgba(111,243,238,.75)', ray: 'rgba(255,214,120,.26)', name: '#ffd644' }];
+  PROMO_MAJOR = [2, 5, 9];
+  stageRef = React.createRef();
+  T = { PROMO_GOLD: 2 };
+  g = { run: { gold: 12, p: 0 }, meta: {} };
+  state = { sound: true, cur: 0 };
+  last = [4, 5];
+  reduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  fxK() { return this.reduced ? 0 : 0.8; }
+  runP(r) { return r.p; }
+  save() {}
+  rectIn(el) { const st = this.stageRef.current; if (!st || !el) return null; const S = st.getBoundingClientRect(), k = S.width / 390 || 1, a = el.getBoundingClientRect(); return { x: (a.left - S.left) / k, y: (a.top - S.top) / k, w: a.width / k, h: a.height / k }; }
+  q(sel) { const st = this.stageRef.current; if (!st) return null; const all = st.querySelectorAll(sel); for (const el of all) if (el.getClientRects().length) return el; return null; }
+  shake(mag, ms) {
+    const k = this.fxK(), st = this.stageRef.current; if (!k || !mag || !st || !st.animate) return;
+    const fr = []; for (let i = 0; i < 7; i++) { const d = mag * k * (1 - i / 7); fr.push({ translate: ((Math.random() * 2 - 1) * d).toFixed(1) + 'px ' + ((Math.random() * 2 - 1) * d).toFixed(1) + 'px' }); }
+    fr.push({ translate: '0 0' }); st.animate(fr, { duration: ms || 320 });
+  }
+  // the game's promotion sounds, played from the canvas audio sprite
+  SFX = { whoosh: ['card_deal', 1.08], stamp: ['route_race_won', 1], dramatic_finish: ['route_race_won', 0.84], tick: ['ui_counter_tick', 1], feat: ['route_adventure_unlocked', 1], coin: ['econ_coin_land', 1], coin_fly: ['econ_coin_fly', 1], gold: ['econ_gold_gain', 1], prestige: ['econ_cargo_gain', 1] };
+  actx() { if (!this.ac) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; this.ac = new AC(); } if (this.ac.state === 'suspended') this.ac.resume(); return this.ac; }
+  sfx(name, o) {
+    if (!this.state.sound || !window.BreachAudio) return; const m = this.SFX[name], ac = this.ac; if (!m || !ac) return;
+    const pitch = o && typeof o.pitch === 'number' ? o.pitch : name === 'coin' && o && o.i ? 1 + (o.i % 6) * 0.04 : m[1];
+    window.BreachAudio.clip('main', m[0] + '_01').then(buf => { const s = ac.createBufferSource(); s.buffer = buf; s.playbackRate.value = pitch; s.connect(ac.destination); s.start(); }).catch(() => {});
+  }
+  play(from, to, user) {
+    if (user) this.actx();
+    if (this.promo) { this.promoClear(); this.promo = null; }
+    const nx = this.RANKS[to + 1], lo = this.RANKS[to].at;
+    this.g.run.p = nx ? Math.round(lo + (nx.at - lo) * 0.45) : lo + 12;      // part-way to the next rank, so the NEXT bar has something to show
+    this.last = [from, to]; this.setState({ cur: to }); this.promote(from, to);
+  }
+  componentDidMount() { this.demoT = setTimeout(() => this.play(4, 5), 700); }
+  componentWillUnmount() { clearTimeout(this.demoT); this.promoClear(); }
+  promote(from, to) {
+    this.promoClear();
+    const f = this.fxK() > 0, r = this.g.run, n = Math.max(1, to - from), per = this.T.PROMO_GOLD || 0, major = this.PROMO_MAJOR.some(m => from < m && to >= m);
+    if (r && n * per) { r.gold = (r.gold || 0) + n * per; this.save(); }
+    const parts = f ? this.promoBurst(major ? 30 : 18, major ? 210 : 150) : [];
+    this.promo = { from, to, n, show: n > 1 ? from + 1 : to, step: 1, final: n === 1, major, gold: 0, goldTarget: n * per, reward: false, bar: false, coins: [], parts, motion: f, closing: false, at: performance.now() };
+    const IMPACT = f ? 340 : 0, STEP = f ? 430 : 0;
+    this.sfx('whoosh');
+    this.promoAt(() => { this.shake(major ? 11 : 6, major ? 480 : 340); this.sfx('stamp'); if (major) this.sfx('dramatic_finish'); }, IMPACT);
+    for (let k = 2; k <= n; k++) this.promoAt(() => this.promoStep(k), IMPACT + (k - 1) * STEP);
+    const tF = IMPACT + (n - 1) * STEP + (f ? (n > 1 ? 180 : 120) : 0);
+    this.promoAt(() => { const P = this.promo; if (!P) return; P.final = true; P.show = to; this.sfx('feat'); this.forceUpdate(); }, tF);
+    const tR = tF + (f ? 260 + this.RANKS[to].name.length * 42 : 0);
+    this.promoAt(() => this.promoReward(), tR);
+    this.promoAt(() => this.closePromo(true), tR + (f ? (major ? 2700 : 1500) : 1600));
+    this.forceUpdate();
+  }
+  promoStep(k) {
+    const P = this.promo; if (!P) return;
+    P.step = k; P.show = P.from + k; this.sfx('tick', { pitch: 1 + 0.12 * k }); this.shake(3 + k, 220);
+    const card = this.promoCard.current, m = this.promoMulti.current, nm = this.promoName.current;
+    if (P.motion && card && card.animate) card.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)', offset: .5 }, { transform: 'scaleX(1)' }], { duration: 300, easing: 'steps(8)' });
+    if (P.motion && m && m.animate) m.animate([{ transform: 'scale(.4) rotate(-14deg)' }, { transform: 'scale(1.4) rotate(10deg)' }, { transform: 'rotate(8deg)' }], { duration: 330, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+    if (P.motion && nm && nm.animate) nm.animate([{ opacity: .15, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 200 });
+    this.forceUpdate();
+  }
+  promoReward() {
+    const P = this.promo; if (!P) return;
+    P.reward = !!P.goldTarget; P.bar = true; this.forceUpdate();
+    if (!P.goldTarget) return;
+    let g = 0;
+    const tick = () => {
+      if (this.promo !== P) return; g++; P.gold = g; this.sfx('coin', { i: g });
+      const chip = this.promoChip.current; if (P.motion && chip && chip.animate) chip.animate([{ transform: 'scale(1.22) rotate(-3deg)' }, { transform: 'none' }], { duration: 160, easing: 'cubic-bezier(.2,1.6,.4,1)' });
+      this.forceUpdate(); if (g < P.goldTarget) this.promoAt(tick, 120); else this.promoAt(() => this.promoCoins(), 170);
+    };
+    this.promoAt(tick, P.motion ? 260 : 0);
+  }
+  promoCoins() {
+    const P = this.promo; if (!P) return;
+    const bump = () => { const el = this.q('[data-counter="bank"]'); if (el && el.animate && P.motion) el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.75)', color: '#ffd644' }, { transform: 'scale(1)' }], { duration: 380, easing: 'cubic-bezier(.2,1.6,.4,1)' }); this.sfx('gold'); };
+    const a = this.rectIn(this.promoChip.current), b = this.rectIn(this.q('[data-counter="bank"]'));
+    if (!P.motion || !a || !b) return bump();
+    const x0 = a.x + a.w / 2 - 8, y0 = a.y + a.h / 2 - 8, x1 = b.x + b.w / 2 - 8, y1 = b.y + b.h / 2 - 8, n = Math.min(7, Math.max(3, P.goldTarget * 2));
+    P.coins = Array.from({ length: n }, (_, k) => { const x = Math.round(x0 + Math.random() * 34 - 17), y = Math.round(y0 + Math.random() * 14 - 7); return { x, y, dx: Math.round(x1 - x), dy: Math.round(y1 - y), anim: 'prCoin .56s cubic-bezier(.45,0,.7,.5) ' + (k * 55) + 'ms both' }; });
+    this.sfx('coin_fly'); this.forceUpdate();
+    this.promoAt(bump, 560 + (n - 1) * 55);
+  }
+  promoBand(i) { let b = this.PROMO_BANDS[0]; for (const x of this.PROMO_BANDS) if (i >= x.at) b = x; return b; }
+  promoAt(fn, ms) { (this.promoTs || (this.promoTs = [])).push(setTimeout(fn, ms)); }
+  promoClear() { (this.promoTs || []).forEach(clearTimeout); this.promoTs = []; }
+  promoBurst(n, spread) {
+    const out = [], cols = ['#ffffff', '#ffd644', '#6af5d6', '#ff9a3d', '#ffffff'];
+    for (let k = 0; k < n; k++) {
+      const a = Math.random() * Math.PI * 2, d = spread * (0.45 + Math.random() * 0.75), sz = 4 + ((Math.random() * 3) | 0) * 2;
+      out.push({ dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d * 0.85), s: sz, h: sz / 2, c: cols[k % cols.length], anim: 'prPart ' + (560 + Math.round(Math.random() * 380)) + 'ms cubic-bezier(.15,.7,.3,1) ' + (340 + Math.round(Math.random() * 70)) + 'ms both' });
+    }
+    return out;
+  }
+  closePromo = (e) => {
+    const P = this.promo; if (!P || P.closing) return;
+    if (e !== true && performance.now() - P.at < 500) return;           // ignore the tap that caused the promotion
+    P.closing = true; this.promoClear();
+    const el = this.promoRef.current, card = this.promoCard.current;
+    const done = () => { this.promo = null; this.forceUpdate(); const h = this.q('[data-counter="prestige"]'); if (h && h.animate && this.fxK()) { h.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.7)', color: '#ffffff' }, { transform: 'scale(1)' }], { duration: 380, easing: 'cubic-bezier(.2,1.6,.4,1)' }); this.sfx('prestige'); } };
+    if (!el || !el.animate || !P.motion) return done();
+    const a = this.rectIn(card), b = this.rectIn(this.q('[data-counter="prestige"]'));
+    if (card && card.animate && a && b) card.animate([{ transform: 'none', opacity: 1 }, { transform: 'translate(' + Math.round(b.x + b.w / 2 - (a.x + a.w / 2)) + 'px,' + Math.round(b.y + b.h / 2 - (a.y + a.h / 2)) + 'px) scale(.1) rotate(20deg)', opacity: .9 }], { duration: 400, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' });
+    el.animate([{ opacity: 1 }, { opacity: 1, offset: .62 }, { opacity: 0 }], { duration: 440, fill: 'forwards' }).onfinish = done;
+  };
+  promoVals() {
+    const P = this.promo, i = P ? P.show : 0, S = 7, B = this.promoBand(i), m = !!(P && P.motion), A = v => m ? v : 'none';
+    const name = this.RANKS[i].name, r = this.g.run;
+    let next = null;
+    if (P && P.final && r) { const nx = this.RANKS[P.to + 1], lo = this.RANKS[P.to].at; if (nx) next = { name: nx.name, pct: Math.max(4, Math.min(100, Math.round((this.runP(r) - lo) / (nx.at - lo) * 100))) }; }
+    return {
+      on: !!P, ref: this.promoRef, cardRef: this.promoCard, insRef: this.promoIns, multiRef: this.promoMulti, nameRef: this.promoName, chipRef: this.promoChip, close: this.closePromo,
+      src: this.insigSrc(i), w: 16 * S, h: 18 * S,
+      edge: B.edge, glow: B.glow, ray: B.ray, nameCol: B.name, major: !!(P && P.major),
+      tier: 'RANK ' + String(i + 1).padStart(2, '0') + ' / ' + String(this.RANKS.length).padStart(2, '0'),
+      isFinal: !!(P && P.final), notFinal: !!(P && !P.final), stepName: name,
+      letters: P && P.final ? name.split('').map((ch, k) => ({ ch: ch === ' ' ? '\u00a0' : ch, r: ((k * 37) % 17) - 8, anim: A('prLetter .46s cubic-bezier(.2,1.6,.4,1) ' + (k * 42) + 'ms both') })) : [],
+      isMulti: !!(P && P.n > 1), stepText: P ? '\u00d7' + P.step : '',
+      reward: !!(P && P.reward), gold: P ? '+' + P.gold : '',
+      showBar: !!(P && P.bar), hasNext: !!next, nextName: next ? next.name : '', nextPct: next ? next.pct : 0, maxRank: !!(P && P.final && !this.RANKS[P.to + 1]),
+      parts: P ? P.parts : [], coins: P ? P.coins : [],
+      aBack: A('prFade .25s ease-out both'), aRays: A('prBurst .55s cubic-bezier(.2,.9,.3,1.25) both, prSpin ' + (P && P.major ? 8 : 15) + 's linear infinite'),
+      aCard: A('prDrop .62s cubic-bezier(.2,1.4,.4,1) .1s both, prSway 3.4s ease-in-out 1.1s infinite'), aSheen: A('prSheen 1.9s ease-in-out .6s infinite'),
+      aRing: A('prRing .75s cubic-bezier(.1,.7,.3,1) .34s both'), aFlash: A('prFlash .4s ease-out .34s both'),
+      aLabel: A('prRise .32s ease-out .45s both'), aPop: A('prPop .4s cubic-bezier(.2,1.6,.4,1) both'), aBar: A('prBar .7s cubic-bezier(.2,.8,.3,1) .1s both'), aHint: A('prBlink 1.4s ease-in-out 1.3s infinite')
+    };
+  }
+  renderVals() {
+    const P = this.promo, shown = P ? P.from : this.state.cur;
+    const ranks = this.RANKS.map((r, i) => { const b = this.PROMO_BANDS.reduce((a, x) => (i >= x.at ? x : a), this.PROMO_BANDS[0]);
+      return { name: r.name, src: this.insigSrc(i), col: b.name, bd: i === this.state.cur ? '#ffffff' : '#2a2752', op: i === 0 ? 0.55 : 1, sub: i === 0 ? 'STARTING RANK' : (this.PROMO_MAJOR.includes(i) ? 'BIG PROMOTION · ' : '') + r.at + '+ PRESTIGE', play: () => { if (i > 0) this.play(i - 1, i, true); } }; });
+    const J = [[1, 3], [4, 6], [5, 8], [6, 9]];
+    const jumps = J.map(([a, b]) => ({ label: this.RANKS[a].name + ' \u2192', sub: this.RANKS[b].name + '  \u00d7' + (b - a), bd: this.PROMO_MAJOR.some(m => a < m && b >= m) ? '#ffd644' : '#3a3a5a', col: '#f2f2f2', play: () => this.play(a, b, true) }));
+    return {
+      hud: { badge: this.insigSrc(shown), p: '' + this.g.run.p, gold: '' + this.g.run.gold },
+      ranks, jumps,
+      ctl: { replay: () => this.play(this.last[0], this.last[1], true), sound: () => { this.actx(); this.setState({ sound: !this.state.sound }); }, soundLabel: this.state.sound ? 'SOUND ON' : 'SOUND OFF' },
+      promo: this.promoVals()
+    };
+  }
+}
+</script>
+</body>
+</html>

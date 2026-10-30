@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<title>Breach — How To Play</title>
 </head>
 <body>
 <x-dc>
@@ -112,10 +113,10 @@
 <div style="display:flex;align-items:center;gap:10px"><img src="assets/ship_amber.png" style="width:26px;height:32px;flex:none;display:block;filter:drop-shadow(1px 1px 0 #000)"><span style="flex:none;width:72px;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:#ffb36a">BARNACLE</span><span style="flex:1;min-width:0;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.35;color:#e0dcef">+1 HULL SEGMENT</span></div>
 </div>
 <div style="position:absolute;left:30px;top:262px;width:330px;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;font-family:'Silkscreen',monospace;font-size:12px"><span style="color:#a9b0c0">GATE 14 / 20</span><span style="color:#48f320">NEED 6</span></div><div style="height:12px;background:#1b1e24;border:2px solid #f2f2f2"><div style="width:70%;height:12px;background:#48f320"></div></div></div>
-<div style="position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center;gap:18px"><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/crate.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#6af5d6">3</span></div><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/coin.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffd644">7</span></div></div>
+<div style="position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center;gap:18px"><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/prestige.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#6af5d6">3</span></div><div style="display:flex;align-items:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;padding:4px 10px"><img src="assets/coin.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffd644">7</span></div></div>
 
 <div style="position:absolute;left:70px;top:312px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c1.op }};transform:{{ c1.tf }};transform-origin:50% 0">REACH EACH SECTOR'S SCORE BEFORE THE JUMP GATE, OR THE RUN ENDS THERE.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
-<div style="position:absolute;left:70px;top:474px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">CARGO BANKS AT EACH GATE AND IS YOURS TO KEEP. DIE BEFORE THE GATE AND IT'S LOST.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
+<div style="position:absolute;left:70px;top:474px;width:250px;background:#f2f2f2;color:#0a0821;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;box-sizing:border-box;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.45;opacity:{{ c2.op }};transform:{{ c2.tf }};transform-origin:50% 0">PRESTIGE BANKS AT EACH GATE AND IS YOURS TO KEEP. DIE BEFORE THE GATE AND IT'S LOST.<div style="position:absolute;left:119px;top:-6px;width:12px;height:12px;background:#f2f2f2;transform:rotate(45deg)"></div></div>
 </sc-if>
 </div>
 
@@ -127,16 +128,69 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
 class Component extends DCLogic {
+  // asset table: each image path written inside url(...) so the canvas embeds it; code-built paths resolve through __A
+  static __AM = {
+    'adv_back.png': 'url(assets/adv_back.png)',
+    'adv_salvage_f0.png': 'url(assets/adv_salvage_f0.png)',
+    'cc_beacon_f0.png': 'url(assets/cc_beacon_f0.png)',
+    'cc_nebula_f0.png': 'url(assets/cc_nebula_f0.png)',
+    'cc_toll_f0.png': 'url(assets/cc_toll_f0.png)',
+    'cc_vent_f0.png': 'url(assets/cc_vent_f0.png)',
+    'flat_1_24.png': 'url(assets/flat_1_24.png)',
+    'flat_1_30.png': 'url(assets/flat_1_30.png)',
+    'flat_1_32.png': 'url(assets/flat_1_32.png)',
+    'flat_1_48.png': 'url(assets/flat_1_48.png)',
+    'flat_1_64.png': 'url(assets/flat_1_64.png)',
+    'flat_2_24.png': 'url(assets/flat_2_24.png)',
+    'flat_2_30.png': 'url(assets/flat_2_30.png)',
+    'flat_2_32.png': 'url(assets/flat_2_32.png)',
+    'flat_2_48.png': 'url(assets/flat_2_48.png)',
+    'flat_2_64.png': 'url(assets/flat_2_64.png)',
+    'flat_3_24.png': 'url(assets/flat_3_24.png)',
+    'flat_3_30.png': 'url(assets/flat_3_30.png)',
+    'flat_3_32.png': 'url(assets/flat_3_32.png)',
+    'flat_3_48.png': 'url(assets/flat_3_48.png)',
+    'flat_3_64.png': 'url(assets/flat_3_64.png)',
+    'flat_4_24.png': 'url(assets/flat_4_24.png)',
+    'flat_4_30.png': 'url(assets/flat_4_30.png)',
+    'flat_4_32.png': 'url(assets/flat_4_32.png)',
+    'flat_4_48.png': 'url(assets/flat_4_48.png)',
+    'flat_4_64.png': 'url(assets/flat_4_64.png)',
+    'flat_5_24.png': 'url(assets/flat_5_24.png)',
+    'flat_5_30.png': 'url(assets/flat_5_30.png)',
+    'flat_5_32.png': 'url(assets/flat_5_32.png)',
+    'flat_5_48.png': 'url(assets/flat_5_48.png)',
+    'flat_5_64.png': 'url(assets/flat_5_64.png)',
+    'flat_6_24.png': 'url(assets/flat_6_24.png)',
+    'flat_6_30.png': 'url(assets/flat_6_30.png)',
+    'flat_6_32.png': 'url(assets/flat_6_32.png)',
+    'flat_6_48.png': 'url(assets/flat_6_48.png)',
+    'flat_6_64.png': 'url(assets/flat_6_64.png)',
+    'ghost_1_30.png': 'url(assets/ghost_1_30.png)',
+    'ghost_1_64.png': 'url(assets/ghost_1_64.png)',
+    'ghost_2_30.png': 'url(assets/ghost_2_30.png)',
+    'ghost_2_64.png': 'url(assets/ghost_2_64.png)',
+    'ghost_3_30.png': 'url(assets/ghost_3_30.png)',
+    'ghost_3_64.png': 'url(assets/ghost_3_64.png)',
+    'ghost_4_30.png': 'url(assets/ghost_4_30.png)',
+    'ghost_4_64.png': 'url(assets/ghost_4_64.png)',
+    'ghost_5_30.png': 'url(assets/ghost_5_30.png)',
+    'ghost_5_64.png': 'url(assets/ghost_5_64.png)',
+    'ghost_6_30.png': 'url(assets/ghost_6_30.png)',
+    'ghost_6_64.png': 'url(assets/ghost_6_64.png)'
+  };
+  static __A(p) { const k = typeof p === 'string' && p.indexOf('assets/') === 0 ? p.slice(7) : null, v = k && (Component.__AM[k] || (window.__BREACH_AM && window.__BREACH_AM[k])); return v ? v.slice(4, -1) : p; }
+
   state = { step: 0, t0: 0, now: 0 };
   componentDidMount() { this.st = performance.now(); this.iv = setInterval(() => { const now = (performance.now() - this.st) / 1000; this.setState({ now }); }, 33); }
   componentWillUnmount() { clearInterval(this.iv); }
   ORDER = [3, 5, 4, 0, 1, 6];
   TITLES = ['THE RUN', 'ADVENTURES', 'A FEW ADVENTURES', 'BLUEPRINTS', 'HULL', 'AIRLOCK & REROLL', 'GATES & SCORE'];
   ADVS = [
-    { name: 'DISTRESS BEACON', risk: '●○○', col: '#ff7ac8', art: 'assets/cc_beacon_f0.png', rule: 'DRAW A BLUEPRINT INTO AN OPEN BAY, THEN ROLL 1.' },
-    { name: 'SALVAGE', risk: '●●○', col: '#6af5d6', art: 'assets/adv_salvage_f0.png', rule: 'ROLL 2. DICE THAT HIT THE HULL PAY CARGO EQUAL TO THEIR DOTS.' },
-    { name: 'VENT', risk: '●●○', col: '#7ab8ff', art: 'assets/cc_vent_f0.png', rule: 'REROLL EVERY HULL DIE. CLEAN HULL: ROLL 2 INSTEAD.' },
-    { name: 'NEBULA DRIFT', risk: '●○○', col: '#d0a0ff', art: 'assets/cc_nebula_f0.png', rule: 'ROLL 2. EACH DIE YOU PLACE ROLLS ANOTHER.' }
+    { name: 'DISTRESS BEACON', risk: '●○○', col: '#ff7ac8', art: Component.__A('assets/cc_beacon_f0.png'), rule: 'DRAW A BLUEPRINT INTO AN OPEN BAY, THEN ROLL 1.' },
+    { name: 'SALVAGE', risk: '●●○', col: '#6af5d6', art: Component.__A('assets/adv_salvage_f0.png'), rule: 'ROLL 2. DICE THAT HIT THE HULL PAY PRESTIGE EQUAL TO THEIR DOTS.' },
+    { name: 'VENT', risk: '●●○', col: '#7ab8ff', art: Component.__A('assets/cc_vent_f0.png'), rule: 'REROLL EVERY HULL DIE. CLEAN HULL: ROLL 2 INSTEAD.' },
+    { name: 'NEBULA DRIFT', risk: '●○○', col: '#d0a0ff', art: Component.__A('assets/cc_nebula_f0.png'), rule: 'ROLL 2. EACH DIE YOU PLACE ROLLS ANOTHER.' }
   ];
   go(d) { const n = Math.max(0, Math.min(this.ORDER.length - 1, this.state.step + d)); if (n === this.state.step) return; const now = (performance.now() - this.st) / 1000; this.setState({ step: n, t0: now, now }); }
   close = () => { if (this.props.onClose) this.props.onClose(); else { const now = (performance.now() - this.st) / 1000; this.setState({ step: 0, t0: now, now }); } };
@@ -152,7 +206,7 @@ class Component extends DCLogic {
       nodes: CX.map((cx, i) => { const ta = rt - ((i - 1) * 0.7 + 0.45), s = i > 0 && ta >= 0 && ta < 0.25 ? 1 + 0.4 * (1 - ta / 0.25) : 1, on = i <= reached;
         return { isDot: i !== 3 && i !== 7, isCoin: i === 3, isGate: i === 7, l: cx - 8, s: f(s), bg: i === 7 ? (on ? '#ffd644' : '#0a0821') : on ? '#48f320' : '#0a0821', bd: i === 5 ? '#ff4d4d' : '#f2f2f2', glow: i === reached ? '0 0 10px #48f320' : 'none', drop: on ? '0 0 6px #ffd644' : '0 0 0 transparent' }; }) };
     // deal
-    const SL = [{ l: 40, t: 132, r: -7, art: 'assets/cc_toll_f0.png', name: 'TOLL LANE', risk: '●○○', col: '#9dffb0' }, { l: 150, t: 120, r: 0, art: 'assets/adv_salvage_f0.png', name: 'SALVAGE', risk: '●●○', col: '#6af5d6' }, { l: 260, t: 132, r: 7, art: 'assets/cc_beacon_f0.png', name: 'BEACON', risk: '●○○', col: '#ff7ac8' }];
+    const SL = [{ l: 40, t: 132, r: -7, art: Component.__A('assets/cc_toll_f0.png'), name: 'TOLL LANE', risk: '●○○', col: '#9dffb0' }, { l: 150, t: 120, r: 0, art: Component.__A('assets/adv_salvage_f0.png'), name: 'SALVAGE', risk: '●●○', col: '#6af5d6' }, { l: 260, t: 132, r: 7, art: Component.__A('assets/cc_beacon_f0.png'), name: 'BEACON', risk: '●○○', col: '#ff7ac8' }];
     const dt = el % 6.4;
     const deal = SL.map((c, i) => {
       const ox = 346 - (c.l + 45), oy = 91 - (c.t + 74), p = cl((dt - (0.25 + i * 0.16)) / 0.42), q = cl((dt - (1.05 + i * 0.12)) / 0.3);
@@ -161,7 +215,7 @@ class Component extends DCLogic {
       const punch = picked && dt > 4.55 && dt < 4.85 ? 1 + 0.15 * Math.sin(Math.PI * (dt - 4.55) / 0.3) : 1;
       const s = (rp > 0 ? 1 - 0.47 * ic(rp) : 0.53 + 0.47 * back(p)) * punch, face = q >= 0.5 && rp === 0;
       return { l: c.l, t: c.t, name: c.name, risk: c.risk, col: c.col, dx: f(ox * (1 - k)), dy: f(oy * (1 - k) + arc - 12 * back(pk) * (1 - fade)), r: f(-15 + (c.r + 15) * k), s: f(s),
-        op: p > 0 && rp < 1 ? f(1 - fade) : 0, sx: f(rp > 0 ? 1 : Math.max(0.02, Math.abs(Math.cos(Math.PI * q)))), src: face ? c.art : 'assets/adv_back.png',
+        op: p > 0 && rp < 1 ? f(1 - fade) : 0, sx: f(rp > 0 ? 1 : Math.max(0.02, Math.abs(Math.cos(Math.PI * q)))), src: face ? c.art : Component.__A('assets/adv_back.png'),
         ring: picked && pk > 0 ? '0 0 0 3px #ffd644,4px 4px 0 #240011' : '4px 4px 0 #240011', tOp: rp > 0 ? 0 : f(cl((dt - (1.35 + i * 0.12)) / 0.2) * (1 - fade)) };
     });
     const dealTap = finger(2.2, 3.05, 195, 194, dt >= 2.55 && dt < 2.75, dt);
@@ -173,7 +227,7 @@ class Component extends DCLogic {
     const lp = cl((bt - 2.1) / 1.0), cin = cl((bt - 3.7) / 0.5), pop = cl((bt - 2.3) / 1.0);
     const bp = Object.assign({
       dx: f(dx), dy: f(dy), ds: f(ds), dOp: bt < 1.65 ? 1 : back4 ? f(cl((bt - 4.2) / 0.3)) : 0, dRing: bt >= 0.5 && bt < 1.65 ? '0 0 0 3px #ffd644' : 'none',
-      s2: placed ? 'assets/flat_4_30.png' : 'assets/ghost_4_30.png', s2ring: placed ? (bt < 2.0 ? '0 0 0 2px #48f320,0 0 14px #48f320' : '0 0 0 2px #48f320') : 'none',
+      s2: placed ? Component.__A('assets/flat_4_30.png') : Component.__A('assets/ghost_4_30.png'), s2ring: placed ? (bt < 2.0 ? '0 0 0 2px #48f320,0 0 14px #48f320' : '0 0 0 2px #48f320') : 'none',
       bright: f(bt >= 1.65 && bt < 2.0 ? 0.5 + 0.45 * (1 - (bt - 1.65) / 0.35) : 0.5),
       shipY: f(bt >= 1.9 && bt < 2.1 ? Math.sin(bt * 120) : bt >= 2.1 && bt < 3.2 ? -330 * ic(lp) : 0), shipOp: bt >= 3.2 && bt < 3.7 ? 0 : 1,
       flameOp: bt >= 1.95 && bt < 3.2 ? 1 : 0, flameH: f(8 + 34 * lp),
@@ -194,7 +248,7 @@ class Component extends DCLogic {
       let x = 0, y = p < 1 ? -Math.abs(Math.sin(p * Math.PI * 2.2)) * 16 * (1 - p) - (1 - oc(Math.min(1, p * 3))) * 30 : 0, r = (1 - oc(p)) * (i % 2 ? 300 : -300), s = 1;
       let glow = ht >= 1.0 ? HRED : 'none';
       if (fp > 0) { x = (cx - 20 - x0) * io(fp); y = 85 * fp - 40 * Math.sin(Math.PI * fp); r = 240 * fp; s = 1 - 0.2 * fp; }
-      return { l: x0, src: 'assets/flat_' + face + '_32.png', x: f(x), y: f(y), r: f(r), s: f(s), op: p > 0 && ht < hh.t ? 1 : 0, glow };
+      return { l: x0, src: Component.__A('assets/flat_' + face + '_32.png'), x: f(x), y: f(y), r: f(r), s: f(s), op: p > 0 && ht < hh.t ? 1 : 0, glow };
     });
     const hull = { n, col, dice: hdice, segs: st.map(s => s.flash ? { bg: '#ff4d4d', bd: '#ffffff' } : s.gone ? { bg: '#240011', bd: '#7a1a0e' } : { bg: s.refl ? '#c8ffb0' : col, bd: '#f2f2f2' }), popOp: 0, px: 0, py: 0, pop: '', shake: 0, vig: 0 };
     const hit = HITS.slice().reverse().find(hh => ht >= hh.t && ht < hh.t + 1.1);
@@ -211,7 +265,7 @@ class Component extends DCLogic {
         if (rt2 >= 3.2 && rt2 < 3.9) glow = i < 2 ? GRN : RED; }
       if (i === 0 && rt2 >= 3.9) { x = 46 * d0 - 20 * Math.sin(Math.PI * d0); y = -214 * d0; s = 1.1 - 0.35 * d0 * d0; glow = GLD; op = rt2 >= 4.7 ? 0 : 1; }
       if (i === 2 && rt2 >= 5.35) { x = 92 * d2; y = -d2 - 26 * Math.sin(Math.PI * d2); s = rt2 < 6.05 ? 1.1 : 1; glow = rt2 < 6.05 ? GLD : 'none'; }
-      return { l: DX[i], src: 'assets/flat_' + face + '_32.png', x: f(x), y: f(y), r: f(r), s: f(s), op: f(op * fade), glow };
+      return { l: DX[i], src: Component.__A('assets/flat_' + face + '_32.png'), x: f(x), y: f(y), r: f(r), s: f(s), op: f(op * fade), glow };
     });
     const fp = rt2 < 3.0 ? finger(1.5, 2.55, 80, 368, rt2 >= 2.05 && rt2 < 2.25, rt2)
       : rt2 < 5.0 ? finger(3.65, 4.95, 61 + 46 * d0 - 20 * Math.sin(Math.PI * d0), 293 - 214 * d0, rt2 >= 3.9 && rt2 < 4.7, rt2)
@@ -219,7 +273,7 @@ class Component extends DCLogic {
     const flip = cl((rt2 - 2.25) / 0.25), rrPlaced = rt2 >= 4.7 && rt2 < 7.3;
     const rr = Object.assign({ dice: rdice, cost: flip >= 0.5 && rt2 < 7.3 ? 2 : 1, tagSy: f(Math.max(0.05, Math.abs(Math.cos(Math.PI * flip)))), tagX: f(rt2 > 2.2 && rt2 < 2.6 ? Math.sin(rt2 * 80) * 3 * (1 - (rt2 - 2.2) / 0.4) : 0),
       btnS: rt2 >= 2.05 && rt2 < 2.25 ? 0.94 : 1, btnOp: rrPlaced ? 0.4 : 1, lockOp: rrPlaced ? f(Math.min(cl((rt2 - 4.75) / 0.2), fade)) : 0,
-      slot1: rrPlaced ? 'assets/flat_6_30.png' : 'assets/ghost_6_30.png', slot1Ring: rrPlaced ? (rt2 < 5.1 ? GRN : '0 0 0 2px #48f320') : 'none',
+      slot1: rrPlaced ? Component.__A('assets/flat_6_30.png') : Component.__A('assets/ghost_6_30.png'), slot1Ring: rrPlaced ? (rt2 < 5.1 ? GRN : '0 0 0 2px #48f320') : 'none',
       bright: f(rt2 >= 4.7 && rt2 < 5.05 ? 0.5 + 0.4 * (1 - (rt2 - 4.7) / 0.35) : 0.5), label: rrPlaced ? 'HERALD 1/2' : 'HERALD 0/2' }, fp);
     return { run, deal, dealTap, bp, hull, rr };
   }

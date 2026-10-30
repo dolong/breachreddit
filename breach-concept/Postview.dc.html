@@ -7,18 +7,19 @@
 </head>
 <body>
 <x-dc>
-<helmet><title>Space Dice · Choose an adventure</title><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"><style>html,body{margin:0;height:100%;background:#000;overflow:hidden}a{color:#6af5d6}a:hover{color:#b8fff0}@keyframes advloop3a{to{background-position:-2736px 0}}</style></helmet>
+<helmet><title>Breach · Reddit post</title><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Silkscreen&display=swap" rel="stylesheet"><style>html,body{margin:0;height:100%;background:#000;overflow:hidden}a{color:#6af5d6}a:hover{color:#b8fff0}@keyframes advloop3a{to{background-position:-2736px 0}}@keyframes dice-tumble{0%{transform:rotateX(0deg) rotateY(0deg)}100%{transform:rotateX(1080deg) rotateY(720deg)}}</style></helmet>
 <div ref="{{ wrapRef }}" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000 url(assets/space.png) 0 0/600px 900px repeat;image-rendering:pixelated">
 
 <sc-if value="{{ portrait }}" hint-placeholder-val="{{ true }}">
 <div ref="{{ stageRef }}" style="position:relative;flex:none;width:390px;height:844px;overflow:hidden;background:#000;color:#fff;display:flex;flex-direction:column;transform-origin:center center">
+<div ref="{{ fxRef }}" style="position:absolute;inset:0;z-index:20;pointer-events:none"></div>
 <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;left:-160px;top:-160px;width:710px;height:1164px;background:#000 url(assets/space.png) 0 0/600px 900px repeat"></div><div style="position:absolute;left:-260px;top:-260px;width:910px;height:1364px;background:url(assets/space.png) 120px 300px/900px 1350px repeat;opacity:.28;mix-blend-mode:screen"></div></div>
 <div style="position:relative;display:flex;flex-direction:column;gap:8px;padding:40px 16px 0">
-<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000">YOUR FIRST STATION</div>
-<div style="font-family:'Jersey 15',monospace;font-size:30px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffd644;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">CHOOSE AN ADVENTURE</div>
+<div style="align-self:flex-start;zoom:.46"><dc-import name="Breach-Logo" sub="none" hint-size="360px,97px"></dc-import></div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000;margin-top:-5px">STARWRIGHT'S DOMINION</div>
 <div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.5;color:#a9b0c0">TAP A CARD TO SEE WHAT IT ROLLS</div>
 </div>
-<div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;padding:64px 16px 0">
+<div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;padding:50px 16px 0">
 <sc-for list="{{ cards }}" as="card" hint-placeholder-count="3">
 <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:114px;transform:rotate({{ card.tilt }}deg)">
 <div ref="{{ card.boxRef }}" onMouseEnter="{{ card.enter }}" onMouseLeave="{{ card.leave }}" onMouseMove="{{ card.move }}" onTouchStart="{{ card.touchStart }}" onTouchMove="{{ card.touchMove }}" onTouchEnd="{{ card.leave }}" onClick="{{ card.pick }}" style="position:relative;z-index:0;width:114px;height:188px;transform-style:preserve-3d;perspective:1000px;transition:transform .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;touch-action:none">
@@ -33,24 +34,81 @@
 </div>
 </sc-for>
 </div>
-<div style="position:relative;margin:26px 16px 0;background:#0a0821;border:3px solid {{ picked.bd }};border-radius:6px;box-shadow:4px 4px 0 #240011;padding:12px;display:flex;flex-direction:column;gap:6px;min-height:128px;box-sizing:border-box;transition:border-color .2s">
+<div style="position:relative;flex:none;margin:8px 16px 0;height:200px;background:{{ pnl.bg }};border:{{ pnl.bw }}px solid {{ picked.bd }};border-radius:6px;box-shadow:{{ pnl.sh }};box-sizing:border-box;transition:border-color .2s">
+<div ref="{{ panelRef }}" style="position:absolute;inset:0;padding:{{ pnl.padP }};box-sizing:border-box">
+<sc-if value="{{ isDesc }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:6px">
 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:{{ picked.color }}">{{ picked.name }}</div><div style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:#a9b0c0">{{ picked.risk }}</div></div>
 <sc-for list="{{ picked.rules }}" as="ru" hint-placeholder-count="2"><div style="display:flex;gap:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#ffffff;line-height:1.6"><span style="color:#48f320">{{ ru.m }}</span><span><sc-if value="{{ ru.lock }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="Fixed dice" style="width:10px;height:12px;display:inline-block;vertical-align:-1px;margin-right:4px;image-rendering:pixelated"></sc-if>{{ ru.t }}</span></div></sc-for>
 </div>
-<div style="flex:1;min-height:14px"></div>
-<a href="{{ ctaHref }}" target="{{ ctaTarget }}" style="position:relative;margin:0 16px 120px;height:64px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
+</sc-if>
+<sc-if value="{{ isBuild }}" hint-placeholder-val="{{ false }}">
+<div style="height:100%;display:flex;flex-direction:column;justify-content:center;gap:8px">
+<div style="display:flex;gap:8px;height:122px">
+<div style="flex:none;display:flex;gap:8px">
+<sc-for list="{{ bays }}" as="b" hint-placeholder-count="2">
+<div ref="{{ b.ref }}" style="position:relative;flex:none;width:91px;height:122px">
+<sc-if value="{{ b.full }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;top:0;width:114px;height:152px;transform:scale(0.8);transform-origin:0 0">
+<div style="position:absolute;left:0;top:0;width:114px;height:152px;filter:hue-rotate({{ b.hue }}deg) saturate({{ b.sat }}) brightness({{ b.bri }})"><img src="{{ b.art }}" alt="" style="width:114px;height:152px;display:block"><sc-if value="{{ b.label }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:6px;top:4px;min-width:59px;height:17px;padding:0 1px;box-sizing:border-box;background:#486c05;display:flex;align-items:center;font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:-1px;white-space:nowrap;color:#fff">{{ b.name }}</div></sc-if><div style="position:absolute;left:0;top:0;width:114px;height:152px;background:rgba(0,0,0,.5)"></div></div>
+<img ref="{{ b.shipRef }}" src="{{ b.ship }}" alt="{{ b.name }}" style="position:absolute;left:5px;top:52px;width:61px;height:76px;display:block;filter:drop-shadow(2px 2px 0 #000)">
+<sc-for list="{{ b.slots }}" as="sl" hint-placeholder-count="0"><img data-slot="{{ sl.j }}" src="{{ sl.src }}" alt="" style="position:absolute;left:74px;top:{{ sl.top }}px;width:30px;height:30px;display:block;border-radius:4px"></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ b.gone }}" hint-placeholder-val="{{ false }}"><div style="width:91px;height:122px;border:3px dashed rgba(72,243,32,.75);border-radius:6px;box-sizing:border-box;background:rgba(10,8,33,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><img src="assets/spaceship_icon.png" alt="" style="width:16px;height:16px;display:block"><div style="font-family:'Jersey 15',monospace;font-size:18px;line-height:1;letter-spacing:1px;color:#48f320">LAUNCHED</div></div></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+<div ref="{{ hullRef }}" style="flex:none;height:32px;display:flex;align-items:center;gap:8px;padding:0 8px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<span style="flex:none;font-family:'Jersey 15',monospace;font-size:18px;line-height:1;letter-spacing:1px;white-space:nowrap;color:#ffffff">HULL <span style="color:{{ hullCol }}">{{ integ }}</span>/8</span>
+<div style="flex:1;min-width:0;display:flex;gap:2px;height:10px"><sc-for list="{{ hullSegs }}" as="sg" hint-placeholder-count="8"><div style="flex:1;min-width:0;height:10px;background:{{ sg.bg }};border:1px solid {{ sg.bd }};box-sizing:border-box;transition:background .25s,border-color .25s"></div></sc-for></div>
+</div>
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:6px;padding:6px 8px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0">AIRLOCK</span><div style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px"><div style="flex:none;width:40px;height:40px;border:2px dashed rgba(242,242,242,.5);border-radius:6px;box-sizing:border-box"></div><div style="flex:none;width:40px;height:40px;border:2px dashed rgba(242,242,242,.5);border-radius:6px;box-sizing:border-box"></div></div></div>
+</div>
+</div>
+<div style="flex:none;height:70px;display:flex;flex-direction:column;gap:4px;padding:6px 10px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0">ROLLED</span><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:{{ rollCol }}">{{ rollNote }}</span></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:10px">
+<sc-for list="{{ rolled }}" as="cube" hint-placeholder-count="0">
+<div style="position:relative;flex:none;width:40px;height:40px">
+<div style="position:absolute;inset:0;border:2px dashed rgba(242,242,242,.25);border-radius:6px"></div>
+<div ref="{{ cube.boxRef }}" style="position:absolute;inset:0;perspective:100px;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .2s;transform:{{ cube.scale }};opacity:{{ cube.show }}">
+<div ref="{{ cube.shadowRef }}" style="position:absolute;left:5px;top:38px;width:30px;height:8px;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(2px)"></div>
+<div ref="{{ cube.floatRef }}" style="width:40px;height:40px;position:relative;transform-style:preserve-3d">
+<div ref="{{ cube.ref }}" style="width:40px;height:40px;position:relative;transform-style:preserve-3d">
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:translateZ(20px)"><img src="{{ cube.f0 }}" alt="" style="width:40px;height:40px;display:block"><div style="position:absolute;inset:-3px;border:2px solid {{ cube.ring }};box-shadow:{{ cube.glow }};border-radius:4px;pointer-events:none;transition:border-color .25s,box-shadow .25s"></div></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg) translateZ(20px);filter:brightness(.82)"><img src="{{ cube.f1 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateX(90deg) translateZ(20px);filter:brightness(.9)"><img src="{{ cube.f2 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateX(-90deg) translateZ(20px);filter:brightness(.74)"><img src="{{ cube.f3 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(90deg) translateZ(20px);filter:brightness(.86)"><img src="{{ cube.f4 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(-90deg) translateZ(20px);filter:brightness(.78)"><img src="{{ cube.f5 }}" alt="" style="width:40px;height:40px;display:block"></div>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+<div style="flex:1;min-height:0"></div>
+<a ref="{{ ctaRef }}" href="{{ ctaHref }}" target="{{ ctaTarget }}" style="position:relative;flex:none;margin:0 16px 120px;height:64px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
 </div>
 </sc-if>
 
 <sc-if value="{{ landscape }}" hint-placeholder-val="{{ false }}">
-<div ref="{{ stageRef }}" style="position:relative;flex:none;width:700px;height:512px;overflow:hidden;background:#000;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:26px 28px 28px;box-sizing:border-box;transform-origin:center center">
+<div ref="{{ stageRef }}" style="position:relative;flex:none;width:700px;height:512px;overflow:hidden;background:#000;color:#fff;display:flex;gap:24px;padding:26px 28px 28px;box-sizing:border-box;transform-origin:center center">
+<div ref="{{ fxRef }}" style="position:absolute;inset:0;z-index:20;pointer-events:none"></div>
 <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;left:-160px;top:-160px;width:1020px;height:832px;background:#000 url(assets/space.png) 0 0/600px 900px repeat"></div><div style="position:absolute;left:-260px;top:-260px;width:1220px;height:1032px;background:url(assets/space.png) 120px 300px/900px 1350px repeat;opacity:.28;mix-blend-mode:screen"></div></div>
-<div style="position:relative;display:flex;flex-direction:column;gap:8px">
-<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000">YOUR FIRST STATION</div>
-<div style="font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffd644;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">CHOOSE AN ADVENTURE</div>
+<div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column">
+<div style="min-width:0;display:flex;flex-direction:column;gap:4px">
+<div style="align-self:flex-start;zoom:.46"><dc-import name="Breach-Logo" sub="none" hint-size="360px,97px"></dc-import></div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000;margin-top:-5px">STARWRIGHT'S DOMINION</div>
 </div>
-<div style="position:relative;display:flex;align-items:center;gap:22px">
-<div style="flex:none;width:380px;display:flex;justify-content:space-between;align-items:flex-start">
+<div style="width:380px;margin-top:20px;display:flex;justify-content:space-between;align-items:flex-start">
 <sc-for list="{{ cards }}" as="card" hint-placeholder-count="3">
 <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:114px;transform:rotate({{ card.tilt }}deg)">
 <div ref="{{ card.boxRef }}" onMouseEnter="{{ card.enter }}" onMouseLeave="{{ card.leave }}" onMouseMove="{{ card.move }}" onTouchStart="{{ card.touchStart }}" onTouchMove="{{ card.touchMove }}" onTouchEnd="{{ card.leave }}" onClick="{{ card.pick }}" style="position:relative;z-index:0;width:114px;height:188px;transform-style:preserve-3d;perspective:1000px;transition:transform .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;touch-action:none">
@@ -65,54 +123,350 @@
 </div>
 </sc-for>
 </div>
-<div style="flex:1;min-width:0;align-self:stretch;background:#0a0821;border:3px solid {{ picked.bd }};border-radius:6px;box-shadow:4px 4px 0 #240011;padding:12px;display:flex;flex-direction:column;gap:6px;box-sizing:border-box;transition:border-color .2s">
-<div style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:{{ picked.color }}">{{ picked.name }}</div>
-<div style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:#a9b0c0">{{ picked.risk }}</div>
-<div style="height:2px;margin:2px 0;background:#3a3a5a"></div>
-<sc-for list="{{ picked.rules }}" as="ru" hint-placeholder-count="2"><div style="display:flex;gap:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#ffffff;line-height:1.5"><span style="color:#48f320">{{ ru.m }}</span><span><sc-if value="{{ ru.lock }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="Fixed dice" style="width:10px;height:12px;display:inline-block;vertical-align:-1px;margin-right:4px;image-rendering:pixelated"></sc-if>{{ ru.t }}</span></div></sc-for>
-</div>
-</div>
-<div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px">
-<div style="min-width:0;display:flex;flex-direction:column;gap:7px">
-<div style="display:flex;align-items:center;gap:8px"><img src="assets/px_reddit.png" alt="Reddit" style="width:30px;height:30px;display:block;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 #240011)"><span style="font-family:'Jersey 15',monospace;font-size:28px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">REDDIT EDITION</span></div>
+<div style="flex:1;min-height:12px"></div>
+<div style="min-width:0;display:flex;flex-direction:column;gap:7px;position:relative;top:-5px">
+<div style="display:flex;align-items:center;gap:8px"><img src="assets/px_reddit.png" alt="Reddit" style="width:30px;height:30px;display:block;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 #240011)"><span style="font-family:'Jersey 15',monospace;font-size:28px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #240011,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">REDDIT EDITION. PLAY TODAY.</span></div>
 <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000"><span>COMING SOON TO</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_steam.png" alt="" style="width:20px;height:12px;display:block;image-rendering:pixelated">STEAM</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_ios.png" alt="" style="width:9px;height:16px;display:block;image-rendering:pixelated">IOS</span><span style="display:flex;align-items:center;gap:4px;color:#ffffff"><img src="assets/px_android.png" alt="" style="width:15px;height:16px;display:block;image-rendering:pixelated">ANDROID</span></div>
 </div>
-<a href="{{ ctaHref }}" target="{{ ctaTarget }}" style="flex:none;height:60px;padding:0 26px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
+<a ref="{{ ctaRef }}" href="{{ ctaHref }}" target="{{ ctaTarget }}" style="flex:none;align-self:stretch;margin-top:6px;height:52px;padding:0 26px;display:flex;align-items:center;justify-content:center;background:#e8522c;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -7px 0 #b3201c,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-decoration:none;text-shadow:2px 2px 0 #7a1a0e;box-sizing:border-box" style-active="transform:translate(2px,2px);box-shadow:inset 0 -7px 0 #b3201c,2px 2px 0 #240011">ROLL YOUR FIRST ADVENTURE</a>
+</div>
+<div style="position:relative;flex:none;width:220px;height:458px;padding:8px;box-sizing:border-box;background:#15151c;border-radius:32px;box-shadow:0 0 0 2px #3a3a5a,6px 6px 0 #240011">
+<div style="position:relative;width:204px;height:442px;overflow:hidden;border-radius:24px;background:#000">
+<div style="position:absolute;left:0;top:0;width:390px;height:844px;transform:scale(.5237);transform-origin:0 0;background:#000 url(assets/space.png) 0 0/600px 900px repeat;color:#fff;display:flex;flex-direction:column;gap:10px;padding:46px 16px 34px;box-sizing:border-box">
+<div style="flex:none;height:46px;display:flex;align-items:center;gap:8px">
+<div style="height:40px;display:flex;align-items:center;gap:6px;padding:0 10px;background:#0a0821;border:3px solid #6af5d6;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><img src="assets/spaceship_icon.png" alt="" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#6af5d6">{{ ph.ships }}</span></div>
+<div style="height:40px;display:flex;align-items:center;gap:6px;padding:0 10px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box"><img src="assets/coin.png" alt="" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffd644">4</span></div>
+<div style="flex:1"></div>
+<div style="display:flex;align-items:center;gap:6px"><img src="assets/star.png" alt="" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffffff">0</span></div>
+<div style="width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;box-sizing:border-box;font-family:'Jersey 15',monospace;font-size:26px;line-height:1;color:#ffffff">⚙</div>
+</div>
+<div style="flex:none;min-height:86px;display:flex;gap:10px;padding:8px 10px;background:#0a0821;border:3px solid {{ ph.col }};border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box;transition:border-color .2s">
+<div style="flex:none;width:34px;height:56px;border:2px solid {{ ph.col }};border-radius:3px;background:#0a0821 url({{ ph.art }}) center/cover no-repeat;image-rendering:pixelated"></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+<div style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px;color:{{ ph.col }}">{{ ph.name }}</div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.5;color:#ffffff"><sc-if value="{{ ph.lock }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="Fixed dice" style="width:10px;height:12px;display:inline-block;vertical-align:-1px;margin-right:4px;image-rendering:pixelated"></sc-if>{{ ph.rules }}</div>
+</div>
+</div>
+<div style="flex:none;display:flex;justify-content:space-between;gap:8px;font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap"><span style="color:#6b7187">{{ ph.fleet }}</span><span style="color:#ffd644">DICE +0/3</span></div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ phBays }}" as="b" hint-placeholder-count="3">
+<div style="min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px">
+<div ref="{{ b.ref }}" style="position:relative;width:114px;height:152px">
+<sc-if value="{{ b.full }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;top:0;width:114px;height:152px">
+<div style="position:absolute;left:0;top:0;width:114px;height:152px;filter:hue-rotate({{ b.hue }}deg) saturate({{ b.sat }}) brightness({{ b.bri }})"><img src="{{ b.art }}" alt="" style="width:114px;height:152px;display:block"><sc-if value="{{ b.label }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:6px;top:4px;min-width:59px;height:17px;padding:0 1px;box-sizing:border-box;background:#486c05;display:flex;align-items:center;font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:-1px;white-space:nowrap;color:#fff">{{ b.name }}</div></sc-if><div style="position:absolute;left:0;top:0;width:114px;height:152px;background:rgba(0,0,0,.5)"></div></div>
+<img ref="{{ b.shipRef }}" src="{{ b.ship }}" alt="{{ b.name }}" style="position:absolute;left:5px;top:52px;width:61px;height:76px;display:block;filter:drop-shadow(2px 2px 0 #000)">
+<sc-for list="{{ b.slots }}" as="sl" hint-placeholder-count="0"><img data-slot="{{ sl.j }}" src="{{ sl.src }}" alt="" style="position:absolute;left:74px;top:{{ sl.top }}px;width:30px;height:30px;display:block;border-radius:4px"></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ b.gone }}" hint-placeholder-val="{{ false }}"><div style="width:114px;height:152px;border:3px dashed rgba(72,243,32,.75);border-radius:6px;box-sizing:border-box;background:rgba(10,8,33,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><img src="assets/spaceship_icon.png" alt="" style="width:16px;height:16px;display:block"><div style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;color:#48f320">LAUNCHED</div></div></sc-if>
+</div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:{{ b.capCol }}">{{ b.caption }}</div>
+</div>
+</sc-for>
+</div>
+<div ref="{{ hullRef }}" style="flex:none;height:58px;padding:6px 10px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;white-space:nowrap">HULL <span style="color:{{ hullCol }}">{{ integ }}</span> / 8</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#ff4d4d;white-space:nowrap">{{ ph.loss }}</span></div>
+<div style="display:flex;gap:4px;height:14px"><sc-for list="{{ ph.segs }}" as="sg" hint-placeholder-count="8"><div style="flex:1;min-width:0;height:14px;background:{{ sg.bg }};border:2px solid {{ sg.bd }};box-sizing:border-box;transition:background .25s,border-color .25s"></div></sc-for></div>
+</div>
+<div style="flex:none;height:176px;display:flex;gap:10px">
+<div style="position:relative;flex:1;min-width:0;padding:8px 10px;display:flex;flex-direction:column;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0;min-height:28px;display:flex;align-items:center">ROLLED</div>
+<div style="flex:1;display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;gap:14px 12px;padding-bottom:14px">
+<sc-for list="{{ rolled }}" as="cube" hint-placeholder-count="0">
+<div style="position:relative;flex:none;width:40px;height:40px">
+<div style="position:absolute;inset:0;border:2px dashed rgba(242,242,242,.25);border-radius:6px"></div>
+<div ref="{{ cube.boxRef }}" style="position:absolute;inset:0;perspective:100px;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .2s;transform:{{ cube.scale }};opacity:{{ cube.show }}">
+<div ref="{{ cube.shadowRef }}" style="position:absolute;left:5px;top:38px;width:30px;height:8px;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(2px)"></div>
+<div ref="{{ cube.floatRef }}" style="width:40px;height:40px;position:relative;transform-style:preserve-3d">
+<div ref="{{ cube.ref }}" style="width:40px;height:40px;position:relative;transform-style:preserve-3d">
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:translateZ(20px)"><img src="{{ cube.f0 }}" alt="" style="width:40px;height:40px;display:block"><div style="position:absolute;inset:-3px;border:2px solid {{ cube.ring }};box-shadow:{{ cube.glow }};border-radius:4px;pointer-events:none;transition:border-color .25s,box-shadow .25s"></div></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg) translateZ(20px);filter:brightness(.82)"><img src="{{ cube.f1 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateX(90deg) translateZ(20px);filter:brightness(.9)"><img src="{{ cube.f2 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateX(-90deg) translateZ(20px);filter:brightness(.74)"><img src="{{ cube.f3 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(90deg) translateZ(20px);filter:brightness(.86)"><img src="{{ cube.f4 }}" alt="" style="width:40px;height:40px;display:block"></div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(-90deg) translateZ(20px);filter:brightness(.78)"><img src="{{ cube.f5 }}" alt="" style="width:40px;height:40px;display:block"></div>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="flex:none;width:102px;padding:8px 6px;display:flex;flex-direction:column;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;box-sizing:border-box">
+<div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;white-space:nowrap;color:#a9b0c0;min-height:28px;display:flex;align-items:center">AIRLOCK</div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding-bottom:14px"><div style="flex:none;width:40px;height:40px;border:2px dashed rgba(242,242,242,.5);border-radius:6px;box-sizing:border-box"></div><div style="flex:none;width:40px;height:40px;border:2px dashed rgba(242,242,242,.5);border-radius:6px;box-sizing:border-box"></div></div>
+</div>
+</div>
+<div style="flex:1"></div>
+<div style="flex:none;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.4;color:#ffd644">{{ ph.hint }}</div>
+<div style="flex:none;height:64px;display:flex;gap:10px">
+<div ref="{{ btnRef }}" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:8px;background:#0a0821;border:3px solid #f2f2f2;border-radius:8px;box-shadow:4px 4px 0 #240011;box-sizing:border-box;font-family:'Jersey 15',monospace;font-size:32px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#ffffff;text-shadow:2px 2px 0 #240011">{{ ph.btn }}<span style="font-family:'Silkscreen',monospace;font-size:12px;letter-spacing:0;text-shadow:none">{{ ph.btnSub }}</span></div>
+<div style="flex:none;width:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:8px;background:#0a0821;border:3px solid #f2f2f2;box-shadow:4px 4px 0 #240011;box-sizing:border-box"><span style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;color:#ffffff">REROLL</span><span style="display:flex;align-items:center;gap:4px;font-family:'Jersey 15',monospace;font-size:18px;line-height:1;color:#ffd644"><img src="assets/coin.png" alt="" style="width:12px;height:12px;display:block">1</span></div>
+</div>
+</div>
+<div style="position:absolute;left:50%;top:7px;width:58px;height:15px;margin-left:-29px;border-radius:8px;background:#15151c"></div>
+</div>
 </div>
 </div>
 </sc-if>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;ctaHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Space Dice Run v15.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;ctaNewTab&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;frame&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;never&quot;,&quot;always&quot;],&quot;default&quot;:&quot;never&quot;,&quot;tsType&quot;:&quot;'never' | 'always'&quot;,&quot;section&quot;:&quot;Display&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:924,&quot;height&quot;:540},&quot;ctaHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Main.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;ctaNewTab&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;CTA&quot;},&quot;frame&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;never&quot;,&quot;always&quot;],&quot;default&quot;:&quot;never&quot;,&quot;tsType&quot;:&quot;'never' | 'always'&quot;,&quot;section&quot;:&quot;Display&quot;},&quot;rollEvery&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:1,&quot;max&quot;:8,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;s&quot;,&quot;default&quot;:2.5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Dice&quot;}}">
 class Component extends DCLogic {
+  static __AM = {
+    'assets/adv_asteroid_f0.png': 'url(assets/adv_asteroid_f0.png)',
+    'assets/anim/adv_asteroid.png': 'url(assets/anim/adv_asteroid.png)',
+    'assets/anim/cc_beacon.png': 'url(assets/anim/cc_beacon.png)',
+    'assets/anim/cc_toll.png': 'url(assets/anim/cc_toll.png)',
+    'assets/bp_2slot.png': 'url(assets/bp_2slot.png)',
+    'assets/bp_3slot.png': 'url(assets/bp_3slot.png)',
+    'assets/cc_beacon_f0.png': 'url(assets/cc_beacon_f0.png)',
+    'assets/cc_toll_f0.png': 'url(assets/cc_toll_f0.png)',
+    'assets/coin.png': 'url(assets/coin.png)',
+    'assets/flat_1_30.png': 'url(assets/flat_1_30.png)',
+    'assets/flat_1_48.png': 'url(assets/flat_1_48.png)',
+    'assets/flat_2_30.png': 'url(assets/flat_2_30.png)',
+    'assets/flat_2_48.png': 'url(assets/flat_2_48.png)',
+    'assets/flat_3_30.png': 'url(assets/flat_3_30.png)',
+    'assets/flat_3_48.png': 'url(assets/flat_3_48.png)',
+    'assets/flat_4_30.png': 'url(assets/flat_4_30.png)',
+    'assets/flat_4_48.png': 'url(assets/flat_4_48.png)',
+    'assets/flat_5_30.png': 'url(assets/flat_5_30.png)',
+    'assets/flat_5_48.png': 'url(assets/flat_5_48.png)',
+    'assets/flat_6_30.png': 'url(assets/flat_6_30.png)',
+    'assets/flat_6_48.png': 'url(assets/flat_6_48.png)',
+    'assets/ghost_1_30.png': 'url(assets/ghost_1_30.png)',
+    'assets/ghost_2_30.png': 'url(assets/ghost_2_30.png)',
+    'assets/ghost_3_30.png': 'url(assets/ghost_3_30.png)',
+    'assets/ghost_4_30.png': 'url(assets/ghost_4_30.png)',
+    'assets/ghost_5_30.png': 'url(assets/ghost_5_30.png)',
+    'assets/ghost_6_30.png': 'url(assets/ghost_6_30.png)',
+    'assets/px_android.png': 'url(assets/px_android.png)',
+    'assets/px_ios.png': 'url(assets/px_ios.png)',
+    'assets/px_reddit.png': 'url(assets/px_reddit.png)',
+    'assets/px_steam.png': 'url(assets/px_steam.png)',
+    'assets/ship_amber.png': 'url(assets/ship_amber.png)',
+    'assets/ship_blue.png': 'url(assets/ship_blue.png)',
+    'assets/ship_gold.png': 'url(assets/ship_gold.png)',
+    'assets/ship_ice.png': 'url(assets/ship_ice.png)',
+    'assets/ship_magenta.png': 'url(assets/ship_magenta.png)',
+    'assets/ship_obsidian.png': 'url(assets/ship_obsidian.png)',
+    'assets/ship_teal.png': 'url(assets/ship_teal.png)',
+    'assets/ship_violet.png': 'url(assets/ship_violet.png)',
+    'assets/space.png': 'url(assets/space.png)',
+    'assets/spaceship_icon.png': 'url(assets/spaceship_icon.png)',
+    'assets/star.png': 'url(assets/star.png)',
+    'assets/ui_finger.png': 'url(assets/ui_finger.png)'
+  };
+  // runtime-built image paths are swapped for the canvas-embedded copies
+  static __R(v) {
+    if (typeof v === 'string') return v.indexOf('assets/') < 0 ? v : v.replace(/assets\/[a-z0-9_\/\-]+\.png/g, p => { const e = Component.__AM[p]; return e ? e.slice(4, -1) : p; });
+    if (Array.isArray(v)) return v.map(Component.__R);
+    if (v && typeof v === 'object' && Object.getPrototypeOf(v) === Object.prototype && !('current' in v)) { const o = {}; for (const k in v) o[k] = Component.__R(v[k]); return o; }
+    return v;
+  }
+  renderVals() { return Component.__R(this.renderVals0()); }
   CARDS = [
-    { name: 'DISTRESS BEACON', risk: 1, color: '#ff7ac8', art: 'cc_beacon', fixed: true, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'THEN ROLL 1 DIE'] },
-    { name: 'TOLL LANE', risk: 1, color: '#9dffb0', art: 'cc_toll', fixed: true, rules: ['ROLL 2 DICE', 'PLACE WHAT FITS', '+1 GOLD'] },
-    { name: 'SALVAGE', risk: 2, color: '#6af5d6', art: 'adv_salvage', rules: ['ROLL 2 DICE AND PLACE THEM', 'EVERY DIE THAT HITS THE HULL PAYS CARGO = ITS DOTS'] }
+    { name: 'DISTRESS BEACON', risk: 1, color: '#ff7ac8', art: 'cc_beacon', n: 1, fixed: true, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'NO OPEN BAY: SWAP AN EMPTY BLUEPRINT FOR A NEW ONE', 'THEN ROLL 1 DIE'] },
+    { name: 'TOLL LANE', risk: 2, color: '#9dffb0', art: 'cc_toll', n: 3, rules: ['ROLL 3 DICE', 'SHIPS LAUNCHED HERE SCORE DOUBLE', 'LEFTOVERS HIT THE HULL DOUBLE'] },
+    { name: 'DEBRIS FIELD', risk: 3, color: '#ff9a4d', art: 'adv_asteroid', hue: -50, n: 4, fit: 2, rules: ['ROLL 4 DICE', 'SURVIVE: GAIN PRESTIGE = YOUR HULL TOTAL'] }
   ];
+  BPS = {
+    herald: { name: 'HERALD', slots: [6, 4], bp: 'bp_2slot', hue: 0, label: false, ship: 'ship_blue' },
+    kestrel: { name: 'KESTREL', slots: [3, 5], bp: 'bp_2slot', hue: 160, label: true, ship: 'ship_violet' },
+    barnacle: { name: 'BARNACLE', slots: [2, 6, 2], bp: 'bp_3slot', hue: -70, label: true, ship: 'ship_amber' },
+    warden: { name: 'WARDEN', slots: [1, 1, 5], bp: 'bp_3slot', hue: 70, label: true, ship: 'ship_teal' },
+    siren: { name: 'SIREN', slots: [2, 5], bp: 'bp_2slot', hue: -140, sat: 1.2, label: true, ship: 'ship_magenta' },
+    sovereign: { name: 'SOVEREIGN', slots: [6, 6, 1], bp: 'bp_3slot', hue: -50, sat: 1.3, bri: 1.1, label: true, ship: 'ship_gold' },
+    obsidian: { name: 'OBSIDIAN', slots: [4, 4, 4], bp: 'bp_3slot', hue: 0, sat: 0.2, bri: 0.6, label: true, ship: 'ship_obsidian' },
+    wraith: { name: 'WRAITH', slots: [3, 3], bp: 'bp_2slot', hue: 0, sat: 0.25, bri: 1.35, label: true, ship: 'ship_ice' }
+  };
+  QUEUE = ['kestrel', 'siren', 'barnacle', 'sovereign', 'warden', 'herald', 'obsidian', 'wraith'];
   TILT = [-2.5, 0, 2.5];
-  state = { pick: -1, land: false };
-  wrapRef = React.createRef(); stageRef = React.createRef();
-  crt = [0, 1, 2].map(i => ({ box: React.createRef(), card: React.createRef(), shadow: React.createRef(), angle: i * 2.1, hover: false, cx: 0, cy: 0, tx: 0, ty: 0, mv: 0.5 }));
+  state = { land: false, hi: -1, cur: -1, dice: [], qi: 0, phase: 'desc', stage: 'ready', launched: 0, hull: 0, bays: [this.mkBay('herald'), this.mkBay('obsidian'), this.mkBay('wraith')] };
+  btnRef = React.createRef(); hullRef = React.createRef(); ctaRef = React.createRef();
+  // the only primary action on the page breathes a gold ring
+  pulseCta() {
+    const el = this.ctaRef.current; if (this.ctaAnim) { this.ctaAnim.cancel(); this.ctaAnim = null; } if (!el || !el.animate || this.reduced) return;
+    const base = 'inset 0 -7px 0 #b3201c, 4px 4px 0 #240011', off = base + ', 0 0 0 0 rgba(255,214,68,0), 0 0 0 0 rgba(232,82,44,0)', on = base + ', 0 0 0 5px rgba(255,214,68,.6), 0 0 24px 6px rgba(232,82,44,.6)';
+    this.ctaAnim = el.animate([{ boxShadow: off, transform: 'scale(1)' }, { boxShadow: on, transform: 'scale(1.02)', offset: 0.5 }, { boxShadow: off, transform: 'scale(1)' }], { duration: 1700, iterations: Infinity, easing: 'ease-in-out' });
+  }
+  hullView(loss) { const integ = 8 - this.state.hull, col = integ > 4 ? '#48f320' : integ > 2 ? '#ffb36a' : '#ff4d4d';
+    return { integ, col, segs: Array.from({ length: 8 }, (_, k) => k >= integ ? { bg: '#240011', bd: '#7a1a0e' } : k >= integ - loss ? { bg: '#7a1a0e', bd: '#ff4d4d' } : { bg: col, bd: '#f2f2f2' }) }; }
+  // leftover dice fly into the hull panel and knock integrity off
+  flyHull(k) {
+    const d = this.state.dice[k]; if (!d) return; const v = d.v, g = this.gen;
+    const commit = () => { if (g !== this.gen) return; this.setState(s => ({ hull: Math.min(6, s.hull + v) })); const h = this.hullRef.current; if (h && h.animate && !this.reduced) h.animate([{ transform: 'none' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(-2px)' }, { transform: 'none' }], { duration: 320 }); };
+    this.setD((x, q) => q === k ? { ...x, gone: true } : x);
+    const st = this.stageRef.current, fx = this.fxRef.current, from = this.drt[k].box.current, to = this.hullRef.current;
+    if (this.reduced || !st || !fx || !from || !to) return commit();
+    const S = st.getBoundingClientRect(), sc = S.width / st.offsetWidth || 1, a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    const w = a.width / sc, x0 = (a.left - S.left) / sc, y0 = (a.top - S.top) / sc, dx = (b.left + b.width * 0.72 - S.left) / sc - (x0 + w / 2), dy = (b.top + b.height * 0.62 - S.top) / sc - (y0 + w / 2);
+    const el = document.createElement('img'); el.src = 'assets/flat_' + v + '_48.png';
+    el.style.cssText = 'position:absolute;left:' + x0 + 'px;top:' + y0 + 'px;width:' + w + 'px;height:' + w + 'px;display:block;image-rendering:pixelated;filter:drop-shadow(0 0 8px #ff4d4d)';
+    fx.appendChild(el);
+    el.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: 'translate(' + dx * 0.5 + 'px,' + (dy * 0.5 - 24) + 'px) scale(1.1)', opacity: 1, offset: 0.5 }, { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.55)', opacity: 0.2 }], { duration: 460, easing: 'cubic-bezier(.5,0,.8,.5)' }).onfinish = () => { el.remove(); commit(); };
+  }
+  nBays() { return this.state.land ? 3 : 2; } // the phone shows the game's 3 bays; the tall layout shows 2
+  press() { const el = this.btnRef.current; if (!el || !el.animate || this.reduced) return; this.tapAt(el); this.later(() => el.animate([{ transform: 'none' }, { transform: 'translate(2px,2px) scale(.97)' }, { transform: 'none' }], { duration: 240, easing: 'ease-out' }), 330); }
+  // pixel finger: taps buttons and drags dice, so the demo reads as someone playing
+  finger(size) { const f = document.createElement('img'), w = Math.round(size), h = Math.round(size * 34 / 32); f.src = 'assets/ui_finger.png'; f.style.cssText = 'position:absolute;width:' + w + 'px;height:' + h + 'px;display:block;image-rendering:pixelated;pointer-events:none;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.6))'; f._tip = [w * 7 / 16, h / 17]; return f; }
+  tapAt(el) {
+    const st = this.stageRef.current, fx = this.fxRef.current; if (!st || !fx || !el) return;
+    const S = st.getBoundingClientRect(), sc = S.width / st.offsetWidth || 1, r = el.getBoundingClientRect(), fg = this.finger(26), cx = (r.left + r.width * 0.5 - S.left) / sc, cy = (r.top + r.height * 0.5 - S.top) / sc;
+    fg.style.left = (cx - fg._tip[0]) + 'px'; fg.style.top = (cy - fg._tip[1]) + 'px'; fx.appendChild(fg);
+    fg.animate([{ transform: 'translate(16px,20px)', opacity: 0 }, { transform: 'none', opacity: 1, offset: 0.4 }, { transform: 'scale(.88)', opacity: 1, offset: 0.55 }, { transform: 'none', opacity: 1, offset: 0.7 }, { transform: 'translate(10px,12px)', opacity: 0 }], { duration: 620, easing: 'ease-out' }).onfinish = () => fg.remove();
+  }
+  panelRef = React.createRef(); wrapRef = React.createRef(); stageRef = React.createRef(); fxRef = React.createRef();
+  bayRefs = [0, 1, 2].map(() => ({ box: React.createRef(), ship: React.createRef() }));
+  crt = [0, 1, 2, 3].map(i => ({ box: React.createRef(), card: React.createRef(), shadow: React.createRef(), angle: i * 2.1, hover: false, cx: 0, cy: 0, tx: 0, ty: 0, mv: 0.5 }));
+  drt = [0, 1, 2, 3, 4, 5].map(i => ({ box: React.createRef(), float: React.createRef(), shadow: React.createRef(), cube: React.createRef(), angle: i * 2.1 }));
+  ts = []; gen = 0; shipAnims = [];
+  mkBay(type) { return { type, dice: this.BPS[type].slots.map(() => null), gone: false }; }
   componentDidMount() {
     const t = () => { this.tick(); this.raf = requestAnimationFrame(t); }; this.raf = requestAnimationFrame(t);
     this.onResize = () => this.fit(); window.addEventListener('resize', this.onResize);
-    if (window.ResizeObserver && this.wrapRef.current) { this.ro = new ResizeObserver(this.onResize); this.ro.observe(this.wrapRef.current); }
+    if (window.ResizeObserver && this.wrapRef.current) { this.ro = new ResizeObserver(this.onResize); this.ro.observe(this.wrapRef.current); this._roEl = this.wrapRef.current; }
     this.fit();
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.later(() => this.step(0), 600);
+    this._land = this.state.land; this._ctaEl = this.ctaRef.current; this.pulseCta();
   }
-  componentDidUpdate(pp, ps) { if ((pp && pp.frame !== this.props.frame) || (ps && ps.land !== this.state.land)) this.fit(); }
-  componentWillUnmount() { cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize); this.ro && this.ro.disconnect(); }
+  componentDidUpdate(pp) {
+    if (pp && pp.frame !== this.props.frame) this.fit();
+    this.fit();
+    const el = this.ctaRef.current; if (el && el !== this._ctaEl) { this._ctaEl = el; this.pulseCta(); } // layout swap mounts a new CTA
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.fitRaf); if (this.ctaAnim) this.ctaAnim.cancel(); this.clearAll(); cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize); this.ro && this.ro.disconnect(); }
   // landscape (e.g. a 700×512 Reddit post) gets the wide layout; portrait phones get the tall one. Both scale to fill with no frame.
   fit() {
     const w = this.wrapRef.current; if (!w) return;
-    const W = w.clientWidth, H = w.clientHeight, land = W > H * 1.05;
-    if (land !== this.state.land) return this.setState({ land });
+    if (this.ro && this._roEl !== w) { this.ro.disconnect(); this.ro.observe(w); this._roEl = w; } // keep observing the live wrapper
+    const W = w.clientWidth, H = w.clientHeight;
+    if (!W || !H) { cancelAnimationFrame(this.fitRaf); this.fitRaf = requestAnimationFrame(() => this.fit()); return; } // not laid out yet: retry, never scale(0)
+    const land = W > H * 1.05;
+    if (land !== this.state.land) return this.setState({ land }, () => requestAnimationFrame(() => this.fit())); // new stage mounts, then gets scaled
     const st = this.stageRef.current; if (!st) return;
     const mode = this.props.frame || 'never', framed = mode === 'always' && !land;
     const bw = land ? 700 : 390, bh = land ? 512 : 844;
     const s = framed ? Math.min(1, (H - 28) / bh, (W - 28) / bw) : Math.min(W / bw, H / bh);
     st.style.transform = 'scale(' + s + ')'; st.style.borderRadius = framed ? '28px' : '0'; st.style.boxShadow = framed ? '0 0 0 6px #1b1b1f' : 'none';
+  }
+
+  later(f, ms) { this.ts.push(setTimeout(f, ms)); }
+  pause() { return Math.max(1, this.props.rollEvery ?? 2.5) * 1000; }
+  stopShips() { this.shipAnims.forEach(a => a && a.cancel()); this.shipAnims = []; }
+  clearAll() { this.gen++; this.ts.forEach(clearTimeout); this.ts = []; const fx = this.fxRef.current; if (fx) fx.innerHTML = ''; this.stopShips(); }
+  shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  setD(f) { this.setState(s => ({ dice: s.dice.map(f) })); }
+  setBay(b, f) { this.setState(s => ({ bays: s.bays.map((x, q) => q === b ? f(x) : x) })); }
+  // demo loop: card selected → its description → panel switches to the 2 blueprints → dice roll below and fly into slots → full ones launch
+  step(i) {
+    this.clearAll();
+    if (i === 0 && this.state.hull) this.setState({ hull: 0 }); // fresh hull each time the loop restarts
+    this.state.bays.forEach((x, b) => { if (x.gone || x.dice.every(v => v != null)) this.deal(b); });
+    this.run(i);
+  }
+  run(i) {
+    this.setPhase('desc', { hi: i, cur: i, stage: 'ready' });
+    this.later(() => this.setPhase('build'), 1700);
+    this.later(() => this.press(), 1720);
+    this.later(() => this.roll(this.mkDice(i), i), 2050);
+  }
+  // rigged so the demo always reads well: dice go to the bay closest to launching first
+  mkDice(i) {
+    const c = this.CARDS[i], bays = this.state.bays, open = [];
+    bays.forEach((x, b) => { if (x.gone || b >= this.nBays()) return; const need = this.BPS[x.type].slots, left = x.dice.filter(v => v == null).length; x.dice.forEach((v, j) => { if (v == null) open.push({ b, j, v: need[j], left }); }); });
+    open.sort((p, q) => p.left - q.left || p.b - q.b || p.j - q.j);
+    const nf = Math.min(c.fit ?? c.n, open.length), bad = [1, 2, 3, 4, 5, 6].filter(x => !open.some(o => o.v === x)), lv = bad.length ? bad : [1, 2];
+    return Array.from({ length: c.n }, (_, k) => { const o = k < nf ? open[k] : null; return { v: o ? o.v : lv[(k - nf) % lv.length], bay: o ? o.b : -1, slot: o ? o.j : -1, faces: this.shuffle([1, 2, 3, 4, 5, 6]), settled: false, gone: false, glow: null }; });
+  }
+  setPhase(phase, extra) {
+    this.setState({ phase, ...(extra || {}) }, () => { const el = this.panelRef.current; if (el && el.animate && !this.reduced) el.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'ease-out' }); });
+  }
+  roll(dice, i) {
+    const n = dice.length, prelude = 600, st = n > 1 ? 380 : 0;
+    this.setState({ dice }, () => requestAnimationFrame(() => requestAnimationFrame(() => dice.forEach((d, k) => {
+      const el = this.drt[k].cube.current; if (!el) return; el.style.animation = 'none'; void el.offsetHeight;
+      if (!this.reduced) el.style.animation = 'dice-tumble ' + (prelude + k * st) + 'ms cubic-bezier(0.19,1,0.22,1) forwards';
+    }))));
+    this.later(() => this.setD(d => ({ ...d, faces: [d.v].concat(this.shuffle([1, 2, 3, 4, 5, 6].filter(x => x !== d.v))) })), 120);
+    dice.forEach((d, k) => this.later(() => {
+      this.setD((x, j) => j === k ? { ...x, settled: true, glow: x.slot >= 0 ? '#48f320' : '#ff4d4d' } : x);
+      this.later(() => this.setD((x, j) => j === k && x.slot >= 0 ? { ...x, glow: null } : x), 900);
+    }, prelude + k * st));
+    this.later(() => this.setState({ stage: 'rolled' }), prelude);
+    this.later(() => this.place(i), prelude + (n - 1) * st + 500);
+  }
+  place(i) {
+    const dice = this.state.dice, fits = [], left = [];
+    dice.forEach((d, k) => (d.slot >= 0 ? fits : left).push(k));
+    fits.forEach((k, q) => this.later(() => this.fly(k), q * 760));
+    let doneAt = fits.length ? (fits.length - 1) * 760 + 740 : 0;
+    if (left.length) { this.later(() => this.press(), doneAt + 100); doneAt += 460; } // finger taps CONFIRM, then the leftovers hit the hull
+    left.forEach((k, q) => this.later(() => this.flyHull(k), doneAt + q * 300));
+    if (left.length) doneAt += (left.length - 1) * 300 + 520;
+    this.later(() => {
+      const full = this.state.bays.map((x, b) => !x.gone && b < this.nBays() && x.dice.every(v => v != null) ? b : -1).filter(b => b >= 0);
+      this.setState({ stage: 'done' });
+      full.forEach((b, q) => this.later(() => this.launch(b), q * 260));
+      if (!full.length) this.setState({ hi: -1 });
+      this.later(() => this.step((i + 1) % this.CARDS.length), (full.length ? 1000 + (full.length - 1) * 260 : 0) + this.pause());
+    }, doneAt + 280);
+  }
+  slotEl(b, j) { const r = this.bayRefs[b] && this.bayRefs[b].box.current; return r && r.querySelector('[data-slot="' + j + '"]'); }
+  fly(k) {
+    const d = this.state.dice[k]; if (!d) return; const b = d.bay, j = d.slot, v = d.v, g = this.gen;
+    const commit = () => { if (g !== this.gen) return; this.setBay(b, x => { const nd = x.dice.slice(); nd[j] = v; return { ...x, dice: nd }; }); this.later(() => this.flash(b, j), 30); };
+    const st = this.stageRef.current, fx = this.fxRef.current, from = this.drt[k].box.current, to = this.slotEl(b, j);
+    if (this.reduced || !st || !fx || !from || !to) { this.setD((x, q) => q === k ? { ...x, gone: true } : x); return commit(); }
+    const S = st.getBoundingClientRect(), sc = S.width / st.offsetWidth || 1, a = from.getBoundingClientRect(), r = to.getBoundingClientRect();
+    const bw = r.width / sc, bx = (r.left - S.left) / sc, by = (r.top - S.top) / sc, ax = (a.left + a.width / 2 - S.left) / sc, ay = (a.top + a.height / 2 - S.top) / sc;
+    const dx = ax - (bx + bw / 2), dy = ay - (by + bw / 2), s0 = (a.width / sc) / bw, T = (x, y) => 'translate(' + x + 'px,' + y + 'px)';
+    const fg = this.finger(Math.max(20, Math.min(34, (a.width / sc) * 1.3)));
+    fg.style.left = (bx + bw / 2 - fg._tip[0]) + 'px'; fg.style.top = (by + bw / 2 - fg._tip[1] + bw * 0.15) + 'px'; fx.appendChild(fg);
+    // 1 · finger comes in and presses the die
+    fg.animate([{ transform: T(dx + 18, dy + 22), opacity: 0 }, { transform: T(dx, dy) + ' scale(.92)', opacity: 1 }], { duration: 220, easing: 'ease-out', fill: 'forwards' }).onfinish = () => {
+      if (g !== this.gen) { fg.remove(); return; }
+      // 2 · drag: die and finger travel together to the slot
+      this.setD((x, q) => q === k ? { ...x, gone: true } : x);
+      const el = document.createElement('img'); el.src = 'assets/flat_' + v + '_48.png';
+      el.style.cssText = 'position:absolute;left:' + bx + 'px;top:' + by + 'px;width:' + bw + 'px;height:' + bw + 'px;display:block;image-rendering:pixelated;filter:drop-shadow(3px 3px 0 #240011)';
+      fx.insertBefore(el, fg);
+      const ease = 'cubic-bezier(.3,.7,.4,1)';
+      el.animate([{ transform: T(dx, dy) + ' scale(' + s0 + ')' }, { transform: T(dx * 0.45, dy * 0.45 - 28) + ' scale(' + s0 * 1.2 + ')', offset: 0.5 }, { transform: T(0, 0) + ' scale(1)' }], { duration: 460, easing: ease }).onfinish = () => { el.remove(); commit(); };
+      fg.animate([{ transform: T(dx, dy) + ' scale(.92)' }, { transform: T(dx * 0.45, dy * 0.45 - 28) + ' scale(.92)', offset: 0.5 }, { transform: T(0, 0) + ' scale(.92)' }], { duration: 460, easing: ease, fill: 'forwards' }).onfinish = () => {
+        // 3 · release
+        fg.animate([{ transform: T(0, 0) + ' scale(.92)', opacity: 1 }, { transform: T(10, 12), opacity: 0 }], { duration: 240, easing: 'ease-in', fill: 'forwards' }).onfinish = () => fg.remove();
+      };
+    };
+  }
+  flash(b, j) {
+    const el = this.slotEl(b, j);
+    if (el && el.animate) el.animate([{ boxShadow: '0 0 0 3px #48f320, 0 0 16px 2px #48f320' }, { boxShadow: '0 0 0 3px rgba(72,243,32,0), 0 0 16px 2px rgba(72,243,32,0)' }], { duration: 650, easing: 'ease-out' });
+  }
+  launch(b) {
+    const ship = this.bayRefs[b].ship.current, box = this.bayRefs[b].box.current, st = this.stageRef.current, fx = this.fxRef.current;
+    if (!this.reduced && ship && st && fx && box) {
+      const S = st.getBoundingClientRect(), sc = S.width / st.offsetWidth || 1, r = ship.getBoundingClientRect(), B = box.getBoundingClientRect(), k = (r.width / sc) / 61;
+      const path = [{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(5px)', opacity: 1, offset: 0.16 }, { transform: 'translateY(-210px)', opacity: 0 }], opt = { duration: 950, easing: 'cubic-bezier(.55,0,.85,.4)', fill: 'forwards' };
+      this.shipAnims[b] = ship.animate(path, opt);
+      const fl = document.createElement('div'), fw = 12 * k, fh = 26 * k;
+      fl.style.cssText = 'position:absolute;left:' + ((r.left + r.width / 2 - S.left) / sc - fw / 2) + 'px;top:' + ((r.bottom - S.top) / sc - 4 * k) + 'px;width:' + fw + 'px;height:' + fh + 'px;background:linear-gradient(#ffffff,#ffd644 40%,#e8522c);clip-path:polygon(0 0,100% 0,50% 100%)';
+      fx.appendChild(fl); fl.animate(path, opt).onfinish = () => fl.remove();
+      const t = document.createElement('div'); t.textContent = 'LAUNCHED';
+      t.style.cssText = 'position:absolute;left:' + ((B.left + B.width / 2 - S.left) / sc) + 'px;top:' + ((B.top + B.height * 0.45 - S.top) / sc) + 'px;font-family:"Jersey 15",monospace;font-size:' + Math.round(Math.max(16, Math.min(28, B.width / sc * 0.3))) + 'px;line-height:1;letter-spacing:2px;white-space:nowrap;color:#48f320;text-shadow:3px 3px 0 #240011,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000';
+      fx.appendChild(t);
+      t.animate([{ transform: 'translate(-50%,-50%) scale(2.4) rotate(-8deg)', opacity: 0 }, { transform: 'translate(-50%,-50%) scale(1) rotate(-6deg)', opacity: 1, offset: 0.16 }, { transform: 'translate(-50%,-50%) scale(1) rotate(-6deg)', opacity: 1, offset: 0.8 }, { transform: 'translate(-50%,-62%) scale(.96) rotate(-6deg)', opacity: 0 }], { duration: 1400, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => t.remove();
+    }
+    this.later(() => this.setState(s => ({ hi: -1, launched: s.launched + 1, bays: s.bays.map((x, q) => q === b ? { ...x, gone: true } : x) }), () => { const a = this.shipAnims[b]; if (a) { a.cancel(); this.shipAnims[b] = null; } }), 1000);
+  }
+  // a fresh blueprint fills an empty bay between adventures
+  deal(b) {
+    const a = this.shipAnims[b]; if (a) { a.cancel(); this.shipAnims[b] = null; }
+    this.setState(s => { const type = this.QUEUE[s.qi % this.QUEUE.length]; return { qi: s.qi + 1, bays: s.bays.map((x, q) => q === b ? this.mkBay(type) : x) }; });
   }
   point(i, x0, y0) {
     const r = this.crt[i], el = r.box.current; if (!el) return;
@@ -122,17 +476,26 @@ class Component extends DCLogic {
     r.mv = 1 - y / b.height;
   }
   tick() {
+    this.drt.forEach((r, i) => {
+      const fl = r.float.current, sh = r.shadow.current, d = this.state.dice[i]; if (!fl || !sh || !d) return;
+      const st = d.settled, a = r.angle, bob = st ? Math.sin(a) * 2 : 0, sway = st ? Math.cos(a * 0.7) : 0, rot = st ? Math.sin(a * 0.5) * 2 : 0;
+      fl.style.transform = 'translateX(' + sway + 'px) translateY(' + (-bob) + 'px) rotate(' + rot + 'deg)';
+      const k = 1 - bob / 20; sh.style.transform = 'translateX(' + (sway * 0.6) + 'px) scale(' + k + ')'; sh.style.opacity = st ? 0.35 + 0.35 * k : 0;
+      r.angle += 0.009;
+    });
     const tilt = 10, scale = this.state.land ? 1.18 : 1.3;
-    this.crt.forEach(r => {
+    this.crt.forEach((r, idx) => {
       const card = r.card.current, sh = r.shadow.current, box = r.box.current; if (!card || !sh || !box) return;
-      r.cx += ((r.hover ? r.tx : 0) - r.cx) * 0.12; r.cy += ((r.hover ? r.ty : 0) - r.cy) * 0.12;
+      const hov = r.hover || this.state.hi === idx;
+      r.cx += ((hov ? r.tx : 0) - r.cx) * 0.12; r.cy += ((hov ? r.ty : 0) - r.cy) * 0.12;
       const a = r.angle, dx = Math.sin(a) * 0.5, dy = Math.cos(a) * 0.5, rot = Math.sin(a * 2);
       const base = 'translateZ(0) translateX(' + dx + 'px) translateY(' + dy + 'px) rotate(' + rot + 'deg)';
-      if (r.hover) {
+      if (hov) {
         const elev = Math.min(Math.max((1 - r.mv) * 50, 0), 7);
         card.style.transform = 'translateZ(0) perspective(100px) rotateX(' + (-r.cy * tilt) + 'deg) rotateY(' + (r.cx * tilt) + 'deg) ' + base;
         sh.style.transform = 'translateZ(-10px) translateX(' + (dx + r.cx * 3) + 'px) translateY(' + (dy + r.cy * 3 - elev) + 'px) ' + base;
-        box.style.transform = 'scale3d(' + scale + ',' + scale + ',' + scale + ')'; box.style.zIndex = 5; card.style.filter = 'brightness(1.12)'; sh.style.opacity = 0.7; r.angle += 0.012;
+        const auto = !r.hover, k = auto ? 1.05 : scale; box.style.transformOrigin = auto ? '50% 100%' : '50% 50%';
+        box.style.transform = (auto ? 'translateY(-4px) ' : '') + 'scale3d(' + k + ',' + k + ',' + k + ')'; box.style.zIndex = 5; card.style.filter = 'brightness(1.12)'; sh.style.opacity = 0.7; r.angle += 0.012;
       } else {
         const sx = Math.cos(a) * 0.5, sy = Math.sin(a) * 0.5;
         card.style.transform = 'translateZ(0) perspective(100px) rotateX(' + (-sy * 6) + 'deg) rotateY(' + (sx * 6) + 'deg) ' + base;
@@ -141,24 +504,43 @@ class Component extends DCLogic {
       }
     });
   }
-  renderVals() {
-    const pk = this.state.pick, p = pk >= 0 ? this.CARDS[pk] : null, dots = n => '●'.repeat(n);
+  renderVals0() {
+    const hi = this.state.hi, cur = this.state.cur, rc = cur >= 0 ? this.CARDS[cur] : null, dots = n => '●'.repeat(n);
     return {
-      wrapRef: this.wrapRef, stageRef: this.stageRef,
+      wrapRef: this.wrapRef, stageRef: this.stageRef, ctaRef: this.ctaRef, fxRef: this.fxRef, panelRef: this.panelRef,
       portrait: !this.state.land, landscape: this.state.land,
-      ctaHref: this.props.ctaHref || 'Space Dice Run v15.dc.html',
+      ctaHref: this.props.ctaHref || 'Main.dc.html',
       ctaTarget: this.props.ctaNewTab ? '_blank' : '_top',
+      isDesc: this.state.phase === 'desc', isBuild: this.state.phase === 'build',
+      pnl: this.state.phase === 'build' ? { bg: 'transparent', bw: 0, sh: 'none', padP: '0', padL: '0' } : { bg: '#0a0821', bw: 3, sh: '4px 4px 0 #240011', padP: '10px 12px', padL: '12px' },
+      hullRef: this.hullRef,
+      ...(() => { const lossNow = this.state.dice.filter(d => d.slot < 0 && d.settled && !d.gone).reduce((a, d) => a + d.v, 0), HV = this.hullView(lossNow); return { integ: HV.integ, hullCol: HV.col, hullSegs: HV.segs }; })(),
+      ...(() => {
+        const pc = this.CARDS[cur >= 0 ? cur : 0], loss = this.state.dice.filter(d => d.slot < 0 && d.settled && !d.gone).reduce((a, d) => a + d.v, 0), st = this.state.stage, L = this.state.launched;
+        return { btnRef: this.btnRef,
+          phBays: this.state.bays.map((x, b) => { const B = this.BPS[x.type], n = x.dice.filter(v => v != null).length; return { ref: this.bayRefs[b].box, shipRef: this.bayRefs[b].ship, full: !x.gone, gone: x.gone, art: 'assets/' + B.bp + '.png', hue: B.hue, sat: B.sat || 1, bri: B.bri || 1, label: !!B.label, name: B.name, ship: 'assets/' + B.ship + '.png',
+            slots: B.slots.map((v, j) => ({ j, top: 10 + 51 * j, src: 'assets/' + (x.dice[j] != null ? 'flat_' + x.dice[j] : 'ghost_' + v) + '_30.png' })),
+            caption: x.gone ? 'NEXT STATION' : '', capCol: x.gone ? '#a9b0c0' : n ? '#ffd644' : '#a9b0c0' }; }),
+          ph: { name: pc.name, col: pc.color, art: 'assets/' + pc.art + '_f0.png', rules: pc.rules.join(' · '), lock: !!pc.fixed, ships: L, fleet: L ? L + (L === 1 ? ' SHIP LAUNCHED' : ' SHIPS LAUNCHED') : 'NO SHIPS YET',
+            hint: st === 'ready' ? 'Roll, then tap a die and a lit blueprint.' : st === 'rolled' ? 'Tap a die, then a lit blueprint.' : 'All placed. On to the next station.',
+            btn: st === 'ready' ? 'ROLL ' + pc.n : st === 'rolled' ? 'CONFIRM' : 'NEXT STATION', btnSub: st === 'rolled' && loss ? '· HULL −' + loss : '',
+            loss: loss ? 'HULL −' + loss : '', segs: this.hullView(loss).segs } };
+      })(),
+      picked: rc ? { name: rc.name, color: rc.color, bd: rc.color, risk: 'RISK ' + dots(rc.risk) + '○'.repeat(3 - rc.risk), rules: rc.rules.map(t => ({ t, m: '◆', lock: !!rc.fixed && /^(THEN )?ROLL \d/.test(t) })) }
+        : { name: 'PICK A CARD', color: '#a9b0c0', bd: '#f2f2f2', risk: 'TAP TO INSPECT', rules: [{ t: 'EACH ADVENTURE IS A ROLL PATTERN', m: '◆', lock: false }, { t: 'FILL BLUEPRINT SLOTS TO LAUNCH SHIPS', m: '◆', lock: false }, { t: 'LEFTOVER DICE HIT THE HULL', m: '◆', lock: false }] },
+      rollNote: rc ? rc.n + (rc.n === 1 ? ' DIE' : ' DICE') : '', rollCol: rc ? rc.color : '#ffffff',
+      rolled: this.state.dice.map((d, i) => { const r = this.drt[i], o = { boxRef: r.box, floatRef: r.float, shadowRef: r.shadow, ref: r.cube, scale: d.settled ? 'scale(.8)' : 'scale(.64)', show: d.gone ? 0 : 1, ring: d.glow || 'transparent', glow: d.glow ? '0 0 14px 2px ' + d.glow : 'none' }; d.faces.forEach((f, j) => { o['f' + j] = 'assets/flat_' + f + '_48.png'; }); return o; }),
+      bays: this.state.bays.slice(0, 2).map((x, b) => { const B = this.BPS[x.type]; return { ref: this.bayRefs[b].box, shipRef: this.bayRefs[b].ship, full: !x.gone, gone: x.gone, art: 'assets/' + B.bp + '.png', hue: B.hue, sat: B.sat || 1, bri: B.bri || 1, label: !!B.label, name: B.name, ship: 'assets/' + B.ship + '.png',
+        slots: B.slots.map((v, j) => ({ j, top: 10 + 51 * j, src: 'assets/' + (x.dice[j] != null ? 'flat_' + x.dice[j] : 'ghost_' + v) + '_30.png' })) }; }),
       cards: this.CARDS.map((c, i) => { const rt = this.crt[i]; return {
         name: c.name, color: c.color, hue: c.hue || 0, strip: 'assets/anim/' + c.art + '.png', mask: 'assets/' + c.art + '_f0.png',
-        pips: dots(c.risk), ghost: '●'.repeat(3 - c.risk), ring: pk === i ? '#f2f2f2' : 'transparent', tilt: this.TILT[i],
+        pips: dots(c.risk), ghost: '●'.repeat(3 - c.risk), ring: hi === i ? '#f2f2f2' : 'transparent', tilt: this.TILT[i],
         boxRef: rt.box, cardRef: rt.card, shadowRef: rt.shadow,
         enter: () => { rt.hover = true; }, leave: () => { rt.hover = false; rt.tx = 0; rt.ty = 0; },
         move: e => this.point(i, e.clientX, e.clientY),
         touchStart: e => { rt.hover = true; const t = e.touches[0]; if (t) this.point(i, t.clientX, t.clientY); },
         touchMove: e => { const t = e.touches[0]; if (t) this.point(i, t.clientX, t.clientY); },
-        pick: () => this.setState({ pick: pk === i ? -1 : i }) }; }),
-      picked: p ? { name: p.name, color: p.color, bd: p.color, risk: 'RISK ' + dots(p.risk) + '○'.repeat(3 - p.risk), rules: p.rules.map(t => ({ t, m: '◆', lock: !!p.fixed && /^(THEN )?ROLL \d/.test(t) })) }
-        : { name: 'PICK A CARD', color: '#a9b0c0', bd: '#f2f2f2', risk: 'TAP TO INSPECT', rules: [{ t: 'EACH ADVENTURE IS A ROLL PATTERN', m: '◆', lock: false }, { t: 'FILL BLUEPRINT SLOTS TO LAUNCH SHIPS', m: '◆', lock: false }, { t: 'LEFTOVER DICE HIT THE HULL', m: '◆', lock: false }] }
+        pick: () => this.step(i) }; })
     };
   }
 }
