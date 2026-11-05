@@ -205,3 +205,6 @@ Five calls need your sign-off. The spec uses the defaults below until you say ot
 3. **Planet traits.** Default is Phase 2. Turn them on now if you want fleet makeup to matter in the offer from day one.
 4. **Persistent fleet.** With Contracts off, the meta fleet only shows up in the hangar. The options are to keep it as a trophy count or drop it.
 5. **Names.** System names, and planet names for Systems 2–4.
+
+
+> **Superseded Nov 5, 2026:** Long chose the daily rotation ("the new way daily"). One system a day on a local-midnight countdown, System 1 only 2 days a week, runs bank fleet into a pool, Your Planets -> Deploy -> Unlock. See `openPlanets`/`vPlanets` in breach-concept/Main.dc.html.
