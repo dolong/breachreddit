@@ -1,0 +1,18 @@
+{
+  "name": "Conquest probe: fake a finished run, walk the conquest stage, screenshot each beat",
+  "steps": [
+    { "action": "reload", "waitMs": 1500 },
+    { "action": "eval", "expression": "(() => { if (!location.search.includes('view=game')) location.href = location.origin + '/?view=game'; return 1; })()" },
+    { "action": "sleep", "ms": 6000 },
+    { "action": "eval", "expression": "(() => { const g = window.__breachMain; if (!g) return 'no main'; const m = g.g.meta; m.dominion = { v: 1, mig: 1, system: 1, dmg: {}, taken: [], offer: null, pin: null, fresh: [] }; m.unlocked = []; g.startRun(12345); const r = g.g.run; r.launched = ['herald','kestrel','barnacle','herald','kestrel','barnacle'].map((t, i) => ({ id: 'x' + i, type: t })); r.gates = 3; r.runPrestige = 130; r.prestige = 0; r.phase = 'done'; g.openReceipt('win'); navigator.sendBeacon('/__harness-log', '[cq] start ' + JSON.stringify(r.cq)); return 1; })()" },
+    { "action": "sleep", "ms": 900 },
+    { "action": "screenshot", "path": "/tmp/cq-1-slam.png" },
+    { "action": "sleep", "ms": 3500 },
+    { "action": "screenshot", "path": "/tmp/cq-2-offer.png" },
+    { "action": "eval", "expression": "(() => { const g = window.__breachMain, cq = g.g.run.cq; g.cqPick(cq.offer[0]); navigator.sendBeacon('/__harness-log', '[cq] pick ' + JSON.stringify({ left: cq.left, hits: cq.hits, stage: cq.stage })); return 1; })()" },
+    { "action": "sleep", "ms": 1100 },
+    { "action": "screenshot", "path": "/tmp/cq-3-bomb.png" },
+    { "action": "sleep", "ms": 2600 },
+    { "action": "screenshot", "path": "/tmp/cq-4-after.png" }
+  ]
+}

@@ -43,6 +43,10 @@
 <div style="height:6px;background:#240011;border:1px solid #3a3a5a"><div style="height:100%;width:{{ c.pct }};background:{{ c.barCol }}"></div></div>
 </div></sc-for>
 </div></sc-if>
+<sc-if value="{{ title.dom.show }}" hint-placeholder-val="{{ true }}"><div onClick="{{ title.openDom }}" style="background:rgba(10,8,33,.85);border:3px solid #48f320;border-radius:6px;box-shadow:3px 3px 0 #240011;padding:8px 10px;display:flex;flex-direction:column;gap:6px;cursor:pointer">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="min-width:0;font-family:'Jersey 15',monospace;font-size:20px;line-height:1;letter-spacing:1px;color:#48f320;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title.dom.title }}</span><span style="flex:none;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0;white-space:nowrap">{{ title.dom.sub }} ›</span></div>
+<div style="display:flex;justify-content:space-around;gap:6px"><sc-for list="{{ title.dom.planets }}" as="p" hint-placeholder-count="4"><div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:3px"><img src="{{ p.img }}" alt="" style="width:34px;height:34px;display:block;image-rendering:pixelated;filter:{{ p.pf }}"><sc-if value="{{ p.flag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:-2px;top:0;width:9px;height:7px;background:#48f320;border:1px solid #0a0821"></span></sc-if><div style="width:34px;height:5px;background:#240011;border:1px solid #3a3a5a"><div style="height:100%;width:{{ p.bar }};background:{{ p.barCol }}"></div></div></div></sc-for></div>
+</div></sc-if>
 <sc-if value="{{ title.noEnergy }}" hint-placeholder-val="{{ false }}">
 <div style="background:#0a0821;border:3px solid #ff4d4d;border-radius:8px;box-shadow:4px 4px 0 #240011;padding:12px;display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:'Jersey 15',monospace;font-size:24px;line-height:1;letter-spacing:1px;color:#ff4d4d;white-space:nowrap">OUT OF ENERGY</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0;text-align:right">{{ title.extraNote }}</div></div>
@@ -456,13 +460,13 @@
 <button onClick="{{ tp.buyRun }}" style="position:relative;margin:12px 16px 0;height:52px;display:flex;align-items:center;justify-content:center;gap:8px;background:#486c05;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -6px 0 #2e4a02,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:26px;letter-spacing:1px;color:#fff;opacity:{{ tp.runOp }}"><img src="assets/prestige.png" style="width:16px;height:16px;display:block">{{ tp.runLabel }}</button>
 <div style="position:relative;padding:10px 16px 0;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ tp.rotate }}</div>
 <div style="position:relative;flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 16px 16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-top:6px"><span style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:#ffd644">CARDS</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">ADVENTURES FOR YOUR DECK</span></div>
+<sc-if value="{{ tp.showCards }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-top:6px"><span style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:#ffd644">CARDS</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">ADVENTURES FOR YOUR DECK</span></div>
 <sc-for list="{{ tp.cards }}" as="it" hint-placeholder-count="2"><div onClick="{{ it.buy }}" style="display:flex;align-items:center;gap:12px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;padding:8px 10px;cursor:pointer;opacity:{{ it.op }}">
 <img src="{{ it.img }}" alt="" style="flex:none;width:44px;height:73px;display:block;image-rendering:pixelated;border-radius:3px;box-shadow:2px 2px 0 #240011">
 <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px">{{ it.name }}</span><span style="font-size:12px;line-height:1.35;color:#a9b0c0;text-wrap:pretty">{{ it.desc }}</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#ff7ac8">{{ it.tag }}</span></div>
 <div style="flex:none;display:flex;align-items:center;gap:6px;padding:3px 10px;background:#0f4a4a;border:3px solid #6af5d6;border-radius:6px"><img src="assets/prestige.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1">{{ it.price }}</span></div>
 </div></sc-for>
-<sc-if value="{{ tp.noCards }}" hint-placeholder-val="{{ false }}"><div style="padding:8px 0;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#6b7187">ALL OWNED</div></sc-if>
+<sc-if value="{{ tp.noCards }}" hint-placeholder-val="{{ false }}"><div style="padding:8px 0;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;color:#6b7187">ALL OWNED</div></sc-if></sc-if>
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-top:6px"><span style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px;color:#6af5d6">DEPOT</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">NEW PARTS IN DEPOTS</span></div>
 <sc-for list="{{ tp.depot }}" as="it" hint-placeholder-count="2"><div onClick="{{ it.buy }}" style="display:flex;align-items:center;gap:12px;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:4px 4px 0 #240011;padding:8px 10px;cursor:pointer;opacity:{{ it.op }}">
 <div style="flex:none;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:#05040f;border:2px solid #3a3a5a;border-radius:6px"><img src="{{ it.img }}" alt="" style="width:34px;height:34px;object-fit:contain;display:block;image-rendering:pixelated"></div>
@@ -549,6 +553,40 @@
 </div>
 </sc-if>
 
+<sc-if value="{{ dm.on }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Dominion" style="position:absolute;inset:0;z-index:23;background:#000 url(assets/space.png) center 0/600px 900px no-repeat;display:flex;flex-direction:column">
+<div style="position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 16px 0">
+<div style="display:flex;flex-direction:column;gap:4px;min-width:0"><div style="font-family:'Jersey 15',monospace;font-size:32px;line-height:1;letter-spacing:1px;color:#ffd644">DOMINION</div><div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ dm.sub }}</div></div>
+<button onClick="{{ dm.close }}" style="width:48px;height:48px;flex:none;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;font-family:'Jersey 15',monospace;font-size:26px;color:#fff">✕</button>
+</div>
+<div style="position:relative;padding:10px 16px 0;font-size:13px;line-height:1.4;color:#e0dcef;text-wrap:pretty">Every run hits one planet with your fleet score × rank. Empty its bar to take it and unlock the card it holds.</div>
+<div style="position:relative;flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ dm.systems }}" as="s" hint-placeholder-count="4">
+<div style="background:#0a0821;border:3px solid {{ s.bd }};border-radius:6px;box-shadow:4px 4px 0 #240011;padding:8px 10px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px">{{ s.title }}</span><span style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:{{ s.statusCol }}">{{ s.status }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px">
+<sc-for list="{{ s.planets }}" as="p" hint-placeholder-count="5"><button onClick="{{ p.tap }}" style="position:relative;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;background:none;border:none;border-radius:6px;box-shadow:{{ p.sel }};color:#fff">
+<img src="{{ p.img }}" alt="" style="width:40px;height:40px;display:block;image-rendering:pixelated;filter:{{ p.pf }}">
+<sc-if value="{{ p.flag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:2px;top:0;width:10px;height:8px;background:#48f320;border:1px solid #0a0821"></span></sc-if>
+<span style="max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Silkscreen',monospace;font-size:12px">{{ p.name }}</span>
+<sc-if value="{{ p.showBar }}" hint-placeholder-val="{{ true }}"><div style="width:40px;height:5px;background:#240011;border:1px solid #3a3a5a"><div style="height:100%;width:{{ p.bar }};background:{{ p.barCol }}"></div></div></sc-if>
+</button></sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ dm.hasDetail }}" hint-placeholder-val="{{ false }}"><div onClick="{{ dm.closeDetail }}" style="position:absolute;inset:0;z-index:2;background:rgba(5,4,15,.82);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box">
+<div style="width:100%;background:#0a0821;border:3px solid #ffd644;border-radius:8px;box-shadow:4px 4px 0 #240011;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+<img src="{{ dm.detail.img }}" alt="" style="width:72px;height:72px;display:block;image-rendering:pixelated;filter:{{ dm.detail.pf }}">
+<div style="font-family:'Jersey 15',monospace;font-size:26px;line-height:1;letter-spacing:1px">{{ dm.detail.name }}</div>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;color:{{ dm.detail.domCol }}">{{ dm.detail.dom }}</div>
+<img src="{{ dm.detail.cardImg }}" alt="" style="width:76px;height:125px;display:block;image-rendering:pixelated;border-radius:3px;filter:{{ dm.detail.cardFilter }}">
+<div style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#ffd644">{{ dm.detail.card }}</div>
+<sc-for list="{{ dm.detail.rules }}" as="ru" hint-placeholder-count="2"><div style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.4;color:#fff;text-wrap:pretty">{{ ru.t }}</div></sc-for>
+<div style="font-family:'Silkscreen',monospace;font-size:12px;color:#6b7187">TAP TO CLOSE</div>
+</div></div></sc-if>
+</div>
+</sc-if>
 <i data-mark="screens"></i>
 <sc-if value="{{ tv.on }}" hint-placeholder-val="{{ false }}">
 <div data-tv="1" onClick="{{ tv.skip }}" style="position:absolute;inset:0;z-index:18">
@@ -660,7 +698,8 @@
 </div>
 <div style="position:relative;flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 14px 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 10px;align-content:start">
 <sc-for list="{{ cx.cards }}" as="c" hint-placeholder-count="9">
-<div style="display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0">
+<div onClick="{{ c.tap }}" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0">
+<sc-if value="{{ c.isNew }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:0;top:-6px;z-index:1;background:#ffd644;color:#0a0821;font-family:'Silkscreen',monospace;font-size:12px;padding:1px 4px;border-radius:3px">NEW</span></sc-if>
 <div style="width:76px;height:125px;animation:{{ c.anim }};animation-delay:{{ c.delay }}"><img src="{{ c.img }}" style="width:76px;height:125px;display:block;image-rendering:pixelated;filter:{{ c.filter }};opacity:{{ c.op }}"></div>
 <div style="font-family:'Jersey 15',monospace;font-size:18px;line-height:1;letter-spacing:1px;color:{{ c.color }}">{{ c.name }}</div>
 <div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ c.risk }}</div>
@@ -669,6 +708,37 @@
 </div>
 </sc-for>
 </div>
+</div>
+</sc-if>
+<sc-if value="{{ cq.on }}" hint-placeholder-val="{{ false }}">
+<div data-cq="1" onClick="{{ cq.skip }}" style="position:absolute;inset:0;z-index:27;background:rgba(5,4,15,.9);display:flex;flex-direction:column;align-items:center;padding:22px 12px 18px;box-sizing:border-box">
+<div style="font-family:'Jersey 15',monospace;font-size:36px;line-height:1;letter-spacing:2px;color:#ffd644;text-shadow:3px 3px 0 #240011">CONQUEST</div>
+<div style="margin-top:4px;font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">{{ cq.sys }}</div>
+<div style="position:relative;margin-top:16px;width:100%;display:flex;align-items:center;justify-content:center;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0">FLEET SCORE</span><span data-cq-fleet="1" style="font-family:'Jersey 15',monospace;font-size:40px;line-height:1;color:#fff;text-shadow:3px 3px 0 #240011">{{ cq.fleet }}</span></div>
+<div data-cq-rank="1" style="display:flex;flex-direction:column;align-items:center;gap:2px;opacity:{{ cq.rankOp }}"><img src="{{ cq.rankImg }}" alt="" style="width:32px;height:36px;display:block;image-rendering:pixelated"><span style="font-family:'Silkscreen',monospace;font-size:12px;white-space:nowrap;color:{{ cq.rankCol }}">{{ cq.rankName }}</span></div>
+<div data-cq-mult="1" style="font-family:'Jersey 15',monospace;font-size:48px;line-height:1;color:{{ cq.multCol }};text-shadow:3px 3px 0 #240011;opacity:{{ cq.multOp }}">{{ cq.mult }}</div>
+</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:2px;opacity:{{ cq.hitOp }}"><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#ffd644">{{ cq.hitLabel }}</span><span data-cq-hit="1" style="font-family:'Jersey 15',monospace;font-size:72px;line-height:1;letter-spacing:2px;color:{{ cq.hitCol }};text-shadow:4px 4px 0 #b3201c,6px 6px 0 #240011">{{ cq.hit }}</span></div>
+<div style="position:relative;width:100%;height:72px;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{ cq.hasStamp }}" hint-placeholder-val="{{ false }}"><div data-cq-stamp="1" style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center"><span style="padding:4px 14px 3px;background:#0a0821;border:3px solid {{ cq.stampCol }};border-radius:8px;box-shadow:3px 3px 0 #240011;font-family:'Jersey 15',monospace;font-size:34px;line-height:1;letter-spacing:2px;color:{{ cq.stampCol }};white-space:nowrap">{{ cq.stamp }}</span><span style="font-family:'Silkscreen',monospace;font-size:12px;color:#fff">{{ cq.stampSub }}</span></div></sc-if>
+</div>
+<sc-if value="{{ cq.showOffer }}" hint-placeholder-val="{{ true }}">
+<div style="width:100%;display:flex;gap:8px;justify-content:center">
+<sc-for list="{{ cq.planets }}" as="p" hint-placeholder-count="3"><button data-cq-planet="{{ p.k }}" onClick="{{ p.tap }}" style="flex:1;min-width:0;max-width:122px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 6px 9px;background:#0a0821;border:3px solid {{ p.bd }};border-radius:8px;box-shadow:{{ p.glow }}4px 4px 0 #240011;color:#fff;opacity:{{ p.op }};cursor:pointer">
+<img data-cq-planet-img="{{ p.k }}" src="{{ p.img }}" alt="" style="width:70px;height:70px;display:block;image-rendering:pixelated;filter:{{ p.pf }}">
+<span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px">{{ p.name }}</span>
+<div style="position:relative;width:44px;height:73px"><img src="{{ p.cardImg }}" alt="" style="width:44px;height:73px;display:block;image-rendering:pixelated;border-radius:3px;filter:{{ p.cardFilter }}"><sc-if value="{{ p.seal }}" hint-placeholder-val="{{ true }}"><img src="assets/ic_lock.svg" alt="Sealed" style="position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%)"></sc-if></div>
+<span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.2;color:#ffd644;text-align:center;min-height:30px">{{ p.card }}</span>
+<div style="width:100%;height:8px;background:#240011;border:2px solid #3a3a5a;box-sizing:content-box"><div style="height:100%;width:{{ p.bar }};background:{{ p.barCol }}"></div></div>
+<span style="font-family:'Silkscreen',monospace;font-size:12px;color:#fff">{{ p.left }}</span>
+<span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1.2;text-align:center;color:{{ p.prevCol }}">{{ p.prev }}</span>
+</button></sc-for>
+</div>
+</sc-if>
+<div style="margin-top:12px;font-family:'Silkscreen',monospace;font-size:12px;text-align:center;color:{{ cq.hintCol }}">{{ cq.hint }}</div>
+<div style="flex:1"></div>
+<sc-if value="{{ cq.showCta }}" hint-placeholder-val="{{ false }}"><button onClick="{{ cq.finish }}" style="width:100%;height:60px;background:#486c05;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -6px 0 #2e4a02,4px 4px 0 #240011;font-family:'Jersey 15',monospace;font-size:28px;letter-spacing:1px;color:#fff">CONTINUE ›</button></sc-if>
 </div>
 </sc-if>
 <sc-if value="{{ rc.on }}" hint-placeholder-val="{{ false }}">
@@ -736,6 +806,7 @@
 <div style="display:flex;flex-direction:column;gap:6px"><span>SPAWN BLUEPRINT</span><div style="display:flex;gap:8px"><sc-for list="{{ dbg.types }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.tap }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #a9b0c0;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">{{ t.t }}</button></sc-for></div></div>
 <div style="display:flex;flex-direction:column;gap:6px"><span>JUMP TO SECTOR</span><div style="display:flex;gap:8px"><sc-for list="{{ dbg.sectors }}" as="s" hint-placeholder-count="3"><button onClick="{{ s.tap }}" style="flex:1;height:48px;background:#0a0821;border:2px solid {{ s.bd }};border-radius:6px;font-family:'Jersey 15',monospace;font-size:22px;color:#fff">{{ s.n }}</button></sc-for></div></div>
 <div style="display:flex;flex-direction:column;gap:6px"><span>JUMP TO NODE</span><div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px"><sc-for list="{{ dbg.nodes }}" as="n" hint-placeholder-count="12"><button onClick="{{ n.tap }}" style="height:48px;background:#0a0821;border:2px solid {{ n.bd }};border-radius:6px;font-family:'Jersey 15',monospace;font-size:22px;color:#fff">{{ n.n }}</button></sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span>DOMINION · {{ dbg.domNote }}</span><div style="display:flex;gap:8px"><button onClick="{{ dbg.domHit }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #48f320;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">HIT 500</button><button onClick="{{ dbg.domTakeOne }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #48f320;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">TAKE PLANET</button><button onClick="{{ dbg.domNext }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #48f320;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">NEXT SYSTEM</button><button onClick="{{ dbg.domReset }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #48f320;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">RESET DOMINION</button></div></div>
 <div style="display:flex;flex-direction:column;gap:6px"><span>UNLOCKS · {{ dbg.unlockNote }}</span><div style="display:flex;gap:8px"><button onClick="{{ dbg.addClear }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #a9b0c0;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">+1 CLEAR</button><button onClick="{{ dbg.unlockAll }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #a9b0c0;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">UNLOCK ALL</button><button onClick="{{ dbg.lockAll }}" style="flex:1;height:48px;background:#0a0821;border:2px solid #a9b0c0;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#fff">LOCK ALL</button></div></div>
 <div style="font-family:'Silkscreen',monospace;font-size:12px;color:#a9b0c0;line-height:1.5;word-break:break-word">{{ dbg.sfxNote }}</div>
 <button onClick="{{ dbg.reset }}" style="height:48px;background:#3a0712;border:2px solid #ff4d4d;border-radius:6px;font-family:'Silkscreen',monospace;font-size:12px;color:#ff4d4d">RESET PERSISTENCE</button>
@@ -925,7 +996,7 @@ class Component extends DCLogic {
   PROMO_MAJOR = [2, 5, 9];
   rankCheck() {
     const r = this.g.run; if (!r || this.enc) return;
-    const i = this.rankIdx(this.runP(r));
+    const i = this.rankIdx(this.runP(r)); r.peakRank = Math.max(r.peakRank || 0, i);
     if (r.rankSeen == null || i < r.rankSeen) { r.rankSeen = i; return; }
     if (i > r.rankSeen) { const from = r.rankSeen; r.rankSeen = i; this.promote(from, i); }
   }
@@ -1059,7 +1130,11 @@ class Component extends DCLogic {
     LAUNCH_TIERS: { 2: 'DOUBLE LAUNCH', 3: 'TRIPLE LAUNCH', 4: 'FLEET LAUNCH', 5: 'ARMADA' },
     // ─── unlocks ───
     DECK_SIZE: 8, FIXED_CARDS: ['beacon', 'vent', 'salvage', 'toll', 'convoy'],
-    RIVALS: ['DUSTRUNNER', 'MOTH', 'MAGPIE'], SECTOR: 1, RIVAL_DICE_BY_SECTOR: [4, 5, 6]
+    RIVALS: ['DUSTRUNNER', 'MOTH', 'MAGPIE'], SECTOR: 1, RIVAL_DICE_BY_SECTOR: [4, 5, 6],
+    // ─── planet conquest (docs/planet-conquest-spec.md) · DOM_HP is a starting guess: the hit uses the parade FLEET SCORE (ship points × gates × full run) ───
+    DOM_ON: true, DOM_HP: [600, 1600, 3200, 5600], RANK_MULT: [1, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 3, 3.5, 4], CHIP_FLOOR: 25, OFFER_SIZE: 3, OFFER_REROLLS: 0, OVERKILL_SPILL: true, PIN_NEW_CARD: true, PLANET_TRAITS: false, TRAIT_MULT: 2,
+    // retired systems: switched off, code kept until removal is approved
+    DEPLOY_ON: false, RIVALS_ON: false, CONTRACTS_ON: false, TP_CARDS_ON: false, CLEAR_UNLOCKS_ON: false
   };
   SHIPS = {
     herald:   { name: 'HERALD',   cls: 'COURIER', slots: [6, 4],    str: 1, prestige: 1, price: 3, bp: 'bp_2slot', hue: 0,   label: false, ship: 'ship_blue',   note: 'All-rounder. Strength 1, Hold 1.' },
@@ -1097,9 +1172,9 @@ class Component extends DCLogic {
     // base deck · unlock: null
     { id: 'beacon', name: 'DISTRESS BEACON', risk: '●○○', color: '#ff7ac8', art: 'cc_beacon', n: 1, bp: 1, unlock: null, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'NO OPEN BAY: SWAP AN EMPTY BLUEPRINT FOR A NEW ONE', 'THEN ROLL 1 DIE'] },
     { id: 'salvage', name: 'SALVAGE', risk: '○○○', color: '#6af5d6', art: 'adv_salvage', n: 1, unlock: null, rules: ['PICK A NUMBER', 'REPAIR THAT MUCH HULL', 'GET A DIE WITH THAT NUMBER TO PLACE'] },
-    { id: 'toll', name: 'TOLL LANE', risk: '●●○', color: '#9dffb0', art: 'cc_toll', n: 3, mode: 'place', launchX2: true, hullDouble: true, unlock: null, rules: ['ROLL 3 DICE', 'SHIPS LAUNCHED HERE SCORE DOUBLE', 'LEFTOVERS HIT THE HULL DOUBLE'] },
+    { id: 'toll', name: 'TOLL LANE', risk: '●●○', color: '#9dffb0', art: 'cc_toll', n: 3, mode: 'place', tollGold: [2, 5], hullDouble: true, unlock: null, rules: ['ROLL 3 DICE', '1 SHIP LAUNCHED: +2 GOLD', '2 SHIPS LAUNCHED: +5 GOLD', 'LEFTOVERS HIT THE HULL DOUBLE'] },
     { id: 'vent', name: 'VENT', risk: '●●○', color: '#7ab8ff', art: 'cc_vent', unlock: null, rules: ['REROLL EVERY HULL DIE · PLACE WHAT FITS', 'THE REST RETURN TO THE HULL', 'CLEAN HULL: ROLL 2 INSTEAD'] },
-    { id: 'data', name: 'SECRET DATA', risk: '●●○', color: '#7dff6a', art: 'adv_data', n: 2, unlock: null, rules: ['ROLL 2 DICE', 'SET ONE TO ANY FACE', 'PLACE BOTH'] },
+    { id: 'data', name: 'SECRET DATA', risk: '●●○', color: '#7dff6a', art: 'adv_data', n: 2, unlock: null, rules: ['ROLL 2 DICE', 'SET ONE TO ANY FACE'] },
     { id: 'sweep', name: 'CARGO SWEEP', risk: '●●○', color: '#ffe066', art: 'cc_sweep', n: 5, unlock: null, rules: ['ROLL 5 DICE', 'PLACE ALL DICE OF ONE NUMBER', 'DISCARD THE REST · NO HULL DAMAGE'] },
     { id: 'scan', name: 'DEEP SCAN', risk: '●●●', color: '#c79bff', art: 'cc_scan', n: 6, unlock: null, rules: ['ROLL 6 DICE', 'PLACE EXACTLY 3', 'DISCARD THE REST'] },
     { id: 'asteroid', name: 'ASTEROID FIELD', risk: '●●●', color: '#ffc466', art: 'adv_asteroid', n: 3, unlock: null, rules: ['ROLL 3 DICE AND PLACE THEM', 'THEN ROLL 1 AT A TIME · STOP ANY TIME', 'CHAIN DICE: SLOT OR HULL · AIRLOCK CLOSED'] },
@@ -1109,8 +1184,8 @@ class Component extends DCLogic {
     { id: 'patrol', name: 'PATROL', risk: '●○○', color: '#8fe3ff', art: 'cc_patrol', n: 2, mode: 'place', discardLowest: 1, unlock: { clears: 1 }, rules: ['ROLL 2 DICE', 'PLACE WHAT FITS', 'LOWEST LEFTOVER IS DISCARDED FREE'] },
     { id: 'escort', name: 'ESCORT CONVOY', risk: '●○○', color: '#b6ff6a', art: 'cc_escort', n: 3, mode: 'place', perPlaced: 1, unlock: { clears: 2 }, rules: ['ROLL 3 DICE', '+1 PRESTIGE FOR EACH DIE YOU PLACE ON A BLUEPRINT'] },
     { id: 'shield', name: 'SHIELD ARRAY', risk: '●●○', color: '#6ad0ff', art: 'cc_shield', n: 4, mode: 'place', hullHalf: 1, unlock: { clears: 3 }, rules: ['ROLL 4 DICE', 'LEFTOVER ROLLS HIT THE HULL FOR HALF DAMAGE (RND DOWN)'] },
-    { id: 'smuggler', name: 'SMUGGLER', risk: '●●○', color: '#ffa0e0', art: 'adv_salvage', hue: 150, n: 3, mode: 'place', sell: 1, unlock: { clears: 4 }, rules: ['ROLL 3 DICE', 'SELL ONE DIE FIRST: GOLD = ITS DOTS', 'PLACE THE REST'] },
-    { id: 'ion', name: 'ION STORM', risk: '●●●', color: '#a8ff3a', art: 'cc_ion', n: 5, mode: 'place', noAir: 1, unlock: { clears: 5 }, rules: ['ROLL 5 DICE', 'THE AIRLOCK IS OFFLINE', 'PLACE WHAT FITS · THE REST HIT THE HULL'] },
+    { id: 'smuggler', name: 'SMUGGLER', risk: '●●○', color: '#ffa0e0', art: 'adv_salvage', hue: 150, n: 3, mode: 'place', sell: 1, unlock: { clears: 4 }, rules: ['ROLL 3 DICE', 'ONCE, ANY TIME: SELL A DIE FOR GOLD = ITS DOTS', 'PLACE THE REST'] },
+    { id: 'ion', name: 'ION STORM', risk: '●●●', color: '#a8ff3a', art: 'cc_ion', n: 5, mode: 'place', noAir: 1, unlock: { clears: 5 }, rules: ['ROLL 5 DICE', 'THE AIRLOCK IS OFFLINE'] },
     { id: 'wormhole', name: 'WORMHOLE', risk: '●●○', color: '#ff8a6a', art: 'cc_wormhole', n: 3, mode: 'data', mirror: 1, unlock: { clears: 6 }, rules: ['ROLL 3 DICE', 'MIRROR ONE (1↔6 · 2↔5 · 3↔4)', 'PLACE THEM'] },
     { id: 'mayday', name: 'MAYDAY', risk: '●●●', color: '#ffb36a', art: 'cc_mayday', n: 3, bp: 1, mode: 'place', unlock: { clears: 8 }, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'NO OPEN BAY: +1 PRESTIGE INSTEAD', 'THEN ROLL 3 DICE'] },
     { id: 'derelict', name: 'DERELICT', risk: '●●○', color: '#d9c38a', art: 'adv_salvage', hue: -90, n: 3, repair: 3, mode: 'place', unlock: { clears: 10 }, rules: ['PATCH 3 DAMAGE OFF THE HULL', 'THEN ROLL 3 DICE'] },
@@ -1166,7 +1241,8 @@ class Component extends DCLogic {
         if (r && s.screen === 'board' && !r.card) s.pendingArrive = true;
         if (r && r.roll) { r.roll.dice.forEach(d => { d.settled = true; d.faces = [d.v].concat([1, 2, 3, 4, 5, 6].filter(x => x !== d.v)); }); if (r.phase === 'rolling') r.phase = 'place'; }
         if (r && r.dep && !r.dep.final) { r.dep = null; s.pendingRace = true; } // mid-run jump gate: replay the gate, never end the run
-        if (r && r.dep) { if (r.dep.stage === 'gate' || r.dep.stage === 'depart') r.dep.stage = r.launched.length ? 'galaxy' : 'cash'; if (r.dep.stage === 'landing') r.dep.stage = 'cash'; if (r.dep.stage === 'cash') { r.dep.cashDone = true; r.dep.lines = 9; } if (r.dep.stage === 'cash') s.pendingReceipt = true; }
+        if (r && r.dep) { if (r.dep.stage === 'gate' || r.dep.stage === 'depart') r.dep.stage = r.launched.length ? 'galaxy' : 'cash'; if (r.dep.stage === 'galaxy' && !this.T.DEPLOY_ON) r.dep.stage = 'cash'; if (r.dep.stage === 'landing') r.dep.stage = 'cash'; if (r.dep.stage === 'cash') { r.dep.cashDone = true; r.dep.lines = 9; } if (r.dep.stage === 'cash') s.pendingReceipt = true; }
+        if (r && r.cq && !r.cq.done && !s.pendingReceipt) s.pendingConquest = r.cq.mode; // reload mid-conquest resumes at the offer with the hit intact
         if (r && r.race) { r.race = null; if (s.screen === 'race' && !r.dep) s.pendingRace = true; }
         return s;
       }
@@ -1176,6 +1252,7 @@ class Component extends DCLogic {
   save() { try { localStorage.setItem(this.SAVE_KEY, JSON.stringify(this.g)); } catch (e) {} }
   resetSave() { try { localStorage.removeItem(this.SAVE_KEY); } catch (e) {} this.g = this.initGame(); this.shown = null; this.titleMusic(); this.sync(); }
   componentDidMount() {
+    window.__breachMain = this; // test hook: lets Test View evals drive the game
     this.onFirstTap = () => { this.sfxAc(); this.preloadSfx(); }; document.addEventListener('pointerdown', this.onFirstTap, { once: true, capture: true });
     this.onResize = () => this.fit(); window.addEventListener('resize', this.onResize); this.fit();
     if (/demo5/.test(location.hash + location.search)) setTimeout(() => this.demo5(), 50);
@@ -1187,6 +1264,7 @@ class Component extends DCLogic {
     ['pointerdown', 'touchstart', 'keydown'].forEach(ev => window.addEventListener(ev, this.onFirstTap));
     if (this.g.pendingRace) { delete this.g.pendingRace; this.later(() => this.enterRace(), 50); }
     if (this.g.pendingReceipt) { delete this.g.pendingReceipt; this.later(() => this.openReceipt('win'), 400); }
+    if (this.g.pendingConquest) { const md = this.g.pendingConquest; delete this.g.pendingConquest; this.later(() => this.openConquest(md), 400); }
     this.tickerIv = setInterval(() => { if (this.g.screen !== 'race' && !this.g.galaxy) return; this.tickIdx = (this.tickIdx || 0) + 1; this.forceUpdate(); this.later(() => { const el = this.q('[data-ticker]'); if (el && el.animate) el.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none', offset: 0.1 }, { opacity: 1, offset: 0.88 }, { opacity: 0 }], { duration: 3000 }); }, 10); }, 3000);
     if (this.g.pendingArrive) { delete this.g.pendingArrive; this.later(() => this.arrive(), 50); }
     if ((this.g.meta.reveal || []).length && this.g.screen === 'title') this.later(() => this.startReveal(), 600);
@@ -1333,7 +1411,7 @@ class Component extends DCLogic {
     const row = it => { const own = this.tpOwn(it[0]), soon = !!it[4], ok = !own && !soon && (m.prestige || 0) >= it[2]; return { name: it[1], desc: it[3] || '', price: it[2], img: Component.__A('assets/' + (this.TP_ART[it[0]] || 'crate') + '.png'), op: own || soon ? 0.5 : ok ? 1 : 0.55, tag: own ? 'OWNED' : soon ? 'COMING NEXT PASS' : '', buy: () => this.tpBuy(it) }; };
     const cards = this.tpShelf('cards').map(row), depot = this.tpShelf('depot').map(row), sectors = this.tpShelf('sectors').map(row);
     const equip = this.TP.sectors.filter(x => this.tpOwn(x[0]) && !x[4]).map(x => ({ name: x[1], img: Component.__A('assets/' + (this.TP_ART[x[0]] || 'planet_hollow') + '.png'), bd: tpS.sector === x[0] ? '#48f320' : '#3a3a5a', tap: () => { tpS.sector = tpS.sector === x[0] ? null : x[0]; this.sfx('button'); this.sync(); } }));
-    return { tp: { on: true, bank: this.sh('bank'), cards, depot, sectors, noCards: !cards.length, noDepot: !depot.length, noSectors: !sectors.length,
+    return { tp: { on: true, showCards: !!this.T.TP_CARDS_ON, bank: this.sh('bank'), cards, depot, sectors, noCards: !cards.length, noDepot: !depot.length, noSectors: !sectors.length,
       rotate: 'NEW STOCK IN ' + left + 'H', hasEquip: equip.length > 0, equip,
       runLabel: cost == null ? 'NO PAID RUNS LEFT TODAY' : 'EXTRA RUN · ' + cost, runOp: cost != null && (m.prestige || 0) >= cost ? 1 : 0.4, buyRun: () => { this.g.post = null; this.payRun(); },
       close: () => { this.g.post = null; this.sync(); } } };
@@ -1365,10 +1443,11 @@ class Component extends DCLogic {
   liveRules(c) { const b = this.diceBonus(c), R0 = c['rules']; if (!b) return R0; return this.liveRules0(c, b, R0).concat(['BONUS DICE: ' + this.bonusParts(c).join(' · ')]); }
   liveRules0(c, b, R0) { let done = false; return R0.map(x => { if (done) return x; const y = x.replace(/ROLL (\d+)/, (m, n) => 'ROLL ' + (+n + b) + ' (+' + b + ')'); if (y !== x) done = true; return y; }).map(x => c.id === 'scan' ? x.replace(/EXACTLY (\d+)/, (m, n) => 'EXACTLY ' + (+n + b) + ' (+' + b + ')') : x); }
   tier(c) { return (c.risk.match(/●/g) || []).length; }
-  isUnlocked(c) { return !c.unlock || (this.g.meta.unlocked || []).includes(c.id); }
-  condText(c) { if (!c.unlock) return ''; if (c.unlock.clears) return 'CLEAR ' + c.unlock.clears + ' SECTOR' + (c.unlock.clears > 1 ? 'S' : ''); return this.FEATS[c.unlock.feat] || ''; }
+  isUnlocked(c) { if (this.T.DOM_ON) { this.dom(); return !this.domOfCard(c.id) || (this.g.meta.unlocked || []).includes(c.id); } return !c.unlock || (this.g.meta.unlocked || []).includes(c.id); }
+  condText(c) { const dp = this.T.DOM_ON && this.domOfCard(c.id); if (dp) return 'HELD BY ' + dp.name + ' · SYSTEM ' + dp.sys; if (!c.unlock) return ''; if (c.unlock.clears) return 'CLEAR ' + c.unlock.clears + ' SECTOR' + (c.unlock.clears > 1 ? 'S' : ''); return this.FEATS[c.unlock.feat] || ''; }
   checkUnlocks() {
     const m = this.g.meta; m.unlocked = m.unlocked || []; m.reveal = m.reveal || [];
+    if (this.T.DOM_ON && !this.T.CLEAR_UNLOCKS_ON) return; // planets are the only unlock path; clears and feats are kept as stats
     this.CARDS.forEach(c => { if (!c.unlock || m.unlocked.includes(c.id)) return; const ok = c.unlock.clears ? (m.clears || 0) >= c.unlock.clears : (m.feats || []).includes(c.unlock.feat); if (ok) { m.unlocked.push(c.id); m.reveal.push(c.id); } });
   }
   feat(id) { const m = this.g.meta; m.feats = m.feats || []; if (m.feats.includes(id)) return; m.feats.push(id); const n = (m.reveal || []).length; this.checkUnlocks(); if ((m.reveal || []).length > n) this.later(() => { this.toast('★ NEW ADVENTURE FOUND', '#ffd644'); this.sfx('feat', { id }); }, 500); }
@@ -1802,7 +1881,7 @@ class Component extends DCLogic {
     [1, 2, 3].forEach(t => { if (deck.length >= T.DECK_SIZE) return; const k = rest.findIndex(c => this.tier(c) === t); if (k >= 0) { deck.push(rest[k].id); rest.splice(k, 1); } });
     while (deck.length < T.DECK_SIZE && rest.length) deck.push(rest.shift().id);
     let out = deck; const s = sec || 1;
-    if (s >= 2) { out = out.filter(id => id !== 'patrol' && id !== 'nebula'); ['mayday', 'wormhole'].forEach(id => { if (!out.includes(id)) out.push(id); }); }
+    if (s >= 2) { out = out.filter(id => id !== 'patrol' && id !== 'nebula'); ['mayday', 'wormhole'].forEach(id => { if (!out.includes(id) && pool.some(c => c.id === id)) out.push(id); }); }
     if (s >= 3) out = out.filter(id => id !== 'hold');
     return out;
   }
@@ -1903,7 +1982,7 @@ class Component extends DCLogic {
       payCost: cost == null ? '—' : cost, payOpacity: cost != null && (m.prestige || 0) >= cost ? 1 : 0.4,
       extraNote: cost == null ? 'NO MORE PAID RUNS TODAY' : 'PAID RUN ' + (m.extraToday + 1) + '/' + T.EXTRA_RUN_PRESTIGE.length + ' TODAY',
       clock: 'DAY ' + day + ' · ' + String(hh).padStart(2, '0') + ':' + String(mi).padStart(2, '0'),
-      fleetSub: m.fleet.length + ' SHIPS', openPost: this.openPost, showCons: (() => { if (m.fleet.length) m.conSeen = true; return !!m.conSeen; })(), howOn: !!this.howOn, openHow: () => { this.howOn = true; this.sfx('button'); this.sync(); }, closeHow: () => { this.howOn = false; this.g.meta.howSeen = true; this.sfx('button'); if (this.tutThenRun) { this.tutThenRun = false; this.newRun(); } else this.sync(); },
+      fleetSub: m.fleet.length + ' SHIPS', openPost: this.openPost, showCons: T.CONTRACTS_ON && (() => { if (m.fleet.length) m.conSeen = true; return !!m.conSeen; })(), dom: this.domHome(), openDom: this.openDominion, howOn: !!this.howOn, openHow: () => { this.howOn = true; this.sfx('button'); this.sync(); }, closeHow: () => { this.howOn = false; this.g.meta.howSeen = true; this.sfx('button'); if (this.tutThenRun) { this.tutThenRun = false; this.newRun(); } else this.sync(); },
       tutAsk: !!this.tutAsk, tutStop: e => { if (e && e.stopPropagation) e.stopPropagation(); },
       tutCancel: () => { this.tutAsk = false; this.sync(); },
       tutPlay: e => { if (e && e.stopPropagation) e.stopPropagation(); this.tutAsk = false; this.g.meta.tutAsked = true; this.tutThenRun = true; this.howOn = true; this.sfx('button'); this.sync(); },
@@ -1952,8 +2031,10 @@ class Component extends DCLogic {
     if (r.dockReturn) { const dr = r.dockReturn; r.dockReturn = null; if (r.bps[dr.i] === null) { r.bps[dr.i] = this.makeBp(dr.type); this.later(() => this.toast('DRY DOCK · ' + this.SHIPS[dr.type].name + ' RETURNED', '#6af5d6'), 300); } }
     let pool = this.shuffle(r.deck.filter(c => c.cd === 0));
     if (pool.length < 3) { pool = pool.concat(this.shuffle(r.deck.filter(c => c.cd > 0)).sort((a, b) => a.cd - b.cd).slice(0, 3 - pool.length)); r.riffle = true; }
+    const dmp = this.T.DOM_ON && this.T.PIN_NEW_CARD && !r.dealt ? this.dom() : null, pin = dmp && dmp.pin && this.card(dmp.pin) && this.isUnlocked(this.card(dmp.pin)) ? dmp.pin : null;
     if (!r.dealt) { r.dealt = true; r.riffle = true; }
     r.deal = pool.slice(0, 3).map(c => c.id);
+    if (pin) { if (!r.deck.some(c => c.id === pin)) r.deck.push({ id: pin, cd: 0, passes: 0 }); r.deal = [pin].concat(r.deal.filter(id => id !== pin)).slice(0, 3); dmp.pin = null; } // one time only
     r.deck.forEach(c => { if (c.cd > 0) c.cd--; });
     r.pick = -1;
     const go = () => { this.clearDeal(); this.deal = { active: true, launched: [0, 0, 0], revealed: [0, 0, 0], ready: [0, 0, 0], pips: [0, 0, 0], tag: [0, 0, 0], timers: [] }; this.g.screen = 'select'; this.sync(); }, b = !this.tv && this.g.screen === 'board' && this.fxK() && this.q('[data-screen="board"]');
@@ -2556,9 +2637,9 @@ class Component extends DCLogic {
     m.serial++;
     const ship = { id: this.uid(), type: b.type, name: s.name + ' ' + String(m.serial).padStart(2, '0'), planet: null, lockedUntil: 0 };
     const T = this.T, ro0 = r.roll; if (ro0) { ro0.lArt = (ro0.lArt || []).concat(s.ship); ro0.nLaunch = (ro0.nLaunch || 0) + 1; if (ro0.nLaunch === 1) r.mom = (r.mom || 0) + 1; }
-    const mom = r.mom >= 2 ? 1 + this.momStep() * (r.mom - 1) : 1; const fl = r.card && (this.card(r.card) || {}).launchX2 ? 2 : 1;   // TOLL LANE: launches here score double
+    const mom = r.mom >= 2 ? 1 + this.momStep() * (r.mom - 1) : 1; const fl = 1; const tg = r.card && (this.card(r.card) || {}).tollGold;   // TOLL LANE: +2 gold for 1 ship this roll, +5 total for 2
     ship.pts = Math.round(((T.SHIP_POINTS[b.type] || 0) + this.heraldPts()) * mom * (r.assay ? T.ASSAY_MULT : 1)) * fl;
-    if (fl > 1) this.later(() => this.bigStamp('DOUBLE LAUNCH', 'POINTS ×2 · PRESTIGE ×2', '#9dffb0', { anchor: '[data-tray]', scale: this.ladder(4).scale, cap: '' }), this.fxK() ? 520 : 0); r.bestMom = Math.max(r.bestMom || 0, r.mom || 0);
+    if (tg && ro0 && ro0.nLaunch <= tg.length) { const tb = tg[ro0.nLaunch - 1] - (ro0.nLaunch > 1 ? tg[ro0.nLaunch - 2] : 0); this.later(() => { if (this.g.run === r) this.gainGold(tb, 'TOLL LANE'); this.sync(); }, this.fxK() ? 1500 : 0); } r.bestMom = Math.max(r.bestMom || 0, r.mom || 0);
     if (mom > 1 && (!ro0 || ro0.nLaunch === 1)) this.later(() => this.bigStamp('LAUNCH STREAK ×' + r.mom, 'POINTS ×' + mom, '#7ab8ff', { anchor: '[data-tray]', scale: this.ladder(Math.min(8, (r.mom || 0) + 2)).scale, cap: this.hintsOn() ? 'Launches on consecutive rolls.' : '' }), this.fxK() ? 700 : 0);
     { const st = b.started; if (st && ro0 && st.roll === ro0.seq) this.buildStamp('instant', s.name); }
     const lg = T.LAUNCH_GOLD[b.type] != null ? T.LAUNCH_GOLD[b.type] : (s.slots.length >= 3 ? T.LAUNCH_GOLD.large : 2), bayRect = this.rectIn(this.q('[data-bay="' + i + '"]'));
@@ -2914,7 +2995,7 @@ class Component extends DCLogic {
         ovState: ovReady ? 'READY' : r.ovUsed ? 'USED THIS NODE' : r.phase === 'place' ? 'NO OPEN SLOT' : 'READY ON YOUR ROLL', ovStateCol: ovReady ? '#6af5d6' : '#8a90a8',
         ovTap: e => { if (e && e.stopPropagation) e.stopPropagation(); this.ovTip = !this.ovTip; clearTimeout(this.ovTipT); if (this.ovTip) this.ovTipT = setTimeout(() => { this.ovTip = false; this.forceUpdate(); }, 3000); this.forceUpdate(); },
         ovEnter: () => { this.ovTip = true; clearTimeout(this.ovTipT); this.forceUpdate(); }, ovLeave: () => { this.ovTip = false; this.forceUpdate(); },
-        badgeSell: !!(cc && cc.sell && ro && r.phase === 'place' && !ro.sold && !ro.placedAny), badgeSellOp: sd && r.sel && r.sel.src === 'tray' ? 1 : 0.45, badgeSellTxt: sd ? 'SELL +' + sd.v : 'SELL' };
+        badgeSell: !!(cc && cc.sell && ro && r.phase === 'place' && !ro.sold), badgeSellOp: sd && r.sel && r.sel.src === 'tray' ? 1 : 0.45, badgeSellTxt: sd ? 'SELL +' + sd.v : 'SELL' };
     })();
     const L = this.secLen();
     const dsN = r.roll ? (r.roll.carry || 0) + (r.roll.placedN || 0) : r.phase === 'push' ? (r.chainPlaced || 0) : 0;
@@ -2924,7 +3005,7 @@ class Component extends DCLogic {
       mission: { thumb: Component.__A('assets/' + c.art + '_f0.png'), hue: c.hue || 0, name: c.name, color: c.color, risk: c.risk, line: (this.diceBonus(c) ? this.liveRules0(c, this.diceBonus(c), c['rules']) : c['rules']).join(' · '), lock: this.isFixed(c), step: (this.md() === 'asteroid' || this.md() === 'hazard') && r.pushes ? 'PUSH ' + r.pushes : '' },
       bays: bays.filter((bv, i) => i < B || r.bps[i]), bayLabel: 'BAYS ' + r.bps.filter(Boolean).length + '/' + r.bps.length, diceCap: 'DICE +' + this.diceBonusRaw() + ' / ' + this.T.DICE_BONUS_CAP + (this.heraldPts() ? ' · HERALD +' + this.heraldPts() + ' PTS' : ''), mods: (() => { const o = []; r.launched.forEach(s => { const g = o.find(x => x.type === s.type); if (g) g.c++; else o.push({ type: s.type, c: 1 }); }); return o.map(g => ({ src: Component.__A('assets/' + this.SHIPS[g.type].ship + '.png'), n: g.c > 1 ? '×' + g.c : '' })); })(),
       demand: this.T.GATE_DEMAND[this.sec() - 1], secPts: r.secPts || 0, demPct: Math.min(100, Math.round((r.secPts || 0) / this.T.GATE_DEMAND[this.sec() - 1] * 100)), demCol: (r.secPts || 0) >= this.T.GATE_DEMAND[this.sec() - 1] ? '#ffd644' : '#48f320', demLeft: Math.max(0, this.T.GATE_DEMAND[this.sec() - 1] - (r.secPts || 0)) ? 'NEED ' + Math.max(0, this.T.GATE_DEMAND[this.sec() - 1] - (r.secPts || 0)) : 'CLEARED', modsNone: r.launched.length ? '' : 'NO SHIPS YET',
-      sellShow: !!(c.sell && ro && r.phase === 'place' && !ro.sold && !ro.placedAny && sd && r.sel.src === 'tray'), sellLabel: sd ? 'SELL THIS DIE · +' + sd.v + ' GOLD' : '', sell: this.sellDie, launchedN: r.launched.length,
+      sellShow: !!(c.sell && ro && r.phase === 'place' && !ro.sold && sd && r.sel.src === 'tray'), sellLabel: sd ? 'SELL THIS DIE · +' + sd.v + ' GOLD' : '', sell: this.sellDie, launchedN: r.launched.length,
       hullBorder: hull >= br - 1 ? '#ff4d4d' : '#f2f2f2', tint: hull >= br - 1 ? 1 : 0, swirlRefs: this.swirl,
       hullNum: hull, hullMax: br - 1, breachAt: br, segs, dmg, integ, integMax: br, integCol: icol, hullDice: r.hull.map(d => ({ src: Component.__A('assets/flat_' + d.v + '_24.png') })), hullDanger: hull + proj >= br ? '#ff4d4d' : 'transparent',
       dice, trayW: ro && ro.dice.length > 6 ? '270px' : ro && ro.dice.length > 4 ? '156px' : '100%', trayGap: ro && ro.dice.length > 6 ? '28px 26px' : '14px 12px', trayZoom: ro && ro.dice.length > 8 ? 0.65 : ro && ro.dice.length > 6 ? 0.75 : 1, trayLabel: this.md() === 'salvage' ? 'SALVAGE' : this.md() === 'vent' && ro ? 'VENTED' : 'ROLLED', trayEmpty: !ro,
@@ -3145,7 +3226,7 @@ class Component extends DCLogic {
   skipBeat = () => { if (this.parade) this.paradeNext(); };
   playDepart() {
     const r = this.g.run, d = r.dep, f = this.fxK(), T = this.T, ships = r.launched, gm = Math.max(1, r.gates || 0), full = (r.gates || 0) >= 3;
-    if (!f) { d.stage = 'galaxy'; this.sync(); return this.playGalaxy(); }
+    if (!f) { if (!T.DEPLOY_ON) { d.stage = 'cash'; this.sync(); return this.openReceipt('win'); } d.stage = 'galaxy'; this.sync(); return this.playGalaxy(); }
     const ptsOf = s => s.pts != null ? s.pts : (T.SHIP_POINTS[s.type] || 0), cum = i => ships.slice(0, i + 1).reduce((a, s) => a + ptsOf(s), 0), shipTotal = cum(ships.length - 1);
     d.pScore = 0; d.pStamp = ''; d.pStampCol = '#fff'; this.sync();
     const beats = [];
@@ -3191,7 +3272,7 @@ class Component extends DCLogic {
       at(() => this.flash('#ffffff', 0.5), 780);
       at(() => this.flash('#ffffff', 0.3), 920);
     } });
-    beats.push({ dur: 10, run: () => { this.duckMusic(1); const sec = this.q('[data-dep-sector]'); if (sec && sec.animate) sec.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }); this.later(() => { d.stage = 'galaxy'; this.sync(); this.later(() => this.playGalaxy(), 30); }, 420); } });
+    beats.push({ dur: 10, run: () => { this.duckMusic(1); const sec = this.q('[data-dep-sector]'); if (sec && sec.animate) sec.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }); this.later(() => { if (!T.DEPLOY_ON) { d.stage = 'cash'; this.sync(); return this.openReceipt('win'); } d.stage = 'galaxy'; this.sync(); this.later(() => this.playGalaxy(), 30); }, 420); } });
     this.parade = { beats, i: -1, timers: [] };
     this.paradeNext();
   }
@@ -3251,6 +3332,7 @@ class Component extends DCLogic {
   }
   openReceipt(mode) {
     const r = this.g.run, m = this.g.meta, T = this.T; if (!r || this.rc) return;
+    if (mode !== 'gate' && (r.cq ? !r.cq.done : this.domPlayable())) return this.openConquest(mode);
     const G = '#2e8a12', R = '#b3201c', Y = '#7a5a00', lines = [], s = this.sec();
     let rc;
     if (mode === 'gate') {
@@ -3279,6 +3361,12 @@ class Component extends DCLogic {
       if (r.bestDice >= 2) lines.push({ id: 'dstreak', icon: 'die', label: 'BEST DICE STREAK', value: '×' + r.bestDice, col: '#a9b0c0' });
       if (r.bestMom >= 2) lines.push({ id: 'mom', icon: 'ship', label: 'BEST LAUNCH STREAK', value: '×' + r.bestMom, col: '#a9b0c0' });
       lines.push({ id: 'rank', icon: 'prestige', label: 'HIGHEST RANK', value: this.runRank(r), col: Y });
+      const cqr = r.cq; if (cqr && cqr.done) {
+        lines.push({ id: 'cq_mult', icon: 'star', label: 'RANK · ' + this.RANKS[cqr.rk].name, value: '×' + cqr.mult, col: Y });
+        lines.push({ id: 'cq_dom', icon: 'star', label: 'DOMINATION', value: '=' + cqr.hit, col: Y });
+        cqr.hits.forEach((h, i) => lines.push({ id: 'cq_h' + i, icon: 'planet', img: Component.__A('assets/' + h.img + '.png'), from: '#3a3a5a', to: h.fell ? '#48f320' : '#ffd644', label: 'HIT · ' + h.name + (h.fell ? ' · TAKEN' : ''), value: '−' + h.dmg, col: h.fell ? G : Y }));
+        if (cqr.lost) lines.push({ id: 'cq_lost', icon: 'star', label: 'OVERKILL LOST', value: '−' + cqr.lost, col: R });
+      }
       const ct = r.dep && r.dep.contract; if (ct) { lines.push({ id: 'contract', icon: 'prestige', label: 'CONTRACT · ' + ct.planet + ' ' + ct.n + ' ' + ct.unit, value: '+' + ct.pay, col: G }); if (ct.closer) lines.push({ id: 'closer', icon: 'prestige', label: 'CLOSER BONUS', value: '+' + ct.closer, col: G }); }
       if (r.cleanRolls) lines.push({ id: 'clean', icon: 'star', label: 'CLEAN ROLLS', value: String(r.cleanRolls), col: '#a9b0c0' });
       (m.reveal || []).forEach(id => { const c = this.card(id); if (c) lines.push({ id: 'card_' + id, icon: 'card', label: 'ADVENTURE UNLOCKED', value: c.name, art: c.art, hue: c.hue || 0 }); });
@@ -3411,7 +3499,7 @@ class Component extends DCLogic {
 
   // ─── galaxy ───
   vGalaxy() {
-    const gx = this.g.galaxy; if (!gx) return { gx: { on: false, planets: [] } };
+    const gx = this.g.galaxy; if (!gx || (this.T.DOM_ON && !this.T.RIVALS_ON)) return { gx: { on: false, planets: [] } };
     const m = this.g.meta, W = 7 * 24 * this.H;
     const planets = this.PLANETS.map(p => { const c = this.ctrl(p), y = this.youAt(p); return { name: p.name, img: Component.__A('assets/' + p.img + '.png'), isNew: !!p.isNew,
       ctrl: c === 'YOU' ? 'HELD BY YOU' : c ? 'HELD BY ' + c : 'UNCLAIMED', ctrlCol: c === 'YOU' ? '#48f320' : c ? '#e8522c' : '#6b7187',
@@ -3525,15 +3613,196 @@ class Component extends DCLogic {
     if (!this.g.codex) return { cx: { on: false, cards: [] } };
     const m = this.g.meta, n = this.CARDS.filter(c => this.isUnlocked(c)).length;
     const cards = this.CARDS.map((c, i) => {
-      const open = this.isUnlocked(c), cl = c.unlock && c.unlock.clears;
+      const open = this.isUnlocked(c), dp = this.T.DOM_ON && this.domOfCard(c.id), cl = !dp && c.unlock && c.unlock.clears, dl = dp ? this.domLeft(dp) : 0, dh = dp ? this.domHp(dp) : 1, isNew = this.T.DOM_ON && this.dom().fresh.includes(c.id);
       return { name: open ? c.name : '? ? ?', color: open ? c.color : '#6b7187', risk: 'RISK ' + c.risk + (c.hazardOnly ? ' · HAZARD' : ''), img: Component.__A('assets/' + c.art + '_f0.png'),
         filter: open ? 'hue-rotate(' + (c.hue || 0) + 'deg)' : 'brightness(0) drop-shadow(2px 0 0 #3a3a5a) drop-shadow(-2px 0 0 #3a3a5a) drop-shadow(0 2px 0 #3a3a5a) drop-shadow(0 -2px 0 #3a3a5a)', op: open ? 1 : 0.9,
         anim: open && this.fxK() ? 'cxfloat 3.2s ease-in-out infinite' : 'none', delay: (-(i * 0.37) % 3.2).toFixed(2) + 's',
         open, locked: !open, rules: this.liveRules(c).map((t, k) => ({ t, lock: this.isFixed(c) && k === 0 && /^ROLL /.test(t) })), cond: this.condText(c),
-        hasBar: !!cl, bar: cl ? Math.min(100, Math.round((m.clears || 0) / cl * 100)) + '%' : '0%', prog: cl ? Math.min(m.clears || 0, cl) + '/' + cl : '' };
+        hasBar: !!cl || !!dp, bar: dp ? Math.round((dh - dl) / dh * 100) + '%' : cl ? Math.min(100, Math.round((m.clears || 0) / cl * 100)) + '%' : '0%', prog: dp ? dl + ' / ' + dh + ' LEFT' : cl ? Math.min(m.clears || 0, cl) + '/' + cl : '',
+        isNew, tap: () => { if (open || !dp) return; this.g.codex = false; this.g.galaxy = { pick: null, sel: dp.id }; this.sfx('button'); this.sync(); } };
     });
-    return { cx: { on: true, cards, sub: n + '/' + this.CARDS.length + ' FOUND · ' + (m.clears || 0) + ' SECTORS CLEARED', close: () => { this.g.codex = false; this.sync(); } } };
+    return { cx: { on: true, cards, sub: n + '/' + this.CARDS.length + ' FOUND · ' + (this.T.DOM_ON ? (this.dom().system > this.DOM_SYSTEMS.length ? 'DOMINION COMPLETE' : 'SYSTEM ' + this.dom().system) : (m.clears || 0) + ' SECTORS CLEARED'), close: () => { if (this.T.DOM_ON) this.dom().fresh = []; this.g.codex = false; this.sync(); } } };
   }
+  // ─── planet conquest (docs/planet-conquest-spec.md) ───
+  // [id, name, sprite, hue shift, card held]. Systems 2–4 are palette swaps of the four planet sprites until new art lands.
+  DOM_SYSTEMS = [
+    { name: 'VESPER REACH', planets: [['vesper', 'VESPER', 'planet_vesta', 0, 'convoy'], ['kessel', 'KESSEL', 'planet_kepler', 0, 'escort'], ['hollow', 'HOLLOW', 'planet_hollow', 0, 'shield'], ['ixion', 'IXION', 'planet_ixion', 0, 'smuggler']] },
+    { name: 'CINDER EXPANSE', planets: [['cindra', 'CINDRA', 'planet_vesta', 140, 'ion'], ['marrow', 'MARROW', 'planet_kepler', 140, 'wormhole'], ['halcyon', 'HALCYON', 'planet_hollow', 140, 'hold'], ['tethys', 'TETHYS', 'planet_ixion', 140, 'trade'], ['obol', 'OBOL', 'planet_vesta', -70, 'debris'], ['rusk', 'RUSK', 'planet_kepler', -70, 'patrol']] },
+    { name: 'DROWNED BELT', planets: [['noctis', 'NOCTIS', 'planet_hollow', 220, 'mayday'], ['gallow', 'GALLOW', 'planet_ixion', 220, 'derelict'], ['pyre', 'PYRE', 'planet_vesta', 220, 'overclock'], ['sable', 'SABLE', 'planet_kepler', 220, 'bountyhunt'], ['vanta', 'VANTA', 'planet_hollow', 60, 'bountyboard'], ['orrery', 'ORRERY', 'planet_ixion', 60, 'nebula']] },
+    { name: 'CROWN WORLDS', soon: true, planets: [['throne', 'THRONE', 'planet_kepler', 300, 'tc_dump'], ['ember', 'EMBERLINE', 'planet_vesta', 300, 'tc_black'], ['calyx', 'CALYX', 'planet_hollow', 300, 'tc_bribe'], ['revenant', 'REVENANT', 'planet_ixion', 300, 'tc_contra'], ['apex', 'APEX', 'planet_kepler', 180, 'tc_ghost'], ['solace', 'SOLACE', 'planet_vesta', 180, 'tc_insure']] }
+  ];
+  domAll() { if (this._domAll) return this._domAll; const out = []; this.DOM_SYSTEMS.forEach((s, si) => s.planets.forEach(p => out.push({ id: p[0], name: p[1], img: p[2], hue: p[3], card: p[4], sys: si + 1 }))); return (this._domAll = out); }
+  domP(id) { return this.domAll().find(p => p.id === id); }
+  domOfCard(cid) { return this.domAll().find(p => p.card === cid); }
+  domHp(p) { return this.T.DOM_HP[p.sys - 1] || 9999; }
+  domCardInfo(cid) { const c = this.card(cid); if (c) return { name: c.name, art: c.art + '_f0', hue: c.hue || 0, rules: this.liveRules(c), built: true }; const t = this.TP.cards.find(x => x[0] === cid); return { name: t ? t[1] : '?', art: (this.TP_ART[cid] || 'adv_back'), hue: 0, rules: t ? [t[3].toUpperCase()] : [], built: false }; }
+  dom() {
+    const m = this.g.meta; if (!m.dominion) m.dominion = { v: 1, system: 1, dmg: {}, taken: [], offer: null, pin: null, fresh: [] };
+    const d = m.dominion; d.dmg = d.dmg || {}; d.taken = d.taken || []; d.fresh = d.fresh || [];
+    if (!d.mig) { // one-time migration: cards a save already owns stay owned, and their planets start out conquered
+      d.mig = 1; m.unlocked = m.unlocked || [];
+      const played = (m.clears || 0) > 0 || m.unlocked.length > 0 || (m.fleet || []).length > 0;
+      if (played && !m.unlocked.includes('convoy')) m.unlocked.push('convoy'); // Convoy was a base card before conquest
+      m.unlocked.forEach(id => { const p = this.domOfCard(id); if (p && !d.taken.includes(p.id)) d.taken.push(p.id); });
+      this.domFixSystem();
+    }
+    return d;
+  }
+  domLeft(p) { const d = this.dom(); return d.taken.includes(p.id) ? 0 : Math.max(0, this.domHp(p) - (d.dmg[p.id] || 0)); }
+  domSysPlanets(n) { return this.domAll().filter(p => p.sys === n); }
+  domSysDone(n) { const d = this.g.meta.dominion; return this.domSysPlanets(n).every(p => d.taken.includes(p.id)); }
+  domFixSystem() { const d = this.g.meta.dominion; let n = 1; while (n <= this.DOM_SYSTEMS.length && this.domSysDone(n)) n++; d.system = n; }
+  domPlayable() { if (!this.T.DOM_ON) return false; const d = this.dom(), s = this.DOM_SYSTEMS[d.system - 1]; return !!s && !s.soon && !this.domSysDone(d.system); }
+  domTake(p) {
+    const d = this.dom(), m = this.g.meta; if (!d.taken.includes(p.id)) d.taken.push(p.id); delete d.dmg[p.id];
+    m.unlocked = m.unlocked || []; m.reveal = m.reveal || [];
+    if (this.card(p.card) && !m.unlocked.includes(p.card)) { m.unlocked.push(p.card); m.reveal.push(p.card); if (!d.fresh.includes(p.card)) d.fresh.push(p.card); if (this.T.PIN_NEW_CARD) d.pin = p.card; }
+  }
+  domOffer() {
+    const d = this.dom(), live = this.domSysPlanets(d.system).filter(p => !d.taken.includes(p.id));
+    if (d.offer && d.offer.length && d.offer.every(id => this.domP(id))) return d.offer; // a reload keeps the same offer
+    const chipped = live.filter(p => d.dmg[p.id] > 0), fresh = this.shuffle(live.filter(p => !(d.dmg[p.id] > 0)), true);
+    d.offer = chipped.concat(fresh).slice(0, this.T.OFFER_SIZE).map(p => p.id); return d.offer;
+  }
+  fleetScoreOf(r, mode) { const T = this.T, pts = r.launched.reduce((a, x) => a + (x.pts != null ? x.pts : (T.SHIP_POINTS[x.type] || 0)), 0), gates = r.gates || 0, full = mode !== 'dead' && gates >= 3; return Math.round(pts * Math.max(1, gates) * (full ? T.FULL_RUN_MULT : 1)); }
+  peakRank(r) { return Math.max(r.peakRank || 0, this.rankIdx(this.runP(r))); }
+  openConquest(mode) {
+    const r = this.g.run, d = this.dom(), T = this.T;
+    if (!r.cq) { const fleet = this.fleetScoreOf(r, mode), rk = this.peakRank(r), mult = T.RANK_MULT[rk] || 1, hit = Math.max(T.CHIP_FLOOR, Math.round(fleet * mult)); d.offer = null; r.cq = { mode, fleet, rk, mult, hit, left: hit, hits: [], lost: 0, sys: d.system, stage: 'slam', sysDone: false }; }
+    const cq = r.cq; cq.offer = this.domOffer();
+    if (cq.stage === 'hit') cq.stage = this.cqCanPick() ? 'offer' : 'end'; // reload mid-bombardment: the hit was already applied
+    const slam = cq.stage === 'slam';
+    this.cqv = { shownFleet: slam ? 0 : cq.fleet, shownHit: slam ? 0 : cq.hit, showRank: !slam, showMult: !slam, showHit: !slam, stamp: '', stampSub: '', stampCol: '#fff', bars: {}, glow: cq.stage === 'offer' && cq.hits.length > 0, busy: false, skip: false, pickAt: 0 };
+    this.duckMusic(0.4); this.sync();
+    if (slam) this.later(() => this.cqSlam(), 80); else if (cq.stage === 'offer') this.later(() => this.cqPopOffer(), 60);
+  }
+  cqCanPick() { const r = this.g.run, cq = r && r.cq, d = this.dom(); return !!cq && cq.left > 0 && (cq.offer || []).some(id => !d.taken.includes(id)); }
+  cqD(ms) { return this.fxK() && !(this.cqv && this.cqv.skip) ? ms : 0; }
+  cqCount(key, to, ms, pitch0, done) {
+    const v = this.cqv; if (!v) return; const from = v[key] || 0, t0 = performance.now(); let n = 0;
+    const step = () => { const w = this.cqv; if (!w) return; const k = (!this.fxK() || w.skip) ? 1 : Math.min(1, (performance.now() - t0) / ms); w[key] = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))); if (n++ % 3 === 0) this.sfx('tick', { pitch: pitch0 + k * 0.5 }); this.forceUpdate(); if (k < 1) this.later(step, 33); else if (done) done(); };
+    step();
+  }
+  cqDrop(sel, s) { const el = this.q(sel); if (el && el.animate && this.cqD(1)) el.animate([{ transform: 'scale(' + (s || 2.4) + ') rotate(-6deg)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }], { duration: 380, easing: 'cubic-bezier(.7,-3,.3,3)' }); }
+  cqSlam() {
+    const r = this.g.run, cq = r && r.cq, v = this.cqv; if (!cq || !v) return;
+    const band = this.PROMO_BANDS[Math.min(cq.rk, this.PROMO_BANDS.length - 1)] || {};
+    this.cqCount('shownFleet', cq.fleet, 900, 1, () => {
+      this.punch(this.q('[data-cq-fleet]'), 1.2, 220);
+      this.later(() => {
+        v.showRank = true; this.forceUpdate(); this.later(() => this.cqDrop('[data-cq-rank]'), 10); this.sfx('slot_fill');
+        this.later(() => {
+          v.showMult = true; this.forceUpdate(); this.later(() => this.cqDrop('[data-cq-mult]', 2.8), 10); this.sfx('greed_bonus'); this.shake(8, 260); this.flash(band.edge || '#ffd644', 0.25);
+          this.later(() => {
+            v.showHit = true; this.forceUpdate();
+            this.cqCount('shownHit', cq.hit, 900, 1.2, () => {
+              this.punch(this.q('[data-cq-hit]'), 1.35, 300); this.shake(12, 300); this.flash('#ffffff', 0.6); this.sfx('dramatic_finish');
+              this.later(() => { if (!this.cqv) return; cq.stage = 'offer'; this.sync(); this.later(() => this.cqPopOffer(), 30); }, this.cqD(650));
+            });
+          }, this.cqD(450));
+        }, this.cqD(380));
+      }, this.cqD(250));
+    });
+  }
+  cqPopOffer() {
+    const cq = this.g.run && this.g.run.cq; if (!cq) return; const f = this.cqD(1);
+    cq.offer.forEach((id, k) => { const el = this.q('[data-cq-planet="' + k + '"]'); if (f && el && el.animate) el.animate([{ transform: 'scale(0)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }], { duration: 380, delay: k * 170, easing: 'cubic-bezier(.34,1.56,.64,1)', fill: 'backwards' }); this.later(() => this.sfx('planet_pop', { i: k }), f ? k * 170 : 0); });
+  }
+  cqSkip = () => { const r = this.g.run, cq = r && r.cq, v = this.cqv; if (!cq || !v || performance.now() - v.pickAt < 300) return; if (cq.stage === 'slam' || cq.stage === 'hit') v.skip = true; };
+  cqPick(id) {
+    const r = this.g.run, cq = r && r.cq, v = this.cqv, d = this.dom(); if (!cq || !v || cq.stage !== 'offer' || v.busy) return;
+    const p = this.domP(id); if (!p || d.taken.includes(id) || !cq.offer.includes(id)) return this.sfx('button', { denied: true });
+    const before = this.domLeft(p), dmg = Math.min(cq.left, before), fell = dmg >= before;
+    d.dmg[id] = (d.dmg[id] || 0) + dmg; cq.left -= dmg;
+    cq.hits.push({ id, name: p.name, img: p.img, dmg, fell, card: fell ? p.card : null });
+    if (fell) this.domTake(p);
+    if (cq.left > 0 && (!this.T.OVERKILL_SPILL || !this.cqCanPick())) { cq.lost = cq.left; cq.left = 0; } // nothing left in the offer to take the excess
+    if (fell && this.domSysDone(cq.sys)) cq.sysDone = true;
+    cq.stage = 'hit'; v.busy = true; v.pickAt = performance.now(); v.bars[id] = before; v.stamp = ''; v.glow = false; this.sfx('button'); this.sync();
+    this.later(() => this.cqBomb(p, before, before - dmg, fell), 30);
+  }
+  cqShot(b, art, i) {
+    const fx = this.fxRef.current; if (!fx) return; const el = document.createElement('img'); el.src = Component.__A('assets/' + art + '.png');
+    const sx = 30 + Math.random() * 330, sy = 870, ex = b.x + b.w * (0.3 + Math.random() * 0.4), ey = b.y + b.h * (0.3 + Math.random() * 0.4), ang = Math.atan2(ex - sx, -(ey - sy)) * 180 / Math.PI;
+    el.style.cssText = 'position:absolute;left:' + sx + 'px;top:' + sy + 'px;width:28px;height:28px;margin:-14px 0 0 -14px;object-fit:contain;image-rendering:pixelated;pointer-events:none';
+    fx.appendChild(el); this.trail(el, 380);
+    el.animate([{ transform: 'translate(0,0) rotate(' + ang + 'deg) scale(1)' }, { transform: 'translate(' + (ex - sx) + 'px,' + (ey - sy) + 'px) rotate(' + ang + 'deg) scale(.4)' }], { duration: 420, easing: 'cubic-bezier(.5,0,.9,.6)', fill: 'forwards' }).onfinish = () => { el.remove(); this.cqBoom(ex, ey); };
+    if (i % 3 === 0) this.sfx('takeoff', { pitch: 1 + i * 0.03 });
+  }
+  cqBoom(x, y) { const fx = this.fxRef.current; if (!fx) return; const p = document.createElement('div'); p.style.cssText = 'position:absolute;left:' + (x - 8) + 'px;top:' + (y - 8) + 'px;width:16px;height:16px;border-radius:50%;background:#fffbe6;box-shadow:0 0 10px #ff9a3c;pointer-events:none'; fx.appendChild(p); p.animate([{ transform: 'scale(.4)', opacity: 1 }, { transform: 'scale(2.2)', opacity: 0 }], { duration: 300, easing: 'ease-out' }).onfinish = () => p.remove(); }
+  cqBomb(p, from, to, fell) {
+    const r = this.g.run, cq = r.cq, v = this.cqv; if (!v) return;
+    const f = this.cqD(1), k = cq.offer.indexOf(p.id), pl = this.q('[data-cq-planet-img="' + k + '"]'), b = this.rectIn(pl), dur = f ? Math.min(2600, 900 + (from - to) / Math.max(1, from) * 1600) : 0;
+    if (f && b) { const art = (r.launched.length ? r.launched : [{ type: 'herald' }]).map(s => this.SHIPS[s.type].ship), n = Math.min(28, 8 + Math.round((from - to) / 40)); for (let i = 0; i < n; i++) this.later(() => { if (this.cqv && !this.cqv.skip) this.cqShot(b, art[i % art.length], i); }, Math.max(0, dur - 420) * Math.pow(i / n, 0.8)); }
+    const t0 = performance.now(); let n2 = 0;
+    const tick = () => { const w = this.cqv; if (!w) return; const k2 = !dur || w.skip ? 1 : Math.min(1, (performance.now() - t0) / dur), e = k2 * k2; w.bars[p.id] = Math.round(from - (from - to) * e); if (n2++ % 3 === 0 && k2 < 1) { this.sfx('tick', { pitch: 1 + e * 0.8 }); this.punch(pl, 1.06, 120); } this.forceUpdate(); if (k2 < 1) this.later(tick, 40); else this.cqLand(p, fell); };
+    tick();
+  }
+  cqStampIn() { this.later(() => { const el = this.q('[data-cq-stamp]'); if (el && el.animate && this.cqD(1)) el.animate([{ transform: 'scale(2.2) rotate(-5deg)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }], { duration: 440, easing: 'cubic-bezier(.7,-3,.3,3)' }); }, 10); }
+  cqLand(p, fell) {
+    const v = this.cqv; if (!v) return; const k = this.g.run.cq.offer.indexOf(p.id), pl = this.q('[data-cq-planet-img="' + k + '"]'), hp = this.domHp(p), ci = this.domCardInfo(p.card);
+    if (fell) { v.stamp = 'PLANET TAKEN'; v.stampSub = ci.name + ' BREAKS FREE'; v.stampCol = '#48f320'; this.sfx('stamp'); this.flash('#48f320', 0.35); this.shake(10, 420); this.punch(pl, 1.3, 360); this.later(() => this.sfx('unlock'), 300); }
+    else { const left = this.domLeft(p); v.stamp = Math.max(1, Math.round(left / hp * 100)) + '% HELD'; v.stampSub = p.name + ' · ' + left + ' / ' + hp + ' LEFT'; v.stampCol = '#ffd644'; this.sfx('land'); this.shake(5, 260); }
+    this.forceUpdate(); this.cqStampIn();
+    this.later(() => this.cqAfter(), this.cqD(1500));
+  }
+  cqAfter() {
+    const r = this.g.run, cq = r && r.cq, v = this.cqv; if (!cq || !v) return;
+    v.busy = false;
+    if (this.cqCanPick()) { cq.stage = 'offer'; v.glow = true; v.stamp = 'OVERKILL +' + cq.left; v.stampSub = 'PICK ANOTHER PLANET'; v.stampCol = '#6af5d6'; this.sfx('greed_bonus'); this.flash('#6af5d6', 0.2); this.sync(); this.cqStampIn(); return; }
+    cq.stage = 'end'; v.stamp = '';
+    if (cq.lost) { v.stamp = 'OVERKILL LOST'; v.stampSub = cq.lost + ' WITH NOTHING LEFT TO HIT'; v.stampCol = '#ff9a3c'; this.sfx('land'); this.cqStampIn(); }
+    if (cq.sysDone) this.later(() => { if (!this.cqv) return; const S = this.DOM_SYSTEMS[cq.sys - 1] || {}; v.stamp = 'SYSTEM CONQUERED'; v.stampSub = (S.name || 'SYSTEM ' + cq.sys) + ' IS YOURS'; v.stampCol = '#ffd644'; this.sfx('dramatic_finish'); this.flash('#ffd644', 0.5); this.shake(14, 500); this.forceUpdate(); this.cqStampIn(); }, cq.lost ? this.cqD(1300) : 0);
+    this.sync();
+  }
+  cqFinish = () => {
+    const r = this.g.run, cq = r && r.cq; if (!cq || cq.stage !== 'end' || cq.done) return;
+    cq.done = true; const d = this.dom(); d.offer = null; this.domFixSystem(); this.cqv = null; this.duckMusic(1); this.sfx('button'); this.sync();
+    this.later(() => this.openReceipt(cq.mode), 120);
+  };
+  vConquest() {
+    const r = this.g.run, cq = r && r.cq, v = this.cqv, A = n => Component.__A('assets/' + n + '.png');
+    if (!cq || cq.done || !v) return { cq: { on: false, planets: [] } };
+    const d = this.dom(), S = this.DOM_SYSTEMS[cq.sys - 1] || {}, band = this.PROMO_BANDS[Math.min(cq.rk, this.PROMO_BANDS.length - 1)] || {}, st = cq.stage, picking = st === 'offer';
+    const planets = (cq.offer || []).map((id, k) => {
+      const p = this.domP(id), hp = this.domHp(p), taken = d.taken.includes(id), barLeft = st === 'hit' && v.bars[id] != null ? v.bars[id] : this.domLeft(p), left = this.domLeft(p), pct = Math.round(barLeft / hp * 100), ci = this.domCardInfo(p.card);
+      const falls = cq.left >= left, prev = taken ? 'TAKEN' : picking ? (falls ? '−' + left + ' → FALLS' : '−' + cq.left + ' → ' + Math.max(1, Math.round((left - cq.left) / hp * 100)) + '% LEFT') : Math.max(1, Math.round(left / hp * 100)) + '% HELD';
+      return { k, img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (taken ? ' drop-shadow(0 0 8px #48f320)' : ''), name: p.name, card: ci.name, cardImg: A(ci.art), cardFilter: 'hue-rotate(' + ci.hue + 'deg)' + (taken ? '' : ' grayscale(.7) brightness(.6)'), seal: !taken,
+        bar: pct + '%', barCol: taken ? '#48f320' : pct <= 35 ? '#ff4d4d' : '#ffd644', left: taken ? 'TAKEN' : barLeft + ' / ' + hp, prev, prevCol: taken ? '#48f320' : picking && falls ? '#48f320' : '#a9b0c0',
+        bd: taken ? '#48f320' : picking ? (v.glow ? '#6af5d6' : '#f2f2f2') : '#3a3a5a', glow: picking && v.glow && !taken ? '0 0 0 4px rgba(106,245,214,.35),' : '', op: picking && taken ? 0.55 : 1, tap: () => this.cqPick(id) };
+    });
+    const lastFell = cq.hits.length && cq.hits[cq.hits.length - 1].fell;
+    const hint = st === 'slam' ? 'COUNTING THE FLEET' : st === 'offer' ? (cq.hits.length ? 'OVERKILL · TAP ANOTHER PLANET' : 'TAP A PLANET TO HIT') : st === 'hit' ? 'BOMBARDING' : cq.sysDone ? 'NEXT SYSTEM UNLOCKED' : lastFell ? 'CARD UNLOCKED' : 'PLANET HOLDS · IT STAYS IN YOUR NEXT OFFER';
+    return { cq: { on: true, sys: 'SYSTEM ' + cq.sys + ' · ' + (S.name || ''), fleet: v.shownFleet, rankImg: this.insigSrc(cq.rk), rankName: this.RANKS[cq.rk].name, rankCol: band.name || '#ffd644', rankOp: v.showRank ? 1 : 0, mult: '×' + cq.mult, multCol: band.edge || '#ffd644', multOp: v.showMult ? 1 : 0,
+      hit: st === 'slam' ? v.shownHit : cq.left, hitLabel: st === 'slam' ? 'DOMINATION' : cq.hits.length ? (cq.left ? 'OVERKILL LEFT' : 'DOMINATION SPENT') : 'DOMINATION', hitOp: v.showHit ? 1 : 0, hitCol: cq.hits.length && !cq.left ? '#6b7187' : '#fff',
+      planets, showOffer: st !== 'slam', hint, hintCol: picking ? '#6af5d6' : '#a9b0c0', hasStamp: !!v.stamp, stamp: v.stamp, stampSub: v.stampSub, stampCol: v.stampCol, showCta: st === 'end', finish: this.cqFinish, skip: this.cqSkip } };
+  }
+  // ─── dominion map (replaces the hangar's Galaxy view while RIVALS_ON is false) ───
+  vDominion() {
+    const gx = this.g.galaxy; if (!gx || this.T.RIVALS_ON || !this.T.DOM_ON) return { dm: { on: false, systems: [] } };
+    const d = this.dom(), A = n => Component.__A('assets/' + n + '.png'), cur = d.system;
+    const systems = this.DOM_SYSTEMS.map((S, si) => {
+      const n = si + 1, done = this.domSysDone(n), open = n === cur && !S.soon, locked = !done && !open, ps = this.domSysPlanets(n), taken = ps.filter(p => d.taken.includes(p.id)).length;
+      return { title: 'SYSTEM ' + n + ' · ' + (locked && !S.soon && n > cur ? '? ? ?' : S.name), status: done ? 'CONQUERED' : S.soon ? 'COMING SOON' : open ? taken + '/' + ps.length + ' TAKEN' : 'LOCKED', statusCol: done ? '#48f320' : open ? '#ffd644' : '#6b7187', bd: done ? '#48f320' : open ? '#ffd644' : '#3a3a5a',
+        planets: ps.map(p => { const tk = d.taken.includes(p.id), hp = this.domHp(p), left = this.domLeft(p), pct = Math.round(left / hp * 100), hide = locked && !tk;
+          return { img: A(p.img), pf: hide ? 'brightness(0) drop-shadow(1px 0 0 #3a3a5a) drop-shadow(-1px 0 0 #3a3a5a)' : 'hue-rotate(' + p.hue + 'deg)' + (tk ? ' drop-shadow(0 0 6px #48f320)' : ''), name: hide ? '?' : p.name, flag: tk, bar: (tk ? 100 : pct) + '%', barCol: tk ? '#48f320' : pct < 100 ? '#ff4d4d' : '#ffd644', showBar: !hide, sel: gx.sel === p.id ? '0 0 0 3px #6af5d6' : 'none',
+            tap: () => { gx.sel = gx.sel === p.id ? null : p.id; this.sfx('button'); this.sync(); } }; }) };
+    });
+    const sp = gx.sel && this.domP(gx.sel), spOpen = !!sp && (d.taken.includes(sp.id) || sp.sys <= cur || this.DOM_SYSTEMS[sp.sys - 1].soon), ci = sp && this.domCardInfo(sp.card);
+    const detail = sp && spOpen ? { name: sp.name + ' · SYSTEM ' + sp.sys, img: A(sp.img), pf: 'hue-rotate(' + sp.hue + 'deg)', card: ci.name, cardImg: A(ci.art), cardFilter: 'hue-rotate(' + ci.hue + 'deg)', rules: ci.rules.map(t => ({ t })),
+      dom: d.taken.includes(sp.id) ? 'TAKEN · CARD UNLOCKED' : this.DOM_SYSTEMS[sp.sys - 1].soon ? 'CARD NOT BUILT YET' : sp.sys > cur ? 'SYSTEM LOCKED' : (d.dmg[sp.id] ? 'CHIPPED · ' : 'UNTOUCHED · ') + this.domLeft(sp) + ' / ' + this.domHp(sp), domCol: d.taken.includes(sp.id) ? '#48f320' : d.dmg[sp.id] ? '#ff9a3c' : '#ffd644' } : null;
+    const all = this.domAll().filter(p => !this.DOM_SYSTEMS[p.sys - 1].soon), nTaken = all.filter(p => d.taken.includes(p.id)).length;
+    return { dm: { on: true, systems, sub: nTaken + '/' + all.length + ' PLANETS TAKEN' + (cur > this.DOM_SYSTEMS.length || (this.DOM_SYSTEMS[cur - 1] || {}).soon ? ' · DOMINION COMPLETE' : ''), hasDetail: !!detail, detail: detail || { rules: [] }, closeDetail: () => { gx.sel = null; this.sync(); }, close: () => { this.g.galaxy = null; this.sync(); } } };
+  }
+  domHome() {
+    if (!this.T.DOM_ON) return { show: false, planets: [] };
+    const d = this.dom(), S = this.DOM_SYSTEMS[d.system - 1], A = n => Component.__A('assets/' + n + '.png');
+    if (!S || S.soon) return { show: true, title: 'DOMINION COMPLETE', sub: S ? 'SYSTEM ' + d.system + ' COMING SOON' : 'EVERY PLANET TAKEN', planets: [] };
+    const ps = this.domSysPlanets(d.system);
+    return { show: true, title: 'SYSTEM ' + d.system + ' · ' + S.name, sub: ps.filter(p => d.taken.includes(p.id)).length + '/' + ps.length + ' TAKEN',
+      planets: ps.map(p => { const tk = d.taken.includes(p.id), pct = Math.round(this.domLeft(p) / this.domHp(p) * 100); return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (tk ? ' drop-shadow(0 0 5px #48f320)' : ''), flag: tk, bar: (tk ? 100 : pct) + '%', barCol: tk ? '#48f320' : pct < 100 ? '#ff4d4d' : '#ffd644' }; }) };
+  }
+  openDominion = () => { this.g.galaxy = { pick: null, sel: null }; this.sfx('button'); this.sync(); };
   // ─── unlock reveal ───
   startReveal() {
     const m = this.g.meta; if (!(m.reveal || []).length || (this.rv && this.rv.on)) return;
@@ -3564,7 +3833,7 @@ class Component extends DCLogic {
     const rv = this.rv, m = this.g.meta; if (!rv || !rv.on || !(m.reveal || []).length) return { rv: { on: false } };
     const c = this.card(m.reveal[rv.i]), full = this.revealText(), last = rv.i >= m.reveal.length - 1;
     return { rv: { on: true, name: c.name, color: c.color, risk: c.risk, hue: c.hue || 0, strip: Component.__A('assets/anim/' + c.art + '.png'),
-      why: c.unlock.clears ? 'SECTOR CLEAR #' + c.unlock.clears : 'FEAT · ' + this.condText(c),
+      why: (() => { const dp = this.T.DOM_ON && this.domOfCard(c.id); if (dp) return dp.name + ' CONQUERED'; const u = c.unlock; return !u ? 'NEW CARD' : u.clears ? 'SECTOR CLEAR #' + u.clears : 'FEAT · ' + this.condText(c); })(),
       faceOp: rv.revealed ? 1 : 0, backOp: rv.revealed ? 0 : 1, bannerOp: rv.banner ? 1 : 0, typed: full.slice(0, rv.typed) + (rv.done || !rv.revealed ? '' : '▌'),
       btnOp: rv.done ? 1 : 0.35, cta: last ? 'ADD TO DECK' : 'NEXT (' + (rv.i + 1) + '/' + m.reveal.length + ')',
       skip: () => { if (rv.revealed && !rv.done) { clearInterval(this.typeT); rv.typed = full.length; rv.done = true; this.forceUpdate(); } },
@@ -3602,8 +3871,13 @@ class Component extends DCLogic {
       dealStyles: ['flip', 'scan', 'holo'].map(s => ({ t: s.toUpperCase(), bd: (m.dealStyle || 'flip') === s ? '#ffd644' : '#3a3a5a', tap: () => { m.dealStyle = s; this.sync(); } })),
       unlockNote: (m.clears || 0) + ' CLEARS · ' + this.CARDS.filter(c => this.isUnlocked(c)).length + '/' + this.CARDS.length,
       addClear: () => { m.clears = (m.clears || 0) + 1; this.checkUnlocks(); g.debug = false; this.sync(); this.later(() => this.startReveal(), 200); },
-      unlockAll: () => { m.unlocked = this.CARDS.filter(c => c.unlock).map(c => c.id); this.sync(); },
-      lockAll: () => { Object.assign(m, { unlocked: [], feats: [], clears: 0, reveal: [] }); this.sync(); },
+      unlockAll: () => { m.unlocked = this.CARDS.filter(c => c.unlock || this.domOfCard(c.id)).map(c => c.id); const d = this.dom(); this.domAll().forEach(p => { if (this.card(p.card) && !d.taken.includes(p.id)) d.taken.push(p.id); }); d.dmg = {}; this.domFixSystem(); this.sync(); },
+      lockAll: () => { Object.assign(m, { unlocked: [], feats: [], clears: 0, reveal: [] }); m.dominion = { v: 1, mig: 1, system: 1, dmg: {}, taken: [], offer: null, pin: null, fresh: [] }; this.sync(); },
+      domNote: (() => { const d = this.dom(); return 'SYSTEM ' + d.system + ' · ' + d.taken.length + ' TAKEN · PIN ' + (d.pin || '—'); })(),
+      domHit: () => { const d = this.dom(), live = this.domSysPlanets(d.system).filter(p => !d.taken.includes(p.id)); let left = 500; for (const p of live) { if (left <= 0) break; const k = Math.min(left, this.domLeft(p)); d.dmg[p.id] = (d.dmg[p.id] || 0) + k; left -= k; if (this.domLeft(p) <= 0) this.domTake(p); } this.domFixSystem(); this.sync(); this.later(() => this.startReveal(), 200); },
+      domTakeOne: () => { const d = this.dom(), p = this.domSysPlanets(d.system).find(p => !d.taken.includes(p.id)); if (p) this.domTake(p); this.domFixSystem(); g.debug = false; this.sync(); this.later(() => this.startReveal(), 200); },
+      domNext: () => { const d = this.dom(); this.domSysPlanets(d.system).forEach(p => this.domTake(p)); this.domFixSystem(); g.debug = false; this.sync(); this.later(() => this.startReveal(), 200); },
+      domReset: () => { m.dominion = { v: 1, mig: 1, system: 1, dmg: {}, taken: [], offer: null, pin: null, fresh: [] }; m.unlocked = (m.unlocked || []).filter(id => !this.domOfCard(id)); this.sync(); },
       sfxNote: 'SFX · ' + (this.sfxMan ? Object.keys(this.sfxMan.events).length + ' CLIPS IN MANIFEST · ' + this.sfxStat.ok + '/' + (this.sfxTotal || 270) + ' LOADED' + (this.sfxStat.fail ? ' · ' + this.sfxStat.fail + ' FAILED' : '') + ' · ' + this.sfxDir().toUpperCase() : this.sfxManFail ? 'MANIFEST UNREACHABLE' : this.sfxLoading ? 'LOADING MANIFEST…' : 'LOADS ON FIRST TAP'),
       replay: () => { const s = g.seed; g.debug = false; this.startRun(s); }, reset: () => { this.resetSave(); }, close: () => { g.debug = false; this.sync(); } }) };
   }
@@ -3616,7 +3890,7 @@ class Component extends DCLogic {
       newRun: this.newRun, openCodex: this.openCodex, payRun: this.payRun, waitRun: this.waitRun, addHour: this.addHour, addDay: this.addDay, openFleet: this.openFleet,
       mapGo: this.mapGo, mapSafe: this.mapSafe, mapRisk: this.mapRisk };
     Object.assign(v, this.vHud(), this.vTitle(), this.vMap());
-    ['vSelect', 'vBoard', 'vDepot', 'vDeploy', 'vHangar', 'vGalaxy', 'vBreach', 'vCodex', 'vReveal', 'vTravel', 'vBpModal', 'vReceipt', 'vContracts', 'vPost', 'vLb', 'vDebug'].forEach(k => { if (this[k]) Object.assign(v, this[k]()); });
+    ['vSelect', 'vBoard', 'vDepot', 'vDeploy', 'vHangar', 'vGalaxy', 'vDominion', 'vConquest', 'vBreach', 'vCodex', 'vReveal', 'vTravel', 'vBpModal', 'vReceipt', 'vContracts', 'vPost', 'vLb', 'vDebug'].forEach(k => { if (this[k]) Object.assign(v, this[k]()); });
     return v;
   }
 }

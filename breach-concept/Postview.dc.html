@@ -270,7 +270,7 @@ class Component extends DCLogic {
   renderVals() { return Component.__R(this.renderVals0()); }
   CARDS = [
     { name: 'DISTRESS BEACON', risk: 1, color: '#ff7ac8', art: 'cc_beacon', n: 1, fixed: true, rules: ['DRAW A BLUEPRINT INTO AN OPEN BAY', 'NO OPEN BAY: SWAP AN EMPTY BLUEPRINT FOR A NEW ONE', 'THEN ROLL 1 DIE'] },
-    { name: 'TOLL LANE', risk: 2, color: '#9dffb0', art: 'cc_toll', n: 3, rules: ['ROLL 3 DICE', 'SHIPS LAUNCHED HERE SCORE DOUBLE', 'LEFTOVERS HIT THE HULL DOUBLE'] },
+    { name: 'TOLL LANE', risk: 2, color: '#9dffb0', art: 'cc_toll', n: 3, rules: ['ROLL 3 DICE', '1 SHIP LAUNCHED: +2 GOLD', '2 SHIPS LAUNCHED: +5 GOLD', 'LEFTOVERS HIT THE HULL DOUBLE'] },
     { name: 'DEBRIS FIELD', risk: 3, color: '#ff9a4d', art: 'adv_asteroid', hue: -50, n: 4, fit: 2, rules: ['ROLL 4 DICE', 'SURVIVE: GAIN PRESTIGE = YOUR HULL TOTAL'] }
   ];
   BPS = {

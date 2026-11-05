@@ -1,0 +1,123 @@
+{
+  "name": "admin: Cards view lists every card, filters, and opens detail",
+  "frame": "desktop",
+  "steps": [
+    {
+      "action": "reload",
+      "waitMs": 800
+    },
+    {
+      "action": "eval",
+      "expression": "(() => { if (!/view=desktop/.test(location.search)) location.href = location.origin + '/?view=desktop'; return location.search; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 2500
+    },
+    {
+      "action": "waitFor",
+      "selector": "[data-testid=\"admin-entry\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-entry\"]"
+    },
+    {
+      "action": "sleep",
+      "ms": 2000
+    },
+    {
+      "action": "waitFor",
+      "selector": "[data-testid=\"admin-root\"]"
+    },
+    {
+      "action": "waitFor",
+      "selector": "[data-testid=\"admin-card-adventure-beacon\"]"
+    },
+    {
+      "action": "eval",
+      "saveAs": "counts",
+      "expression": "(() => { const n = d => document.querySelectorAll('[data-testid^=\"admin-card-' + d + '-\"]').length; const r = { adv: n('adventure'), tac: n('tactic'), shop: n('shop'), label: document.querySelector('[data-testid=\"admin-cards-count\"]').textContent }; if (r.adv !== 25 || r.tac !== 15 || r.shop !== 6) throw new Error('bad counts ' + JSON.stringify(r)); return JSON.stringify(r); })()"
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/admin-cards-grid.png"
+    },
+    {
+      "action": "eval",
+      "expression": "(() => { document.querySelector('[data-testid=\"admin-card-tactic-deflector\"]').scrollIntoView({ block: 'center' }); return 1; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 300
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-card-tactic-deflector\"]"
+    },
+    {
+      "action": "waitFor",
+      "selector": "[data-testid=\"admin-card-detail\"]"
+    },
+    {
+      "action": "eval",
+      "saveAs": "detail",
+      "expression": "(() => { const t = document.querySelector('[data-testid=\"admin-card-detail\"]').textContent; if (!/DEFLECTOR/.test(t) || !/Boss-Fight\\.dc\\.html:\\d+/.test(t) || !/HERALD/.test(t)) throw new Error('detail missing info: ' + t.slice(0, 200)); if (!/card=tactic%3Adeflector|card=tactic:deflector/.test(location.search)) throw new Error('url not synced ' + location.search); return 'ok ' + location.search; })()"
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/admin-cards-detail.png"
+    },
+    {
+      "action": "eval",
+      "saveAs": "search",
+      "expression": "(async () => { const i = document.querySelector('[data-testid=\"admin-cards-search\"]'); const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set; set.call(i, 'airlock'); i.dispatchEvent(new Event('input', { bubbles: true })); await new Promise(r => setTimeout(r, 300)); const ids = [...document.querySelectorAll('[data-testid^=\"admin-card-\"]')].map(e => e.dataset.testid).filter(x => x !== 'admin-card-detail'); if (!ids.includes('admin-card-adventure-ion')) throw new Error('search missed ION STORM: ' + ids.join(',')); return ids.length + ' match: ' + ids.join(','); })()"
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/admin-cards-search.png"
+    },
+    {
+      "action": "eval",
+      "expression": "(() => { localStorage.removeItem('breach-admin-zoom'); document.querySelector('[data-testid=\"admin-zoom-reset\"]').click(); return 1; })()"
+    },
+    {
+      "action": "sleep",
+      "ms": 200
+    },
+    {
+      "action": "eval",
+      "saveAs": "w100",
+      "expression": "String(Math.round(document.querySelector('[data-testid=\"admin-card-adventure-ion\"]').getBoundingClientRect().width))"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-zoom-in\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-zoom-in\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-zoom-in\"]"
+    },
+    {
+      "action": "click",
+      "selector": "[data-testid=\"admin-zoom-in\"]"
+    },
+    {
+      "action": "sleep",
+      "ms": 300
+    },
+    {
+      "action": "eval",
+      "saveAs": "zoom",
+      "expression": "(() => { const pct = document.querySelector('[data-testid=\"admin-zoom-reset\"]').textContent.trim(); const w = document.querySelector('[data-testid=\"admin-card-adventure-ion\"]').getBoundingClientRect().width; const w100 = Number('${w100}'); if (pct !== '200%') throw new Error('zoom label ' + pct); if (w < w100 * 1.8) throw new Error('card did not grow: ' + w100 + ' -> ' + w); if (localStorage.getItem('breach-admin-zoom') !== '2') throw new Error('zoom not saved'); return pct + ' ' + w100 + 'px -> ' + Math.round(w) + 'px'; })()"
+    },
+    {
+      "action": "screenshot",
+      "path": "/tmp/admin-cards-zoom200.png"
+    }
+  ]
+}

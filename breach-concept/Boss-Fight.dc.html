@@ -188,7 +188,7 @@
 
 <sc-if value="{{ isBattle }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;z-index:4;left:16px;right:16px;top:288px;height:172px;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none">
-<div ref="{{ shotRef }}" style="flex:none;height:40px;display:flex;align-items:baseline;gap:8px;white-space:nowrap"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#a9b0c0">{{ tray.left }}</span><span style="font-family:'Jersey 15',monospace;font-size:44px;line-height:1;letter-spacing:2px;color:{{ tray.col }};text-shadow:3px 3px 0 #240011">{{ tray.right }}</span></div>
+<div ref="{{ shotRef }}" style="flex:none;height:40px;display:flex;align-items:baseline;gap:8px;white-space:nowrap"><span style="font-family:'Silkscreen',monospace;font-size:12px;line-height:1;color:#a9b0c0">{{ tray.left }}</span><span style="font-family:'Jersey 15',monospace;font-size:{{ tray.big }}px;line-height:1;letter-spacing:2px;color:{{ tray.col }};text-shadow:3px 3px 0 #240011">{{ tray.right }}</span><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;letter-spacing:1px;color:#6af5d6;text-shadow:2px 2px 0 #240011">{{ tray.bonus }}</span></div>
 <div ref="{{ trayRef }}" style="flex:1;min-height:0;width:100%;display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:center;gap:12px;pointer-events:auto">
 <sc-for list="{{ rolled }}" as="cube" hint-placeholder-count="0">
 <div onClick="{{ cube.tap }}" style="position:relative;flex:none;width:58px;height:58px;display:flex;align-items:center;justify-content:center;cursor:pointer">
@@ -384,7 +384,7 @@ class Component extends DCLogic {
     volley: { name: 'VOLLEY', risk: 1, col: '#7affd0', n: 2, face: 'ROLL 2 · DEAL TOTAL', rule: ['ROLL 2, DEAL THE TOTAL.', 'MISFIRES DON\'T HURT.'] },
     focus: { name: 'FOCUS FIRE', risk: 2, col: '#c79bff', n: 3, face: 'ROLL 3 · BEST ×2', rule: ['ROLL 3, DEAL YOUR HIGHEST DIE ×2.'] },
     broadside: { name: 'BROADSIDE', risk: 3, col: '#ff6b6b', n: 5, face: 'ROLL 5 · TOTAL · 2 MISFIRES JAM', rule: ['ROLL 5, DEAL THE TOTAL.', '2 OR MORE MISFIRES WILL JAM, CAUSING YOU TO DO NOTHING.', 'MISFIRES WILL GIVE THE BOSS +1 DAMAGE NEXT ATTACK.'] },
-    redline: { name: 'REDLINE', risk: 3, col: '#ff9a3c', n: 1, face: 'ROLL TILL YOU STOP', rule: ['ROLL UP TO 6, ONE AT A TIME, ADDING EACH.', 'STOP ANYTIME TO FIRE.', 'A 1 ENDS IT: DEAL 0, BOSS +1.'] },
+    redline: { name: 'REDLINE', risk: 3, col: '#ff9a3c', n: 1, face: 'ROLL TILL YOU STOP', rule: ['ROLL UP TO 6, ONE AT A TIME, ADDING EACH DIE\u2019S DOTS AS DAMAGE.', 'STOP ANYTIME TO FIRE.', 'A 1 ENDS IT: DEAL 0, BOSS +1.'] },
     gambit: { name: 'GAMBIT', risk: 2, col: '#ffd644', n: 1, face: 'HIGHER OR LOWER · ×2', rule: ['ROLL 1, THEN CALL HIGHER OR LOWER.', 'RIGHT ×2 (UP TO 3 TIMES) · TIE HOLDS.', 'WRONG FIZZLES. NO MISFIRES.'] },
     target: { name: 'TARGET LOCK', risk: 2, col: '#ff5cd6', n: 4, face: 'CALL IT · 8 A MATCH', rule: ['CALL A NUMBER, ROLL 4.', 'EACH MATCH DEALS 8, OTHERS 0.', 'CALL 2 TO 6. 1S MISFIRE.'] },
     reverse: { name: 'REVERSE POLARITY', risk: 1, col: '#a8ff3a', n: 4, face: '1S DEAL 6', rule: ['ROLL 4. 1S DEAL 6 EACH AND DON\'T HURT.', 'EVERY OTHER NUMBER DEALS 1.'] },
@@ -545,15 +545,22 @@ class Component extends DCLogic {
   // after the boss turn: survivors loop back to the bottom of the formation, the top row dives in as the next squadron
   rotate(done) {
     const S = this.state; if (S.scr) return this.setState({ scr: false }, done);
-    const back = this.sqAlive(S), prev = S.order.filter(k => S.st[k] === 'ok'), order = prev.concat(back); if (!order.length) return done();
+    const back = this.sqAlive(S), prev = S.order.filter(k => S.st[k] === 'ok');
+    // no reserve left: the squadron shifts one slot (lead ship to the back) so the swap means something; a lone ship just stays put
+    const solo = !prev.length; if (solo && back.length < 2) return done();
+    const order = solo ? back.slice(1).concat(back[0]) : prev.concat(back); if (!order.length) return done();
+    if (solo) this.tagPopAt(this.hangarRef.current, 0, 'ROTATING FORMATION', '#6af5d6');
     const sq = order.slice(0, this.SQUAD), rest = order.slice(this.SQUAD);
+    // survivors that stay in the squadron must change slot: cycle them among their new slots until none keeps its old index
+    const keep = sq.map((k, i) => back.includes(k) ? i : -1).filter(i => i >= 0), kk = keep.map(i => sq[i]);
+    if (kk.length > 1) { let best = 0, bestHit = 1e9; for (let sh = 0; sh < kk.length; sh++) { const hit = keep.filter((slot, j) => S.sq.indexOf(kk[(j + sh) % kk.length]) === slot).length; if (hit < bestHit) { bestHit = hit; best = sh; } if (!hit) break; } keep.forEach((slot, j) => { sq[slot] = kk[(j + best) % kk.length]; }); }
     if (this.reduced) { this.orbSnap = true; return this.setState({ sq, order: rest }, done); }
     const from = {}; back.forEach(k => { from[k] = this.center(this.shipImg(k)); }); sq.forEach(k => { const i = prev.indexOf(k); if (i >= 0) from[k] = this.resPt(i); });
     this.orbFreeze = true; this.orbSnap = true; back.concat(sq).forEach(k => { this.hideOrb.add(k); this.hideRes.add(k); });
     if (sq.length) this.sfx('whoosh');
     this.setState({ phase: 'rotate', sq, order: rest }, () => this.later(() => {
       back.forEach((k, q) => { if (sq.includes(k)) return; this.flyArc(k, from[k], this.resPt(rest.indexOf(k)), 640, q * 45, 'back', () => { this.hideRes.delete(k); this.hideOrb.delete(k); }); });
-      sq.forEach((k, q) => this.flyArc(k, from[k], this.center(this.shipImg(k)), 560, 140 + q * 70, 'dive', () => { this.hideOrb.delete(k); this.hideRes.delete(k); }));
+      sq.forEach((k, q) => { const to = this.center(this.shipImg(k)), a = from[k]; if (a && to && Math.hypot(a.x - to.x, a.y - to.y) < 8) { this.hideOrb.delete(k); this.hideRes.delete(k); return; } this.flyArc(k, a, to, 560, 140 + q * 70, 'dive', () => { this.hideOrb.delete(k); this.hideRes.delete(k); }); }); // no pointless loop for a ship that hasn't moved
       this.later(() => { this.orbFreeze = false; done(); }, 140 + Math.max(0, sq.length - 1) * 70 + 600);
     }, 40));
   }
@@ -573,6 +580,7 @@ class Component extends DCLogic {
   }
   // the active squadron: up to 6 ships orbiting the boss. cards, wing fire, evade dice and targeting come from these only
   sqAlive(S) { S = S || this.state; return S.sq.filter(k => S.st[k] === 'ok'); }
+  wingOf(S, dmg) { S = S || this.state; return dmg > 0 ? Math.min(this.WING_MAX, Math.max(0, this.sqAlive(S).length - 1) * this.WING) : 0; } // wing fire: +1 per other surviving ship, capped, before ×2
   swallowed(S) { S = S || this.state; return S.st.map((x, k) => x === 'swallowed' ? k : -1).filter(k => k >= 0); }
   sfx(n, o) { if (window.BossSFX) window.BossSFX.play(n, o); }
   // ─── fx (one layer above the board, stage coordinates) ───
@@ -581,6 +589,8 @@ class Component extends DCLogic {
   fxEl(css, txt) { const fx = this.fxRef.current; if (!fx) return null; const d = document.createElement('div'); d.style.cssText = 'position:absolute;' + css; if (txt != null) d.textContent = txt; fx.appendChild(d); return d; }
   anim(d, kf, o) { if (!d) return; if (!d.animate) { d.remove(); return; } d.animate(kf, o).onfinish = () => d.remove(); }
   pop(x, y, txt, col, sz) { this.anim(this.fxEl('left:' + x + 'px;top:' + y + 'px;z-index:2;font-family:"Jersey 15",monospace;font-size:' + (sz || 34) + 'px;line-height:1;letter-spacing:1px;white-space:nowrap;color:' + col + ';text-shadow:3px 3px 0 #240011,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000', txt), [{ transform: 'translate(-50%,-50%) scale(.4)', opacity: 0 }, { transform: 'translate(-50%,-70%) scale(1.15)', opacity: 1, offset: .18 }, { transform: 'translate(-50%,-90%) scale(1)', opacity: 1, offset: .7 }, { transform: 'translate(-50%,-130%) scale(.95)', opacity: 0 }], { duration: 950, easing: 'cubic-bezier(.2,.8,.3,1)' }); }
+  // bordered callout in the intent-tag style (dark plate, 2px border, hard shadow), bigger and held longer than pop()
+  tagPopAt(el, dy, txt, col) { const c = this.center(el); if (!c) return; this.anim(this.fxEl('left:' + c.x + 'px;top:' + (c.y + (dy || 0)) + 'px;z-index:3;padding:6px 14px 5px;background:#0a0821;border:3px solid ' + col + ';border-radius:8px;box-shadow:3px 3px 0 #240011;box-sizing:border-box;font-family:"Jersey 15",monospace;font-size:32px;line-height:1;letter-spacing:2px;white-space:nowrap;color:' + col + ';text-shadow:2px 2px 0 #240011', txt), [{ transform: 'translate(-50%,-50%) scale(.5)', opacity: 0 }, { transform: 'translate(-50%,-50%) scale(1.1)', opacity: 1, offset: .12 }, { transform: 'translate(-50%,-50%) scale(1)', opacity: 1, offset: .2 }, { transform: 'translate(-50%,-50%) scale(1)', opacity: 1, offset: .8 }, { transform: 'translate(-50%,-70%) scale(.95)', opacity: 0 }], { duration: 1400, easing: 'cubic-bezier(.2,.8,.3,1)' }); }
   popAt(el, dy, txt, col, sz) { const c = this.center(el); if (c) this.pop(c.x, c.y + (dy || 0), txt, col, sz); }
   sparks(x, y, cols, n) { for (let i = 0; i < (n || 10); i++) { const s = 3 + Math.round(Math.random() * 3), a = Math.random() * Math.PI * 2, r = 16 + Math.random() * 34; this.anim(this.fxEl('left:' + (x - s / 2) + 'px;top:' + (y - s / 2) + 'px;width:' + s + 'px;height:' + s + 'px;background:' + cols[i % cols.length]), [{ transform: 'translate(0,0)', opacity: 1 }, { transform: 'translate(' + (Math.cos(a) * r).toFixed(1) + 'px,' + (Math.sin(a) * r).toFixed(1) + 'px)', opacity: 0 }], { duration: 360 + Math.random() * 280, easing: 'cubic-bezier(.2,.8,.4,1)' }); } }
   boomSheet() {
@@ -846,8 +856,8 @@ class Component extends DCLogic {
     const S = this.state; if (S.phase !== 'act' || this.busy || !S.cur) return;
     const cid = S.cur.card, real = this.realCard(S), o = this.ev(real, S.dice, S.calls, S.call), mult = this.exposed() && !o.bank ? 2 : 1;
     const last = cid === 'echo' ? S.last : { card: real, dice: S.dice.map(d => ({ v: d.v, banked: d.banked })), calls: S.calls.slice(), call: S.call };
-    const wing = o.dmg > 0 ? Math.min(this.WING_MAX, Math.max(0, this.sqAlive(S).length - 1) * this.WING) : 0; // wing fire: +1 per other surviving ship, before ×2
-    this.setState({ phase: 'fire', rsel: -1, last, lastK: S.cur.k, lastShip: S.cur.k >= 0 ? S.cur.k : S.lastShip, freeSel: [] }, () => { if (wing) this.popAt(this.shotRef.current, -8, 'WING FIRE +' + wing, '#6af5d6', 22); this.fireSeq(o, (o.dmg + wing) * mult, real); });
+    const wing = this.wingOf(S, o.dmg); // wing fire: +1 per other surviving ship, before ×2
+    this.setState({ phase: 'fire', rsel: -1, last, lastK: S.cur.k, lastShip: S.cur.k >= 0 ? S.cur.k : S.lastShip, freeSel: [] }, () => { if (wing) this.popAt(this.shotRef.current, -8, 'RANK BONUS +' + wing, '#6af5d6', 22); this.fireSeq(o, (o.dmg + wing) * mult, real); });
   }
   shotFrom(k) {
     if (k < 0) { const al = this.sqAlive(); k = al.length ? al[Math.floor(Math.random() * al.length)] : -1; }
@@ -1265,7 +1275,7 @@ class Component extends DCLogic {
       }
     }
     // the floating shot total
-    let right = '', rcol = '#a9b0c0';
+    let right = '', bonus = '', rcol = '#a9b0c0';
     if (out && ph !== 'roll') {
       if (out.bust) { right = 'BUST'; rcol = '#ff4d4d'; }
       else if (out.fizz) { right = 'FIZZLED'; rcol = '#ff4d4d'; }
@@ -1273,9 +1283,9 @@ class Component extends DCLogic {
       else if (out.bank) { right = 'BANK ' + out.bank.length; rcol = '#bfe8ff'; }
       else if (real === 'deflector') { right = 'BLOCK ' + out.block; rcol = '#6ad0ff'; }
       else if (real === 'patch') { right = 'HEAL ' + out.heal; rcol = '#48f320'; }
-      else { right = 'DEAL ' + out.dmg * mult + ' DAMAGE'; rcol = out.dmg ? '#ffffff' : '#a9b0c0'; }
+      else { const wg = this.wingOf(S, out.dmg); right = 'DEAL ' + out.dmg * mult + ' DAMAGE'; bonus = wg ? '(+' + wg * mult + ' RANK BONUS)' : ''; rcol = out.dmg ? '#ffffff' : '#a9b0c0'; }
     }
-    const tray = { left: real === 'target' && S.call ? 'CALLED ' + S.call : out && out.hand ? out.hand : ex && out && out.dmg ? '×2' : '', right, col: rcol };
+    const tray = { left: real === 'target' && S.call ? 'CALLED ' + S.call : out && out.hand ? out.hand : ex && out && out.dmg ? '×2' : '', right, bonus, big: bonus ? 32 : 44, col: rcol };
     const lastI = S.dice.length - 1;
     const rolled = S.dice.map((d, i) => {
       const r = this.drt[i], mk = out && d.settled ? out.marks[i] : '', sel = S.freeSel.includes(i) || S.rsel === i, canR = cid !== 'echo' && (!onlyLast || (i === lastI && !d.banked));
@@ -1327,7 +1337,7 @@ class Component extends DCLogic {
     if (ph === 'pick') bar = [sc ? P1('PLAY ' + sc.name, () => this.play(), this.busy ? .4 : 1) : S.collapsed ? P1('SHOW CARDS', () => this.toggleOffer()) : P1('PICK A CARD', () => {}, .4)];
     else if (ph === 'call') bar = [1, 2, 3, 4, 5, 6].map(v => ({ ...P2('' + v, () => this.callNum(v), v === 1 ? .3 : 1, '#ff5cd6'), isImg: true, hasLabel: false, src: Component.__A('assets/flat_' + v + '_48.png') }));
     else if (ph === 'act' && out) {
-      const stuck = out.bust || out.fizz, fireB = P1(out.bust ? 'TAKE THE BUST' : out.fizz ? 'ACCEPT' : out.jam ? 'FIRE · JAMMED' : out.bank ? 'BANK ' + out.bank.length : real === 'deflector' ? 'BLOCK ' + out.block : real === 'patch' ? 'HEAL ' + out.heal : 'FIRE · ' + out.dmg * mult, () => this.fire(), rolling ? .4 : 1);
+      const stuck = out.bust || out.fizz, fireB = P1(out.bust ? 'TAKE THE BUST' : out.fizz ? 'ACCEPT' : out.jam ? 'FIRE · JAMMED' : out.bank ? 'BANK ' + out.bank.length : real === 'deflector' ? 'BLOCK ' + out.block : real === 'patch' ? 'HEAL ' + out.heal : 'FIRE · ' + (out.dmg + this.wingOf(S, out.dmg)) * mult, () => this.fire(), rolling ? .4 : 1);
       if (cid === 'firing' && !S.freeUsed) bar = [P2(S.freeSel.length ? 'FREE REROLL · ' + S.freeSel.length : 'SKIP FREE', () => this.freeReroll(), rolling ? .4 : 1, '#7ab8ff'), fireB];
       else if (S.rsel >= 0) bar = [P2('REROLL · ' + cost, () => this.rerollSel(), S.gold >= cost && !rolling ? 1 : .4, '#ffd644'), fireB];
       else if (cid === 'redline') bar = [P2('ROLL AGAIN', () => this.more(), rolling || stuck || S.dice.filter(d => !d.banked).length >= this.REDLINE_MAX ? .4 : 1, '#ff9a3c'), fireB];
