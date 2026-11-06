@@ -295,8 +295,8 @@
 <div style="font-family:'Jersey 15',monospace;font-size:28px;line-height:.9;letter-spacing:1px;color:#ffd644;text-shadow:2px 2px 0 #3a1a00;white-space:nowrap">MAJOR UPGRADE</div>
 <div style="font-family:'Silkscreen',monospace;font-size:10px;line-height:1.2;color:#e2d6ff">{{ depot.major.desc }}</div>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-<sc-if value="{{ depot.major.hasHeld }}" hint-placeholder-val="{{ false }}"><div style="min-width:0;display:flex;align-items:center;gap:4px;font-family:'Silkscreen',monospace;font-size:10px;color:#a9b0c0;white-space:nowrap;overflow:hidden"><img src="{{ depot.major.heldIc }}" alt="" style="width:16px;height:16px;image-rendering:pixelated;flex:none">SWAPS {{ depot.major.held }}</div></sc-if>
-<sc-if value="{{ depot.major.noHeld }}" hint-placeholder-val="{{ false }}"><div style="font-family:'Silkscreen',monospace;font-size:10px;color:#a9b0c0">HOLD ONLY ONE</div></sc-if>
+<sc-if value="{{ depot.major.hasHeld }}" hint-placeholder-val="{{ false }}"><div style="min-width:0;display:flex;align-items:center;gap:4px;font-family:'Silkscreen',monospace;font-size:10px;line-height:1.15;color:#a9b0c0"><img src="{{ depot.major.heldIc }}" alt="" style="width:16px;height:16px;image-rendering:pixelated;flex:none"><span>TRADES OUT {{ depot.major.held }}</span></div></sc-if>
+<sc-if value="{{ depot.major.noHeld }}" hint-placeholder-val="{{ false }}"><div style="font-family:'Silkscreen',monospace;font-size:10px;color:#a9b0c0">ROOM FOR ONE TOOL</div></sc-if>
 <div data-price="1" style="flex:none;margin-left:auto;display:flex;align-items:center;gap:5px;padding:3px 9px;background:#ffd644;border:3px solid #05040f;border-radius:7px;box-shadow:inset 0 -3px 0 #c08a00,2px 2px 0 #05040f"><img src="assets/coin.png" style="width:16px;height:16px;display:block"><span style="font-family:'Jersey 15',monospace;font-size:22px;line-height:1;color:#2a1600">{{ depot.major.price }}</span></div>
 </div>
 </div>
@@ -3163,7 +3163,7 @@ class Component extends DCLogic {
     });
     let major = null;
     { const mp = this.majorPrice(), hd = this.heldMajor();
-      major = it('major', 'MAJOR UPGRADE', 'SEALED SUPPLY DROP · 1 OF ' + this.majors().length + ' TOOLS', mp, true, '', () => { r.majBuys = (r.majBuys || 0) + 1; this.openCrate('depot', null, mp); }, { held: hd ? this.PARTS[hd].name : '', heldIc: hd ? this.toolArt(hd) : '', hasHeld: !!hd, noHeld: !hd }); }
+      major = it('major', 'MAJOR UPGRADE', 'MYSTERY UNMARKED CARGO', mp, true, '', () => { r.majBuys = (r.majBuys || 0) + 1; this.openCrate('depot', null, mp); }, { held: hd ? this.PARTS[hd].name : '', heldIc: hd ? this.toolArt(hd) : '', hasHeld: !!hd, noHeld: !hd }); }
     const dd = r.ddStock, held = this.bonusHeld();
     if (dd) offers.push(it('ddbp', this.SHIPS[dd.type].name, 'NO DOCK NEEDED', P(T.DRYDOCK_PRICE), !dd.sold && held < T.BONUS_BLUEPRINTS_MAX, dd.sold ? 'SOLD' : 'BONUS FULL', () => { dd.sold = true; this.addBonusBp(dd.type, 'drydock'); this.toast(this.SHIPS[dd.type].name + ' · NO DOCK NEEDED', '#6af5d6'); }, { type: dd.type }));
     return { offers, run, major };
