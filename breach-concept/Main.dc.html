@@ -715,28 +715,23 @@
 <div style="margin-top:6px;height:40px;font-family:'Jersey 15',monospace;line-height:1;font-size:40px;letter-spacing:2px;color:#ffd644;text-align:center;white-space:nowrap;text-shadow:3px 3px 0 #3a1a00">{{ crate.head }}</div>
 <div style="position:relative;width:320px;height:330px;margin-top:4px">
 <sc-if value="{{ crate.rays }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:50%;width:0;height:0"><div style="position:absolute;left:-220px;top:-220px;width:440px;height:440px;animation:crraysin .5s ease-out both"><div style="width:100%;height:100%;background:repeating-conic-gradient(rgba(255,214,68,.28) 0deg 8deg,transparent 8deg 24deg);-webkit-mask:radial-gradient(circle,#000 14%,transparent 66%);mask:radial-gradient(circle,#000 14%,transparent 66%);animation:crrays 12s linear infinite"></div></div></div></sc-if>
-<sc-if value="{{ crate.podOn }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:50%;top:50%;width:176px;height:248px;margin:-124px 0 0 -88px;animation:crpodin .55s cubic-bezier(.3,1.5,.6,1) both">
+<sc-if value="{{ crate.podOn }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;left:50%;top:50%;width:180px;height:250px;margin:-125px 0 0 -90px;animation:crpodin .55s cubic-bezier(.3,1.5,.6,1) both">
 <div style="position:absolute;inset:0;transform-origin:50% 85%;animation:{{ crate.shakeAnim }}">
 <div style="position:absolute;left:28px;right:28px;bottom:-6px;height:14px;border-radius:50%;background:rgba(0,0,0,.5)"></div>
-<img src="assets/pod_bot.png" alt="" style="position:absolute;inset:0;width:176px;height:248px;image-rendering:pixelated;animation:{{ crate.botAnim }}">
-<div style="position:absolute;left:14px;right:14px;top:112px;height:8px;background:#fff3b0;box-shadow:0 0 16px 6px rgba(255,214,68,.85);opacity:0;animation:{{ crate.seamAnim }}"></div>
-<img src="assets/pod_top.png" alt="" style="position:absolute;inset:0;width:176px;height:248px;image-rendering:pixelated;transform-origin:30% 45%;animation:{{ crate.topAnim }}">
-<sc-for list="{{ crate.sparks }}" as="k" hint-placeholder-count="0"><div style="position:absolute;left:{{ k.x }}px;top:116px;width:6px;height:6px;background:{{ k.c }};opacity:0;animation:crspark .55s steps(5) {{ k.d }} infinite;--dx:{{ k.dx }}px;--dy:{{ k.dy }}px"></div></sc-for>
+<img src="assets/pod_bot.png" alt="" style="position:absolute;inset:0;width:180px;height:250px;image-rendering:pixelated;animation:{{ crate.botAnim }}">
+<div style="position:absolute;left:24px;right:24px;top:121px;height:8px;background:#fff3b0;box-shadow:0 0 16px 6px rgba(255,214,68,.85);opacity:0;animation:{{ crate.seamAnim }}"></div>
+<img src="assets/pod_top.png" alt="" style="position:absolute;inset:0;width:180px;height:250px;image-rendering:pixelated;transform-origin:30% 45%;animation:{{ crate.topAnim }}">
+<sc-for list="{{ crate.sparks }}" as="k" hint-placeholder-count="0"><div style="position:absolute;left:{{ k.x }}px;top:122px;width:6px;height:6px;background:{{ k.c }};opacity:0;animation:crspark .55s steps(5) {{ k.d }} infinite;--dx:{{ k.dx }}px;--dy:{{ k.dy }}px"></div></sc-for>
 </div></div></sc-if>
 <sc-for list="{{ crate.debris }}" as="k" hint-placeholder-count="0"><div style="position:absolute;left:50%;top:50%;width:{{ k.s }}px;height:{{ k.s }}px;margin:-4px 0 0 -4px;background:{{ k.c }};box-shadow:2px 2px 0 rgba(0,0,0,.5);opacity:0;animation:crdebris .9s cubic-bezier(.15,.8,.4,1) forwards;--dx:{{ k.dx }}px;--dy:{{ k.dy }}px;--r:{{ k.r }}deg"></div></sc-for>
-<sc-if value="{{ crate.cardOn }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:50%;width:164px;height:270px;margin:-135px 0 0 -82px;perspective:700px;animation:crcardout .6s cubic-bezier(.25,1.5,.5,1) both">
-<div style="position:absolute;inset:0;animation:crsway 3.2s ease-in-out 1.4s infinite">
-<div style="position:absolute;inset:0;transform-style:preserve-3d;animation:crflip .5s cubic-bezier(.4,0,.2,1) .62s both">
-<img src="assets/tool_back.png" alt="" style="position:absolute;inset:0;width:164px;height:270px;image-rendering:pixelated;backface-visibility:hidden;-webkit-backface-visibility:hidden;filter:drop-shadow(5px 5px 0 #240011)">
-<img src="{{ crate.art }}" alt="" style="position:absolute;inset:0;width:164px;height:270px;image-rendering:pixelated;transform:rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;filter:drop-shadow(0 0 14px rgba(255,214,68,.55)) drop-shadow(5px 5px 0 #240011)">
-</div></div></div></sc-if>
+<sc-if value="{{ crate.cardOn }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:50%;top:50%;width:192px;height:192px;margin:-96px 0 0 -96px;animation:crcardout .6s cubic-bezier(.25,1.5,.5,1) both"><div style="position:absolute;inset:0;animation:crsway 3.2s ease-in-out .7s infinite"><img src="{{ crate.art }}" alt="" style="width:192px;height:192px;image-rendering:pixelated;filter:drop-shadow(0 0 16px rgba(255,214,68,.5)) drop-shadow(4px 4px 0 #0c0416)"></div></div></sc-if>
 <sc-if value="{{ crate.flash }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:-300px;background:#fff8d8;pointer-events:none;animation:crflash .4s steps(4) forwards"></div></sc-if>
 </div>
 <div style="align-self:stretch;min-height:176px;display:flex;flex-direction:column;align-items:center">
 <sc-if value="{{ crate.sh }}" hint-placeholder-val="{{ true }}"><div style="margin-top:8px;font-family:'Silkscreen',monospace;font-size:11px;color:#6b7187">TAP TO CRACK IT OPEN</div></sc-if>
 <sc-if value="{{ crate.rv }}" hint-placeholder-val="{{ false }}"><div style="max-width:300px;text-align:center;font-family:'Silkscreen',monospace;font-size:12px;line-height:1.5;color:#c9cfdc">{{ crate.desc }}</div></sc-if>
 <sc-if value="{{ crate.noOld }}" hint-placeholder-val="{{ false }}"><button onClick="{{ crate.take }}" style="margin-top:16px;align-self:stretch;height:64px;border-radius:14px;border:3px solid #f2f2f2;background:#4fae16;box-shadow:4px 4px 0 #240011;color:#fff;font-family:'Jersey 15',monospace;line-height:1;font-size:30px;letter-spacing:2px;text-shadow:2px 2px 0 #000;cursor:pointer">INSTALL</button></sc-if>
-<sc-if value="{{ crate.hasOld }}" hint-placeholder-val="{{ false }}"><div style="align-self:stretch;margin-top:12px;padding:6px 10px;border:3px solid #3a3a5a;border-radius:10px;background:#0a0821;display:flex;align-items:center;gap:10px"><img src="{{ crate.oldArt }}" alt="" style="width:30px;height:49px;image-rendering:pixelated;flex:none"><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:2px;color:#a9b0c0">YOU HOLD · ONLY ONE FITS</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;color:#fff">{{ crate.oldName }}</span></div></div>
+<sc-if value="{{ crate.hasOld }}" hint-placeholder-val="{{ false }}"><div style="align-self:stretch;margin-top:12px;padding:6px 10px;border:3px solid #3a3a5a;border-radius:10px;background:#0a0821;display:flex;align-items:center;gap:10px"><img src="{{ crate.oldArt }}" alt="" style="width:44px;height:44px;image-rendering:pixelated;flex:none"><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:2px;color:#a9b0c0">YOU HOLD · ONLY ONE FITS</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;color:#fff">{{ crate.oldName }}</span></div></div>
 <div style="align-self:stretch;margin-top:10px;display:flex;gap:12px"><button onClick="{{ crate.keep }}" style="flex:1;min-width:0;height:64px;border-radius:14px;border:3px solid #3a3a5a;background:#2a2a44;box-shadow:4px 4px 0 #240011;color:#c9cfdc;font-family:'Jersey 15',monospace;line-height:1;font-size:24px;letter-spacing:1px;cursor:pointer">KEEP OLD</button><button onClick="{{ crate.take }}" style="flex:1;min-width:0;height:64px;border-radius:14px;border:3px solid #f2f2f2;background:#c08a00;box-shadow:4px 4px 0 #240011;color:#fff;font-family:'Jersey 15',monospace;line-height:1;font-size:28px;letter-spacing:2px;text-shadow:2px 2px 0 #000;cursor:pointer">SWAP</button></div></sc-if>
 </div>
 <div style="flex:1;min-height:16px"></div>
@@ -3237,7 +3232,7 @@ class Component extends DCLogic {
   openCrate(src, cont, paid) {
     const r = this.g.run, held = this.heldMajor(), pool = this.majors().filter(id => id !== held), id = pool[Math.floor(this.rand() * pool.length)];
     const R = () => Math.random(), PC = ['#ffd644', '#fff3b0', '#8c96ac', '#c4cbd8', '#55a6cc', '#ff9a3c'];
-    const sparks = Array.from({ length: 6 }, (_, i) => ({ x: 20 + i * 26, c: i % 2 ? '#fff3b0' : '#ffd644', d: (0.9 + R() * 1.4).toFixed(2) + 's', dx: Math.round((R() - 0.5) * 60), dy: Math.round(-20 - R() * 40) }));
+    const sparks = Array.from({ length: 6 }, (_, i) => ({ x: 34 + i * 22, c: i % 2 ? '#fff3b0' : '#ffd644', d: (0.9 + R() * 1.4).toFixed(2) + 's', dx: Math.round((R() - 0.5) * 60), dy: Math.round(-20 - R() * 40) }));
     const debris = Array.from({ length: 18 }, (_, i) => { const a = (i / 18) * Math.PI * 2 + R() * 0.3, d = 110 + R() * 120; return { s: 4 + Math.floor(R() * 3) * 2, c: PC[i % PC.length], dx: Math.round(Math.cos(a) * d), dy: Math.round(Math.sin(a) * d), r: Math.round((R() - 0.5) * 540) }; });
     const c = this.crate = { id, src, cont, paid: paid || this.majorPrice(), old: held, phase: 'shake', at: performance.now(), t: [], sparks, debris };
     const L = (f, ms) => { c.t.push(setTimeout(() => { if (this.crate === c) f(); }, ms)); };
@@ -3245,7 +3240,7 @@ class Component extends DCLogic {
     this.sfx('whoosh'); L(() => this.sfx('land'), 420); [850, 1330, 1380, 1760, 1820, 1880, 2080, 2140, 2200, 2260, 2320].forEach((ms, i) => L(() => this.sfx(i < 3 ? 'tick' : 'race_die_add'), ms));
     L(() => this.crateOpen(), 2650); this.sync();
   }
-  crateOpen() { const c = this.crate; if (!c || c.phase !== 'shake') return; c.t.forEach(clearTimeout); c.t = []; c.phase = 'open'; this.sfx('breach'); this.later(() => this.sfx('unlock'), 90); this.later(() => this.sfx('card_flip'), 640); this.sync();
+  crateOpen() { const c = this.crate; if (!c || c.phase !== 'shake') return; c.t.forEach(clearTimeout); c.t = []; c.phase = 'open'; this.sfx('breach'); this.later(() => this.sfx('unlock'), 90); this.sync();
     c.t.push(setTimeout(() => { if (this.crate === c) { c.phase = 'reveal'; this.sfx('feat'); this.sync(); } }, 1150)); }
   crateTap = () => { const c = this.crate; if (c && c.phase === 'shake' && performance.now() - c.at > 600) this.crateOpen(); };
   crateDone(take) {
