@@ -1238,7 +1238,7 @@ class Component extends DCLogic {
     loaded:    { tier: 'common',   base: 3,  name: 'LOADED DIE',       desc: 'Once per sector, reroll a single die for free.' },
     airbay:    { tier: 'common',   base: 4,  name: 'AIRLOCK BAY',      desc: '+1 airlock slot.' },
     plating:   { tier: 'common',   base: 4,  name: 'HULL PLATING',     desc: '+1 hull.' },
-    nets:      { tier: 'common',   base: 3,  name: 'PRESTIGE NETS',       desc: 'Clean rolls pay +1 more prestige.' },
+    nets:      { tier: 'common',   base: 3,  name: 'PRESTIGE NETS',       desc: 'Clean rolls pay +1 prestige.' },
     scanner:   { tier: 'uncommon', base: 5,  name: 'SCANNER',          desc: 'Once per node, redeal the adventure cards.' },
     rig:       { tier: 'uncommon', base: 5,  name: 'SALVAGE RIG',      desc: 'Salvage repairs double.' },
     relay:     { tier: 'uncommon', base: 5,  name: 'BEACON RELAY',     desc: 'Distress Beacon draws 2 blueprints.' },
@@ -2844,7 +2844,7 @@ class Component extends DCLogic {
     const placed = ro.dice.filter(d => d.loc === 'slot');
     const clean = !c.free && !r.freeNode && pips === 0 && !left.length && placed.length > 0;
     if (clean) r.cleanRolls = (r.cleanRolls || 0) + 1;
-    if (clean) this.gainPrestige(T.CLEAN_PRESTIGE + (r.nets ? T.NETS_PRESTIGE : 0), r.nets ? 'CLEAN · NETS' : 'CLEAN');
+    if (clean && r.nets) this.gainPrestige(T.NETS_PRESTIGE, 'CLEAN · NETS');
     const allPl = !!ro.apDone || (!ro.chain && ro.dice.length > 0 && ro.dice.every(d => d.loc === 'slot'));
     if (!ro.nLaunch) { if (r.coupler && allPl && r.mom) this.later(() => this.toast('LAUNCH STREAK HELD · COUPLER', '#7ab8ff'), 300); else if (!(r.coupler && allPl)) { if ((r.mom || 0) >= 2) this.crackChip(this.q('[data-lstreak]')); r.mom = 0; } }
     let bonus = 0;
