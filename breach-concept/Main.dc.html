@@ -594,27 +594,27 @@
 </div>
 <sc-if value="{{ pl.notRun }}" hint-placeholder-val="{{ true }}"><button onClick="{{ pl.close }}" aria-label="Close" style="width:48px;height:48px;flex:none;background:#0a0821;border:3px solid #f2f2f2;border-radius:6px;box-shadow:3px 3px 0 #240011;font-family:'Jersey 15',monospace;line-height:1;font-size:26px;color:#fff">✕</button></sc-if>
 </div>
-<div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;padding:9px 14px;background:linear-gradient(90deg,#2a1d6a,#14104a);border:3px solid #6a5acd;border-radius:10px;box-shadow:3px 3px 0 #240011">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:23px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pl.sys }}</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:23px;color:#ffd644">{{ pl.count }}</span></div>
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Silkscreen',monospace;font-size:10px;color:#ff7ac8"><sc-if value="{{ pl.rare }}" hint-placeholder-val="{{ true }}">★ RARE · ONLY 2 DAYS A WEEK</sc-if></span><span style="display:flex;align-items:center;gap:5px;font-family:'Silkscreen',monospace;font-size:12px">⏱ <span style="font-family:'Jersey 15',monospace;line-height:1;font-size:20px;color:#ffd644">{{ pl.clock }}</span></span></div>
+<div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;margin:12px -4px 0;padding:2px 4px 8px">
+<sc-for list="{{ pl.systems }}" as="s" hint-placeholder-count="3"><div style="margin-bottom:16px">
+<div style="display:flex;flex-direction:column;gap:5px;padding:8px 12px;background:{{ s.bg }};border:3px solid {{ s.bd }};border-radius:10px;box-shadow:{{ s.sh }}">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ s.titleCol }}">{{ s.title }}</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;color:{{ s.countCol }}">{{ s.count }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'Silkscreen',monospace;font-size:11px;color:{{ s.subCol }};white-space:nowrap">{{ s.sub }}</span><sc-if value="{{ s.isToday }}" hint-placeholder-val="{{ true }}"><span style="display:flex;align-items:center;gap:5px;font-family:'Silkscreen',monospace;font-size:11px;white-space:nowrap"><sc-if value="{{ s.rare }}" hint-placeholder-val="{{ false }}"><span style="color:#ff7ac8">★ RARE ·</span></sc-if>⏱ <span style="font-family:'Jersey 15',monospace;line-height:1;font-size:19px;color:#ffd644">{{ pl.clock }}</span></span></sc-if></div>
 </div>
-<div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;margin:10px -4px 0;padding:2px 4px 8px">
-<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px">
-<sc-for list="{{ pl.tiles }}" as="t" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:6px;min-width:0">
-<button onClick="{{ t.tap }}" style="position:relative;height:116px;padding:0;border-radius:10px;border:3px solid {{ t.bd }};background:radial-gradient(circle at 50% 45%,#2b2370,#0d0b2a 75%);box-shadow:{{ t.sh }};animation:{{ t.anim }};display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;cursor:pointer" style-active="transform:translate(2px,2px)">
+<div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px">
+<sc-for list="{{ s.tiles }}" as="t" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+<button onClick="{{ t.tap }}" style="position:relative;height:116px;padding:0;border-radius:10px;border:3px solid {{ t.bd }};background:{{ t.bg }};box-shadow:{{ t.sh }};animation:{{ t.anim }};display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;cursor:pointer" style-active="transform:translate(2px,2px)">
 <img src="{{ t.img }}" alt="" style="width:72px;height:72px;margin-top:-14px;display:block;image-rendering:pixelated;filter:{{ t.pf }};animation:{{ t.bob }}">
 <span style="position:absolute;left:0;right:0;bottom:5px;text-align:center;font-family:'Jersey 15',monospace;line-height:1;font-size:19px;letter-spacing:1px;text-shadow:2px 2px 0 #000">{{ t.name }}</span>
-<sc-if value="{{ t.taken }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:5px;right:5px;width:14px;height:10px;background:#48f320;border:2px solid #0a0821"></span></sc-if>
+<sc-if value="{{ t.locked }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="" style="position:absolute;left:50%;top:40%;width:26px;height:26px;transform:translate(-50%,-50%)"></sc-if><sc-if value="{{ t.taken }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:5px;right:5px;width:14px;height:10px;background:#48f320;border:2px solid #0a0821"></span></sc-if>
 </button>
 <sc-if value="{{ t.taken }}" hint-placeholder-val="{{ false }}"><div style="height:48px;box-sizing:border-box;border-radius:12px;border:3px solid #48f320;background:#0a0821;box-shadow:3px 3px 0 #240011;display:flex;align-items:center;justify-content:center;font-family:'Jersey 15',monospace;line-height:1;font-size:22px;color:#48f320">✓ TAKEN</div></sc-if>
 <sc-if value="{{ t.ready }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.tap }}" style="height:48px;padding:0;box-sizing:border-box;border-radius:12px;border:3px solid #f2f2f2;background:#4fae16;box-shadow:inset 0 -6px 0 rgba(0,0,0,.3),3px 3px 0 #240011;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;text-shadow:2px 2px 0 #000" style-active="transform:translate(2px,2px)"><span style="font-family:'Silkscreen',monospace;font-size:11px;line-height:1;text-shadow:1px 1px 0 #000">READY</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:23px;letter-spacing:1px">UNLOCK</span></button></sc-if>
 <sc-if value="{{ t.deploy }}" hint-placeholder-val="{{ true }}"><button onClick="{{ t.tap }}" style="height:48px;padding:0;box-sizing:border-box;border-radius:12px;border:3px solid #f2f2f2;background:#b3201c;box-shadow:inset 0 -6px 0 rgba(0,0,0,.3),3px 3px 0 #240011;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;text-shadow:2px 2px 0 #000" style-active="transform:translate(2px,2px)"><span style="font-family:'Silkscreen',monospace;font-size:11px;line-height:1;text-shadow:1px 1px 0 #000">DEPLOY</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;white-space:nowrap">{{ t.prog }}</span></button></sc-if>
+<sc-if value="{{ t.prog }}" hint-placeholder-val="{{ false }}"><button onClick="{{ t.tap }}" style="position:relative;height:48px;padding:0;box-sizing:border-box;border-radius:12px;border:3px solid #3a3a5a;background:#0a0821;box-shadow:3px 3px 0 #240011;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff"><div style="position:absolute;left:0;top:0;bottom:0;width:{{ t.progW }};background:#ffd644;opacity:.85"></div><span style="position:relative;font-family:'Jersey 15',monospace;line-height:1;font-size:21px;white-space:nowrap;text-shadow:1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000">{{ t.progTxt }}</span></button></sc-if>
+<sc-if value="{{ t.locked }}" hint-placeholder-val="{{ false }}"><div style="height:48px;display:flex;align-items:center;justify-content:center;font-family:'Silkscreen',monospace;font-size:11px;color:#6b7187">LOCKED</div></sc-if>
 </div></sc-for>
 </div>
-<div style="margin-top:16px;display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:22px;letter-spacing:1px">COMING UP</span><span style="font-family:'Silkscreen',monospace;font-size:10px;color:#a9b0c0">PROGRESS IS SAVED</span></div>
-<div style="margin-top:8px;display:flex;gap:5px">
-<sc-for list="{{ pl.days }}" as="dd" hint-placeholder-count="7"><div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 5px;border:2px solid {{ dd.bd }};border-radius:8px;background:#0a0821;box-shadow:{{ dd.sh }}"><span style="font-family:'Silkscreen',monospace;font-size:9px;color:{{ dd.lblCol }}">{{ dd.lbl }}</span><img src="{{ dd.img }}" alt="" style="width:26px;height:26px;display:block;image-rendering:pixelated;filter:{{ dd.pf }}"><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:16px;color:{{ dd.sCol }}">{{ dd.s }}</span></div></sc-for>
-</div>
+</div></sc-for>
 </div>
 <sc-if value="{{ pl.fromRun }}" hint-placeholder-val="{{ false }}"><button onClick="{{ pl.close }}" style="margin-top:10px;width:100%;height:58px;flex:none;background:#486c05;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -6px 0 #2e4a02,4px 4px 0 #240011;font-family:'Jersey 15',monospace;line-height:1;font-size:28px;letter-spacing:1px;color:#fff">CONTINUE ›</button></sc-if>
 </div>
@@ -633,11 +633,11 @@
 <sc-if value="{{ pl.d.arrows }}" hint-placeholder-val="{{ true }}"><button onClick="{{ pl.d.prev }}" aria-label="Previous planet" style="position:absolute;left:-66px;top:50%;transform:translateY(-50%);width:52px;height:72px;padding:0;background:none;border:none;font-family:'Jersey 15',monospace;line-height:1;font-size:48px;color:#a9b0c0;cursor:pointer">‹</button><button onClick="{{ pl.d.next }}" aria-label="Next planet" style="position:absolute;right:-66px;top:50%;transform:translateY(-50%);width:52px;height:72px;padding:0;background:none;border:none;font-family:'Jersey 15',monospace;line-height:1;font-size:48px;color:#a9b0c0;cursor:pointer">›</button></sc-if>
 </div>
 <div style="flex:1;min-height:10px"></div>
-<div style="display:flex;align-items:center;gap:12px;padding:8px 16px 8px 10px;border:3px solid {{ pl.d.cardBd }};border-radius:10px;background:#0a0821;box-shadow:{{ pl.d.cardSh }}">
+<div style="position:relative;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 10px;border:3px solid {{ pl.d.cardBd }};border-radius:10px;background:#0a0821;box-shadow:{{ pl.d.cardSh }}">
 <div style="position:relative;width:44px;height:73px;flex:none"><img src="{{ pl.d.cardImg }}" alt="" style="width:44px;height:73px;display:block;image-rendering:pixelated;border-radius:3px;filter:{{ pl.d.cardF }}"><sc-if value="{{ pl.d.lockC }}" hint-placeholder-val="{{ true }}"><img src="assets/ic_lock.svg" alt="" style="position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%)"></sc-if><sc-if value="{{ pl.d.lockO }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock_open.svg" alt="" style="position:absolute;right:-8px;top:-8px;width:20px;height:20px"></sc-if></div>
 <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-family:'Silkscreen',monospace;font-size:12px;color:{{ pl.d.cardLblCol }}">{{ pl.d.cardLbl }}</span><span style="font-family:'Jersey 15',monospace;line-height:1;font-size:26px;color:{{ pl.d.cardCol }};white-space:nowrap">{{ pl.d.card }}</span></div>
-</div>
-<div style="height:16px;margin-top:6px;font-family:'Silkscreen',monospace;font-size:11px;color:#ff9a3c">{{ pl.d.hint }}</div>
+<div style="position:absolute;left:-40px;right:-40px;top:100%;margin-top:8px;text-align:center;font-family:'Silkscreen',monospace;font-size:11px;color:#ff9a3c;white-space:nowrap">{{ pl.d.hint }}</div></div>
+<div style="flex:1;min-height:26px"></div>
 <div style="width:100%;display:flex;gap:12px">
 <button onClick="{{ pl.deploy }}" style="flex:1;min-width:0;height:84px;padding:0;box-sizing:border-box;border-radius:14px;border:3px solid {{ pl.d.depBd }};background:{{ pl.d.depBg }};box-shadow:inset 0 -7px 0 rgba(0,0,0,.3),4px 4px 0 #240011;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:{{ pl.d.depCol }};text-shadow:{{ pl.d.depTs }}" style-active="transform:translate(2px,2px)"><span style="font-family:'Silkscreen',monospace;font-size:13px;line-height:1">DEPLOY</span><span style="display:flex;align-items:center;gap:6px;font-family:'Jersey 15',monospace;line-height:1;font-size:30px;letter-spacing:1px"><sc-if value="{{ pl.d.depShip }}" hint-placeholder-val="{{ true }}"><img src="assets/ship_gold.png" alt="" style="width:20px;height:24px;display:block;image-rendering:pixelated"></sc-if>{{ pl.d.depVal }}</span></button>
 <button onClick="{{ pl.unlock }}" style="flex:1;min-width:0;height:84px;padding:0;box-sizing:border-box;border-radius:14px;border:3px solid {{ pl.d.unBd }};background:{{ pl.d.unBg }};box-shadow:inset 0 -7px 0 rgba(0,0,0,.3),4px 4px 0 #240011;animation:{{ pl.d.unAnim }};font-family:'Jersey 15',monospace;line-height:1;font-size:32px;letter-spacing:2px;color:{{ pl.d.unCol }};text-shadow:{{ pl.d.unTs }}" style-active="transform:translate(2px,2px)">{{ pl.d.unTxt }}</button>
@@ -3882,6 +3882,7 @@ class Component extends DCLogic {
     const plain = [0, 1, 2, 3, 4, 5, 6].filter(x => !rare.includes(x)), k = plain.indexOf(dow), off = Math.floor(rnd() * rest.length);
     return rest[((k < 0 ? dow : k) + off) % rest.length];
   }
+  plNext(n) { const DN = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']; for (let off = 1; off < 15; off++) { const t = this.plDate(off); if (this.plSysOn(this.plDayN(t)) === n) return off === 1 ? 'TOMORROW' : DN[t.getDay()]; } return ''; }
   plToday() { return this.plSysOn(this.plDayN(this.plDate(0))); }
   plFmt(n) { n = Math.round(n || 0); if (n < 1000) return String(n); const k = n / 1000; return (k >= 100 ? Math.round(k) : Math.round(k * 10) / 10) + 'K'; }
   openPlanets(mode) {
@@ -3905,11 +3906,11 @@ class Component extends DCLogic {
     const r = this.g.run; if (pl.mode && r) { r.plDone = true; this.sync(); this.later(() => this.openReceipt(pl.mode), 120); } else this.sync();
   };
   plOpen(id) { const pl = this.g.pl; if (!pl || this.plBusy) return; pl.sel = id; this.sfx('button'); this.sync(); }
-  plNav(dir) { const pl = this.g.pl; if (!pl || !pl.sel || this.plBusy) return; const ps = this.domSysPlanets(this.plToday()), i = ps.findIndex(p => p.id === pl.sel); pl.sel = ps[(i + dir + ps.length) % ps.length].id; this.sfx('button'); this.sync(); }
+  plNav(dir) { const pl = this.g.pl; if (!pl || !pl.sel || this.plBusy) return; const ps = this.domSysPlanets(this.domP(pl.sel).sys), i = ps.findIndex(p => p.id === pl.sel); pl.sel = ps[(i + dir + ps.length) % ps.length].id; this.sfx('button'); this.sync(); }
   plDeploy = () => {
     const pl = this.g.pl, d = this.dom(), p = pl && pl.sel && this.domP(pl.sel); if (!p || this.plBusy) return;
     const hp = this.domHp(p), left = this.domLeft(p), amt = Math.min(d.pool || 0, left);
-    if (d.taken.includes(p.id) || amt <= 0) return this.sfx('button', { denied: true });
+    if (d.taken.includes(p.id) || amt <= 0 || p.sys !== this.plToday()) return this.sfx('button', { denied: true });
     const from = d.dmg[p.id] || 0; d.dmg[p.id] = from + amt; d.pool -= amt; this.plBusy = true; this.plBar = from; this.sfx('button'); this.sync();
     const f = this.fxK(), el = this.q('[data-pl-planet]'), b = this.rectIn(el), dur = f ? 1300 : 0, fell = this.domLeft(p) <= 0;
     if (f && b) { const n = Math.min(20, 6 + Math.round(amt / hp * 16)); for (let i = 0; i < n; i++) this.later(() => { if (this.g.pl) this.cqShot(b, 'ship_gold', i); }, Math.max(0, dur - 420) * Math.pow(i / n, 0.8)); }
@@ -3938,30 +3939,34 @@ class Component extends DCLogic {
     const pool = this.plShown != null ? this.plShown : (d.pool || 0), pad = x => String(x).padStart(2, '0');
     const now = new Date(), mid = new Date(now); mid.setHours(24, 0, 0, 0); const ms = Math.max(0, mid - now), clock = pad(Math.floor(ms / 36e5)) + ':' + pad(Math.floor(ms / 6e4) % 60) + ':' + pad(Math.floor(ms / 1e3) % 60);
     const stOf = p => d.taken.includes(p.id) ? 'taken' : this.domLeft(p) <= 0 ? 'ready' : 'deploy';
-    const tiles = ps.map((p, i) => { const st = stOf(p), hp = this.domHp(p), dep = Math.min(hp, d.dmg[p.id] || 0);
-      return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (st === 'taken' ? ' drop-shadow(0 0 6px #48f320)' : ''), name: p.name, bd: st === 'taken' ? '#48f320' : st === 'ready' ? '#ffd644' : '#6a5acd',
+    const tileOf = (p, i, isT, soon) => { const st = stOf(p), hp = this.domHp(p), dep = Math.min(hp, d.dmg[p.id] || 0), face = 'radial-gradient(circle at 50% 45%,#2b2370,#0d0b2a 75%)';
+      if (soon) return { img: A(p.img), pf: 'brightness(0) drop-shadow(1px 0 0 #3a3a5a) drop-shadow(-1px 0 0 #3a3a5a)', name: '', bg: '#100e30', bd: '#2a2a50', sh: '3px 3px 0 #240011', anim: 'none', bob: 'none', locked: true, taken: false, ready: false, deploy: false, prog: false, tap: () => this.sfx('button', { denied: true }) };
+      return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (st === 'taken' ? ' drop-shadow(0 0 6px #48f320)' : isT ? '' : ' saturate(.7)'), name: p.name, bg: face, bd: st === 'taken' ? '#48f320' : st === 'ready' ? '#ffd644' : isT ? '#6a5acd' : '#3a3a5a',
         sh: st === 'taken' ? '0 0 14px rgba(72,243,32,.5),3px 3px 0 #240011' : '3px 3px 0 #240011', anim: st === 'ready' ? 'plpulse 1.4s ease-in-out infinite' : 'none', bob: st === 'taken' ? 'none' : 'plbob ' + (2.4 + i * 0.3) + 's ease-in-out infinite',
-        taken: st === 'taken', ready: st === 'ready', deploy: st === 'deploy', prog: F(dep) + '/' + F(hp), tap: () => this.plOpen(p.id) }; });
-    const DN = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    const days = [0, 1, 2, 3, 4, 5, 6].map(off => { const t = this.plDate(off), n = this.plSysOn(this.plDayN(t)), sp = n ? (this.domSysPlanets(n).find(p => !d.taken.includes(p.id)) || this.domSysPlanets(n)[0]) : null;
-      return { lbl: off ? DN[t.getDay()] : 'TODAY', lblCol: off ? '#a9b0c0' : '#ffd644', img: sp ? A(sp.img) : A('planet_vesta'), pf: sp ? 'hue-rotate(' + sp.hue + 'deg)' : 'grayscale(1) brightness(.4)', s: n ? 'S' + n : '–', sCol: off ? (n === 1 ? '#ff7ac8' : '#a9b0c0') : '#fff', bd: off ? '#3a3a5a' : '#ffd644', sh: off ? '3px 3px 0 #240011' : '0 0 12px rgba(255,214,68,.55),3px 3px 0 #240011' }; });
+        locked: false, taken: st === 'taken', ready: st === 'ready', deploy: st === 'deploy' && isT, prog: st === 'deploy' && !isT, progW: Math.round(dep / hp * 100) + '%', progTxt: F(dep) + '/' + F(hp), tap: () => this.plOpen(p.id) }; };
+    const order = [sys].concat(this.DOM_SYSTEMS.map((S2, k) => k + 1).filter(n => n !== sys)).filter(Boolean);
+    const systems = order.map(n => { const S2 = this.DOM_SYSTEMS[n - 1], sps = this.domSysPlanets(n), done = this.domSysDone(n), isT = n === sys, tk = sps.filter(q => d.taken.includes(q.id)).length, nx = !done && !S2.soon && !isT ? this.plNext(n) : '';
+      return { title: 'SYSTEM ' + n + ' · ' + (S2.soon ? '? ? ?' : S2.name), titleCol: S2.soon ? '#6b7187' : '#fff', count: tk + '/' + sps.length, countCol: done ? '#48f320' : isT ? '#ffd644' : '#a9b0c0', isToday: isT, rare: isT && n === 1,
+        sub: done ? 'CONQUERED' : S2.soon ? 'COMING SOON' : isT ? '● TODAY' : nx ? 'BACK ' + nx : 'NOT THIS WEEK', subCol: done ? '#48f320' : isT ? '#ffd644' : '#a9b0c0',
+        bg: isT ? 'linear-gradient(90deg,#2a1d6a,#14104a)' : '#0a0821', bd: isT ? '#ffd644' : done ? '#48f320' : '#3a3a5a', sh: isT ? '0 0 14px rgba(255,214,68,.45),3px 3px 0 #240011' : '3px 3px 0 #240011', tiles: sps.map((q, i) => tileOf(q, i, isT, !!S2.soon)) }; });
     const taken = ps.filter(p => d.taken.includes(p.id)).length, fromRun = !!pl.mode;
     let dv = {}; const p = pl.sel && this.domP(pl.sel);
     if (p) {
+      const sp = this.domSysPlanets(p.sys), isT = p.sys === sys, nx = isT ? '' : this.plNext(p.sys);
       const st = stOf(p), hp = this.domHp(p), dep = this.plBar != null ? this.plBar : Math.min(hp, d.dmg[p.id] || 0), full = st !== 'deploy' && this.plBar == null, pct = st === 'taken' ? 100 : Math.min(100, Math.round(dep / hp * 100)), ci = this.domCardInfo(p.card), amt = Math.min(d.pool || 0, this.domLeft(p));
-      const ships = st === 'taken' ? 3 : dep <= 0 ? 0 : pct < 34 ? 1 : pct < 67 ? 2 : 3, ring = full ? '#ffd644' : '#c79bff', spd = full ? 4 : 6, depOn = st === 'deploy' && amt > 0 && !this.plBusy;
-      dv = { name: p.name, of: (ps.indexOf(p) + 1) + ' OF ' + ps.length, img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)', bar: pct + '%', barCol: full ? '#48f320' : '#ffd644', barBd: full ? '#48f320' : '#f2f2f2', barSh: full ? '0 0 12px rgba(72,243,32,.55)' : 'none',
+      const ships = st === 'taken' ? 3 : dep <= 0 ? 0 : pct < 34 ? 1 : pct < 67 ? 2 : 3, ring = full ? '#ffd644' : '#c79bff', spd = full ? 4 : 6, depOn = st === 'deploy' && amt > 0 && isT && !this.plBusy;
+      dv = { name: p.name, of: (sp.indexOf(p) + 1) + ' OF ' + sp.length, img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)', bar: pct + '%', barCol: full ? '#48f320' : '#ffd644', barBd: full ? '#48f320' : '#f2f2f2', barSh: full ? '0 0 12px rgba(72,243,32,.55)' : 'none',
         barTxt: st === 'taken' ? 'TAKEN' : F(dep) + ' / ' + F(hp), barLbl: st === 'taken' ? 'PLANET TAKEN' : full ? 'FULLY DEPLOYED' : 'FLEET DEPLOYED', barLblCol: full ? '#48f320' : '#a9b0c0',
         glow: 'radial-gradient(circle,' + (full ? 'rgba(255,214,68,.4)' : 'rgba(199,155,255,.33)') + ' 0%,transparent 65%)', ring: 'border:2px dashed ' + ring + (full ? 'aa' : '66') + ';animation:plspin ' + (full ? 10 : 20) + 's linear infinite',
-        orbit: [0, 1, 2].map(i => ({ op: i < ships ? 1 : 0, anim: 'plspin ' + spd + 's linear infinite', delay: (-spd * i / 3).toFixed(2) + 's' })), arrows: ps.length > 1,
+        orbit: [0, 1, 2].map(i => ({ op: i < ships ? 1 : 0, anim: 'plspin ' + spd + 's linear infinite', delay: (-spd * i / 3).toFixed(2) + 's' })), arrows: sp.length > 1,
         cardImg: A(ci.art), cardF: 'hue-rotate(' + ci.hue + 'deg)' + (st === 'deploy' ? ' grayscale(.6) brightness(.55)' : ''), lockC: st === 'deploy', lockO: st === 'ready', cardLbl: st === 'taken' ? 'IN YOUR DECK' : full ? 'READY TO UNLOCK' : 'UNLOCKS', cardLblCol: full ? '#ffd644' : '#a9b0c0', card: ci.name, cardCol: full ? '#fff' : '#ffd644',
         cardBd: st === 'ready' ? '#ffd644' : st === 'taken' ? '#48f320' : '#3a3a5a', cardSh: st === 'ready' ? '0 0 16px rgba(255,214,68,.55),3px 3px 0 #240011' : '3px 3px 0 #240011',
-        depBg: depOn ? '#b3201c' : '#2a2a44', depBd: depOn ? '#f2f2f2' : '#3a3a5a', depCol: depOn ? '#fff' : '#6b7187', depTs: depOn ? '2px 2px 0 #000' : 'none', depVal: st === 'taken' ? 'TAKEN' : full ? 'FULL' : amt > 0 ? F(amt) : 'NO FLEET', depShip: depOn,
+        depBg: depOn ? '#b3201c' : '#2a2a44', depBd: depOn ? '#f2f2f2' : '#3a3a5a', depCol: depOn ? '#fff' : '#6b7187', depTs: depOn ? '2px 2px 0 #000' : 'none', depVal: st === 'taken' ? 'TAKEN' : full ? 'FULL' : !isT ? (nx === 'TOMORROW' ? 'TMRW' : nx || 'LOCKED') : amt > 0 ? F(amt) : 'NO FLEET', depShip: depOn,
         unOn: st === 'ready', unBg: st === 'ready' ? '#4fae16' : '#2a2a44', unBd: st === 'ready' ? '#f2f2f2' : '#3a3a5a', unCol: st === 'ready' ? '#fff' : '#6b7187', unTs: st === 'ready' ? '2px 2px 0 #000' : 'none', unAnim: st === 'ready' ? 'plgpulse 1.4s ease-in-out infinite' : 'none', unTxt: st === 'taken' ? 'OWNED' : 'UNLOCK',
-        hint: st === 'deploy' && amt <= 0 ? 'PLAY A RUN TO GROW YOUR FLEET' : '', prev: () => this.plNav(-1), next: () => this.plNav(1) };
+        hint: st === 'deploy' && !isT ? (nx ? 'THIS SYSTEM RETURNS ' + nx : 'NOT IN ROTATION THIS WEEK') : st === 'deploy' && amt <= 0 ? 'PLAY A RUN TO GROW YOUR FLEET' : '', prev: () => this.plNav(-1), next: () => this.plNav(1) };
     }
     return { pl: { on: true, grid: !p, dv: !!p, d: dv, pool: Math.round(pool).toLocaleString('en-US'), gain: pl.gain ? '+' + pl.gain.toLocaleString('en-US') + ' THIS RUN' : '', hasGain: !!pl.gain,
-      sys: sys ? 'SYSTEM ' + sys + ' · ' + S.name : 'EVERY PLANET TAKEN', count: sys ? taken + '/' + ps.length : '', rare: sys === 1, clock, tiles, days, fromRun, notRun: !fromRun, close: this.plClose, deploy: this.plDeploy, unlock: this.plUnlock } };
+      sys: sys ? 'SYSTEM ' + sys + ' · ' + S.name : 'EVERY PLANET TAKEN', count: sys ? taken + '/' + ps.length : '', rare: sys === 1, clock, systems, fromRun, notRun: !fromRun, close: this.plClose, deploy: this.plDeploy, unlock: this.plUnlock } };
   }
   // ─── unlock reveal ───
   startReveal() {
