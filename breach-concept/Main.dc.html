@@ -4052,14 +4052,14 @@ class Component extends DCLogic {
     const stOf = p => d.taken.includes(p.id) ? 'taken' : this.domLeft(p) <= 0 ? 'ready' : 'deploy';
     const tileOf = (p, i, isT, soon) => { const st = stOf(p), hp = this.domHp(p), dep = Math.min(hp, d.dmg[p.id] || 0), face = 'radial-gradient(circle at 50% 45%,#2b2370,#0d0b2a 75%)';
       if (soon) return { img: A(p.img), pf: 'brightness(0) drop-shadow(1px 0 0 #3a3a5a) drop-shadow(-1px 0 0 #3a3a5a)', name: '', bg: '#100e30', bd: '#2a2a50', sh: '3px 3px 0 #240011', anim: 'none', bob: 'none', locked: true, taken: false, ready: false, bar: false, tap: () => this.sfx('button', { denied: true }) };
-      return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (st === 'taken' ? ' drop-shadow(0 0 6px #48f320)' : isT ? '' : ' saturate(.7)'), name: p.name, bg: face, bd: st === 'taken' ? '#48f320' : st === 'ready' ? '#ffd644' : isT ? '#6a5acd' : '#3a3a5a',
-        sh: st === 'taken' ? '0 0 14px rgba(72,243,32,.5),3px 3px 0 #240011' : '3px 3px 0 #240011', anim: st === 'ready' ? 'plpulse 1.4s ease-in-out infinite' : 'none', bob: st === 'taken' ? 'none' : 'plbob ' + (2.4 + i * 0.3) + 's ease-in-out infinite',
+      return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (st === 'taken' ? '' : isT ? '' : ' saturate(.7)'), name: p.name, bg: face, bd: st === 'taken' ? '#c9ced8' : st === 'ready' ? '#ffd644' : isT ? '#6a5acd' : '#3a3a5a',
+        sh: st === 'taken' ? '0 0 10px rgba(201,206,216,.35),3px 3px 0 #240011' : '3px 3px 0 #240011', anim: st === 'ready' ? 'plpulse 1.4s ease-in-out infinite' : 'none', bob: st === 'taken' ? 'none' : 'plbob ' + (2.4 + i * 0.3) + 's ease-in-out infinite',
         locked: false, taken: st === 'taken', ready: st === 'ready', bar: st === 'deploy' && dep > 0, progW: Math.round(dep / hp * 100) + '%', progTxt: F(dep) + '/' + F(hp), tap: () => this.plOpen(p.id) }; };
     const order = [sys].concat(this.DOM_SYSTEMS.map((S2, k) => k + 1).filter(n => n !== sys)).filter(Boolean);
     const systems = order.map(n => { const S2 = this.DOM_SYSTEMS[n - 1], sps = this.domSysPlanets(n), done = this.domSysDone(n), isT = n === sys, tk = sps.filter(q => d.taken.includes(q.id)).length, nx = !done && !S2.soon && !isT ? this.plNext(n) : '';
-      return { title: 'SYSTEM ' + n + ' · ' + (S2.soon ? '? ? ?' : S2.name), titleCol: S2.soon ? '#6b7187' : '#fff', count: tk + '/' + sps.length, countCol: done ? '#48f320' : isT ? '#ffd644' : '#a9b0c0', isToday: isT, rare: isT && n === 1,
-        sub: done ? 'CONQUERED' : S2.soon ? 'COMING SOON' : isT ? '● TODAY' : nx ? 'BACK ' + nx : 'NOT THIS WEEK', subCol: done ? '#48f320' : isT ? '#ffd644' : '#a9b0c0',
-        bg: isT ? 'linear-gradient(90deg,#2a1d6a,#14104a)' : '#0a0821', bd: isT ? '#ffd644' : done ? '#48f320' : '#3a3a5a', sh: isT ? '0 0 14px rgba(255,214,68,.45),3px 3px 0 #240011' : '3px 3px 0 #240011', tiles: sps.map((q, i) => tileOf(q, i, isT, !!S2.soon)) }; });
+      return { title: 'SYSTEM ' + n + ' · ' + (S2.soon ? '? ? ?' : S2.name), titleCol: S2.soon ? '#6b7187' : '#fff', count: tk + '/' + sps.length, countCol: done ? '#c9ced8' : isT ? '#ffd644' : '#a9b0c0', isToday: isT, rare: isT && n === 1,
+        sub: done ? 'CONQUERED' : S2.soon ? 'COMING SOON' : isT ? '● TODAY' : nx ? 'BACK ' + nx : 'NOT THIS WEEK', subCol: done ? '#c9ced8' : isT ? '#ffd644' : '#a9b0c0',
+        bg: isT ? 'linear-gradient(90deg,#2a1d6a,#14104a)' : '#0a0821', bd: isT ? '#ffd644' : done ? '#c9ced8' : '#3a3a5a', sh: isT ? '0 0 14px rgba(255,214,68,.45),3px 3px 0 #240011' : '3px 3px 0 #240011', tiles: sps.map((q, i) => tileOf(q, i, isT, !!S2.soon)) }; });
     const taken = ps.filter(p => d.taken.includes(p.id)).length, fromRun = !!pl.mode;
     let dv = {}; const p = pl.sel && this.domP(pl.sel);
     if (p) {
