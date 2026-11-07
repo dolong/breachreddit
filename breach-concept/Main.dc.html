@@ -620,7 +620,7 @@
 <button onClick="{{ t.tap }}" style="position:relative;height:116px;padding:0;border-radius:10px;border:3px solid {{ t.bd }};background:{{ t.bg }};box-shadow:{{ t.sh }};animation:{{ t.anim }};display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;cursor:pointer" style-active="transform:translate(2px,2px)">
 <img src="{{ t.img }}" alt="" style="width:72px;height:72px;margin-top:-14px;display:block;image-rendering:pixelated;filter:{{ t.pf }};animation:{{ t.bob }}">
 <span style="position:absolute;left:0;right:0;bottom:5px;text-align:center;font-family:'Jersey 15',monospace;line-height:1;font-size:19px;letter-spacing:1px;color:{{ t.nameCol }};text-shadow:2px 2px 0 #000">{{ t.name }}</span>
-<sc-if value="{{ t.locked }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="" style="position:absolute;left:50%;top:40%;width:26px;height:26px;transform:translate(-50%,-50%)"></sc-if><sc-if value="{{ t.bar }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:8px;right:8px;top:7px;height:6px;border-radius:3px;background:#0a0821;border:1px solid #3a3a5a;overflow:hidden"><div style="height:100%;width:{{ t.progW }};background:#ffd644"></div></div></sc-if>
+<sc-if value="{{ t.locked }}" hint-placeholder-val="{{ false }}"><img src="assets/ic_lock.svg" alt="" style="position:absolute;left:50%;top:40%;width:26px;height:26px;transform:translate(-50%,-50%)"></sc-if><sc-if value="{{ t.taken }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:5px;right:5px;width:18px;height:18px;border-radius:50%;background:#0a0821;border:2px solid {{ t.tkCol }};display:flex;align-items:center;justify-content:center;font-family:'Jersey 15',monospace;line-height:1;font-size:15px;color:{{ t.tkCol }}">✓</span></sc-if><sc-if value="{{ t.bar }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:8px;right:8px;top:7px;height:6px;border-radius:3px;background:#0a0821;border:1px solid #3a3a5a;overflow:hidden"><div style="height:100%;width:{{ t.progW }};background:#ffd644"></div></div></sc-if>
 </button>
 </div></sc-for>
 </div>
@@ -4050,16 +4050,21 @@ class Component extends DCLogic {
     const pool = this.plShown != null ? this.plShown : (d.pool || 0), pad = x => String(x).padStart(2, '0');
     const now = new Date(), mid = new Date(now); mid.setHours(24, 0, 0, 0); const ms = Math.max(0, mid - now), clock = pad(Math.floor(ms / 36e5)) + ':' + pad(Math.floor(ms / 6e4) % 60) + ':' + pad(Math.floor(ms / 1e3) % 60);
     const stOf = p => d.taken.includes(p.id) ? 'taken' : this.domLeft(p) <= 0 ? 'ready' : 'deploy';
-    const tileOf = (p, i, isT, soon) => { const st = stOf(p), hp = this.domHp(p), dep = Math.min(hp, d.dmg[p.id] || 0), face = 'radial-gradient(circle at 50% 45%,#2b2370,#0d0b2a 75%)';
-      if (soon || !isT) return { img: A(p.img), pf: 'brightness(0) drop-shadow(1px 0 0 #3a3a5a) drop-shadow(-1px 0 0 #3a3a5a)', name: soon ? '' : p.name, nameCol: '#6b7187', bg: '#100e30', bd: '#2a2a50', sh: '3px 3px 0 #240011', anim: 'none', bob: 'none', locked: soon, taken: false, ready: false, bar: false, tap: soon ? () => this.sfx('button', { denied: true }) : () => this.plOpen(p.id) };
-      return { nameCol: '#fff', img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)' + (st === 'taken' ? '' : isT ? '' : ' saturate(.7)'), name: p.name, bg: face, bd: st === 'taken' ? '#c9ced8' : st === 'ready' ? '#ffd644' : isT ? '#6a5acd' : '#3a3a5a',
-        sh: st === 'taken' ? '0 0 10px rgba(201,206,216,.35),3px 3px 0 #240011' : '3px 3px 0 #240011', anim: st === 'ready' ? 'plpulse 1.4s ease-in-out infinite' : 'none', bob: st === 'taken' ? 'none' : 'plbob ' + (2.4 + i * 0.3) + 's ease-in-out infinite',
-        locked: false, taken: st === 'taken', ready: st === 'ready', bar: st === 'deploy' && dep > 0, progW: Math.round(dep / hp * 100) + '%', progTxt: F(dep) + '/' + F(hp), tap: () => this.plOpen(p.id) }; };
+    // palette: today = gold header, purple tiles, full colour · taken = silver border + ✓ badge · ready = gold pulse
+    //          other systems = dimmed planets, slate borders · fully conquered system = grey-silver header · coming soon = black silhouettes
+    const tileOf = (p, i, isT, soon, done) => { const st = stOf(p), hp = this.domHp(p), dep = Math.min(hp, d.dmg[p.id] || 0), face = 'radial-gradient(circle at 50% 45%,#2b2370,#0d0b2a 75%)', dim = 'radial-gradient(circle at 50% 45%,#1a1640,#0a0821 75%)', tk = st === 'taken';
+      if (soon) return { img: A(p.img), pf: 'brightness(0) drop-shadow(1px 0 0 #3a3a5a) drop-shadow(-1px 0 0 #3a3a5a)', name: '', nameCol: '#6b7187', bg: '#100e30', bd: '#2a2a50', sh: '3px 3px 0 #240011', anim: 'none', bob: 'none', locked: true, taken: false, tkCol: '', ready: false, bar: false, tap: () => this.sfx('button', { denied: true }) };
+      if (!isT) return { img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg) brightness(.5) saturate(.55)', name: p.name, nameCol: '#8a90a6', bg: dim, bd: done ? '#5d6274' : tk ? '#6b7187' : '#2e2c52', sh: '3px 3px 0 #240011', anim: 'none', bob: 'none',
+        locked: false, taken: tk, tkCol: '#9aa0b0', ready: false, bar: st === 'deploy' && dep > 0, progW: Math.round(dep / hp * 100) + '%', tap: () => this.plOpen(p.id) };
+      return { nameCol: '#fff', img: A(p.img), pf: 'hue-rotate(' + p.hue + 'deg)', name: p.name, bg: face, bd: tk ? '#c9ced8' : st === 'ready' ? '#ffd644' : '#6a5acd',
+        sh: tk ? '0 0 10px rgba(201,206,216,.35),3px 3px 0 #240011' : '3px 3px 0 #240011', anim: st === 'ready' ? 'plpulse 1.4s ease-in-out infinite' : 'none', bob: tk ? 'none' : 'plbob ' + (2.4 + i * 0.3) + 's ease-in-out infinite',
+        locked: false, taken: tk, tkCol: '#e6e9ef', ready: st === 'ready', bar: st === 'deploy' && dep > 0, progW: Math.round(dep / hp * 100) + '%', tap: () => this.plOpen(p.id) }; };
     const order = [sys].concat(this.DOM_SYSTEMS.map((S2, k) => k + 1).filter(n => n !== sys)).filter(Boolean);
     const systems = order.map(n => { const S2 = this.DOM_SYSTEMS[n - 1], sps = this.domSysPlanets(n), done = this.domSysDone(n), isT = n === sys, tk = sps.filter(q => d.taken.includes(q.id)).length, nx = !done && !S2.soon && !isT ? this.plNext(n) : '';
-      return { title: 'SYSTEM ' + n + ' · ' + (S2.soon ? '? ? ?' : S2.name), titleCol: isT ? '#fff' : '#6b7187', count: tk + '/' + sps.length, countCol: isT ? '#ffd644' : '#6b7187', isToday: isT, rare: isT && n === 1,
-        sub: done ? 'CONQUERED' : S2.soon ? 'COMING SOON' : isT ? '● TODAY' : nx ? 'BACK ' + nx : 'NOT THIS WEEK', subCol: isT ? '#ffd644' : '#6b7187',
-        bg: isT ? 'linear-gradient(90deg,#2a1d6a,#14104a)' : '#0a0821', bd: isT ? '#ffd644' : '#2a2a50', sh: isT ? '0 0 14px rgba(255,214,68,.45),3px 3px 0 #240011' : '3px 3px 0 #240011', tiles: sps.map((q, i) => tileOf(q, i, isT, !!S2.soon)) }; });
+      const mute = S2.soon ? '#4e5268' : done ? '#b4b9c6' : '#7a7f96';
+      return { title: 'SYSTEM ' + n + ' · ' + (S2.soon ? '? ? ?' : S2.name), titleCol: isT ? '#fff' : mute, count: tk + '/' + sps.length, countCol: isT ? '#ffd644' : mute, isToday: isT, rare: isT && n === 1,
+        sub: done ? '✓ CONQUERED' : S2.soon ? 'COMING SOON' : isT ? '● TODAY' : nx ? 'BACK ' + nx : 'NOT THIS WEEK', subCol: isT ? '#ffd644' : mute,
+        bg: isT ? 'linear-gradient(90deg,#2a1d6a,#14104a)' : done ? 'linear-gradient(90deg,#1c1c30,#12112a)' : '#0a0821', bd: isT ? '#ffd644' : done ? '#8a90a0' : S2.soon ? '#22213f' : '#34325a', sh: isT ? '0 0 14px rgba(255,214,68,.45),3px 3px 0 #240011' : '3px 3px 0 #240011', tiles: sps.map((q, i) => tileOf(q, i, isT, !!S2.soon, done)) }; });
     const taken = ps.filter(p => d.taken.includes(p.id)).length, fromRun = !!pl.mode;
     let dv = {}; const p = pl.sel && this.domP(pl.sel);
     if (p) {
