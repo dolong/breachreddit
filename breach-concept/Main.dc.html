@@ -658,6 +658,7 @@
 <button onClick="{{ pl.unlock }}" style="flex:1;min-width:0;height:84px;padding:0;box-sizing:border-box;border-radius:14px;border:3px solid {{ pl.d.unBd }};background:{{ pl.d.unBg }};box-shadow:inset 0 -7px 0 rgba(0,0,0,.3),4px 4px 0 #240011;animation:{{ pl.d.unAnim }};font-family:'Jersey 15',monospace;line-height:1;font-size:32px;letter-spacing:2px;color:{{ pl.d.unCol }};text-shadow:{{ pl.d.unTs }}" style-active="transform:translate(2px,2px)">{{ pl.d.unTxt }}</button>
 </div>
 <button onClick="{{ pl.close }}" aria-label="Back" style="position:relative;z-index:2;width:58px;height:58px;margin-top:-14px;flex:none;padding:0;border-radius:50%;background:#3a3a5a;border:3px solid #f2f2f2;box-shadow:inset 0 -5px 0 rgba(0,0,0,.35),3px 3px 0 #240011;font-family:'Jersey 15',monospace;line-height:1;font-size:30px;color:#fff">✕</button>
+<sc-if value="{{ pl.fromRun }}" hint-placeholder-val="{{ false }}"><button onClick="{{ pl.cont }}" style="margin-top:10px;width:100%;height:58px;flex:none;background:#486c05;border:3px solid #f2f2f2;border-radius:8px;box-shadow:inset 0 -6px 0 #2e4a02,4px 4px 0 #240011;font-family:'Jersey 15',monospace;line-height:1;font-size:28px;letter-spacing:1px;color:#fff">CONTINUE ›</button></sc-if>
 </div>
 </sc-if>
 </div>
@@ -3626,7 +3627,7 @@ class Component extends DCLogic {
   tickItem() { const a = this.conTicker().concat(this.TICKER); return a[(this.tickIdx || 0) % a.length]; }
   vDeploy() {
     const r = this.g.run; if (!r || !r.dep || this.g.screen !== 'race') return { dep: { planets: [], ships: [], form: [], lines: [] } };
-    const d = r.dep, n = r.launched.length, st = d.stage, pk = d.pick && this.PLANETS.find(p => p.id === d.pick), pv = pk && st === 'galaxy' ? this.previewFor(pk) : null;
+    const d = r.dep, T = this.T, n = r.launched.length, st = d.stage, pk = d.pick && this.PLANETS.find(p => p.id === d.pick), pv = pk && st === 'galaxy' ? this.previewFor(pk) : null;
     const planets = this.PLANETS.map((p, k) => {
       const c = this.ctrl(p), y = this.youAt(p), landing = d.result && d.result.planet === p.id && st === 'landing', ys = landing ? d.shownStr : y.str;
       const cn = landing ? (ys > (p.rival ? p.rival.str : 0) ? 'YOU' : (p.rival ? p.rival.handle : null)) : c;
@@ -3636,7 +3637,7 @@ class Component extends DCLogic {
         tap: () => { if (st !== 'galaxy') return; d.pick = p.id; const c = this.conLive().find(c => c.planet === p.id); this.sfx(c && this.conClosed(c) && this.conBy(c) !== 'YOU' ? 'failed_buff' : 'button'); this.forceUpdate(); } };
     });
     const hint = st === 'gate' ? (d.banked ? 'PRESTIGE BANKS AT THE GATE' : 'NO PRESTIGE TO BANK') : st === 'depart' ? n + ' SHIP' + (n === 1 ? '' : 'S') + ' JUMPING TO THE GALAXY' : st === 'galaxy' ? (pv ? pv.t : 'TAP A PLANET TO PREVIEW · STRENGTH ' + this.runStr()) : st === 'landing' ? 'LANDING ON ' + d.result.name : '';
-    return { dep: { pScore: d.pScore || 0, gateLabel: d.pStamp ? '' : 'JUMP GATE', pStamp: d.pStamp || '', pStampCol: d.pStampCol || '#fff', parade: st === 'depart', skipBeat: this.skipBeat, isDepart: st === 'gate' || st === 'depart' || (st === 'cash' && !d.final), isGalaxy: st === 'galaxy' || st === 'landing' || (st === 'cash' && n > 0 && d.final), isCash: st === 'cash',
+    return { dep: { pScore: d.pScore || 0, gateLabel: d.pStamp ? '' : 'JUMP GATE', pStamp: d.pStamp || '', pStampCol: d.pStampCol || '#fff', parade: st === 'depart', skipBeat: this.skipBeat, isDepart: st === 'gate' || st === 'depart' || (st === 'cash' && !d.final), isGalaxy: T.DEPLOY_ON && (st === 'galaxy' || st === 'landing' || (st === 'cash' && n > 0 && d.final)), isCash: st === 'cash',
       ships: r.launched.map((s, i) => ({ i, src: Component.__A('assets/' + this.SHIPS[s.type].ship + '.png') })), ...(() => { // jump-gate fleet shrinks to fit the box (330 × 156)
           const n = r.launched.length, W = 330, H = 156; let w = 40;
           for (; w > 8; w--) { const gx = Math.round(w * 0.35), gy = Math.round(w * 0.25), h = Math.round(w * 49 / 40), cols = Math.max(1, Math.floor((W + gx) / (w + gx))), rows = Math.ceil(n / cols); if (rows * (h + gy) - gy <= H) break; }
@@ -4019,6 +4020,7 @@ class Component extends DCLogic {
     this.g.pl = null; this.plShown = null; clearInterval(this.plIv); this.sfx('button');
     const r = this.g.run; if (pl.mode && r) { r.plDone = true; this.sync(); this.later(() => this.openReceipt(pl.mode), 120); } else this.sync();
   };
+  plContinue = () => { const pl = this.g.pl; if (!pl || this.plBusy) return; pl.sel = null; this.plClose(); };
   plOpen(id) { const pl = this.g.pl; if (!pl || this.plBusy) return; pl.sel = id; this.sfx('button'); this.sync(); }
   plNav(dir) { const pl = this.g.pl; if (!pl || !pl.sel || this.plBusy) return; const ps = this.domSysPlanets(this.domP(pl.sel).sys), i = ps.findIndex(p => p.id === pl.sel); pl.sel = ps[(i + dir + ps.length) % ps.length].id; this.sfx('button'); this.sync(); }
   plDeploy = () => {
@@ -4080,7 +4082,7 @@ class Component extends DCLogic {
         hint: st === 'deploy' && !isT ? (nx ? 'THIS SYSTEM RETURNS ' + nx : 'NOT IN ROTATION THIS WEEK') : st === 'deploy' && amt <= 0 ? 'PLAY A RUN TO GROW YOUR FLEET' : '', prev: () => this.plNav(-1), next: () => this.plNav(1) };
     }
     return { pl: { on: true, grid: !p, dv: !!p, d: dv, pool: Math.round(pool).toLocaleString('en-US'), gain: pl.gain ? '+' + pl.gain.toLocaleString('en-US') + ' THIS RUN' : '', hasGain: !!pl.gain,
-      sys: sys ? 'SYSTEM ' + sys + ' · ' + S.name : 'EVERY PLANET TAKEN', count: sys ? taken + '/' + ps.length : '', rare: sys === 1, clock, systems, fromRun, notRun: !fromRun, close: this.plClose, deploy: this.plDeploy, unlock: this.plUnlock } };
+      sys: sys ? 'SYSTEM ' + sys + ' · ' + S.name : 'EVERY PLANET TAKEN', count: sys ? taken + '/' + ps.length : '', rare: sys === 1, clock, systems, fromRun, notRun: !fromRun, close: this.plClose, cont: this.plContinue, deploy: this.plDeploy, unlock: this.plUnlock } };
   }
   // ─── unlock reveal ───
   startReveal() {
