@@ -1231,7 +1231,6 @@ class Component extends DCLogic {
     BAYS: 3, MAX_LIVES: 1, AIRLOCK_MAX: 4, DICE_BONUS_CAP: 3, BARNACLE_CAP: 3, KESTREL_CAP: 2, MAX_INTEGRITY: 12, GATE_DEMAND_SHIPS: [1, 3, 5], BONUS_BLUEPRINTS_MAX: 2, DRYDOCK_PRICE: 6, BONUS_CAP_PRESTIGE: 3,
     // ─── big placements & multi-launch ───
     PLACED_MIN: 4, PLACED_GOLD: 1, // DICE STREAK ×N: stamps at 4+ · +1 gold per die past 3 · normal rolls: dice placed this roll (airlock dice count) · chain cards: a die not placed ends it
-    ALL_PLACED_INTEGRITY: 1, // ALL PLACED: every rolled die on a slot, none airlocked, no damage · +1 integrity (inside MAX_INTEGRITY)
     HINT_RUNS: 3, // stamp captions show for the first 3 runs unless Settings → Hints says otherwise
     LAUNCH_TIERS: { 2: 'DOUBLE LAUNCH', 3: 'TRIPLE LAUNCH', 4: 'FLEET LAUNCH', 5: 'ARMADA' },
     // ─── unlocks ───
@@ -2524,7 +2523,7 @@ class Component extends DCLogic {
     if (el && el.animate && this.fxK()) el.animate([{ transform: 'translateX(-50%)' }, { transform: 'translateX(calc(-50% - 5px)) rotate(-4deg)' }, { transform: 'translateX(calc(-50% + 4px)) rotate(3deg)' }, { transform: 'translateX(-50%)' }], { duration: 320 });
     this.toast('SEALED · CARD ENDS AFTER THE FOUR', '#ff4d4d'); this.sfx('failed_buff'); this.sync();
   }
-  // ─── placement vocabulary: N PLACED (4+ dice on slots, airlock dice count, +1 gold per die past 3) · ALL PLACED (every rolled die on a slot, none airlocked, no damage, +1 integrity) ───
+  // ─── placement vocabulary: N PLACED (4+ dice on slots, airlock dice count, +1 gold per die past 3) · ALL PLACED (every rolled die on a slot, none airlocked, no damage; stamp only, no hull reward) ───
   hintsOn() { const m = this.g.meta; return m.hints != null ? !!m.hints : (m.runs || 0) <= this.T.HINT_RUNS; }
   placeStamp(ro) {
     const r = this.g.run, T = this.T; if (!r || r.roll !== ro) return;
@@ -2617,12 +2616,10 @@ class Component extends DCLogic {
   }
   allPlaced(ro) {
     const r = this.g.run, T = this.T; if (!r || r.roll !== ro || !this.allPlacedNow(ro)) return; ro.apDone = true; r.apRolls = (r.apRolls || 0) + 1;
-    const b0 = this.breachAt(); r.apInteg = (r.apInteg || 0) + T.ALL_PLACED_INTEGRITY; const gain = this.breachAt() - b0; if (gain <= 0) r.apInteg -= T.ALL_PLACED_INTEGRITY; // at the ceiling: nothing stored
-    const cv = this.card(r.card) || {}, bits = [gain > 0 ? '+' + gain + ' HULL' : 'HULL MAX'];
+    const cv = this.card(r.card) || {}, bits = [];
     if (this.md() === 'hazard') bits.push('KEEP ROLLING'); else if (cv.convoy) bits.push(this.bonusHeld() >= T.BONUS_BLUEPRINTS_MAX ? '+' + T.BONUS_CAP_PRESTIGE + ' PRESTIGE' : 'BLUEPRINT GAINED');
     const n = (ro.carry || 0) + (ro.placedN || 0);
     this.bigStamp('ALL PLACED', bits.join(' · '), '#48f320', { anchor: '[data-tray]', scale: this.ladder(n + 2).scale, cap: this.hintsOn() ? 'Every die you rolled found a slot.' : '' });
-    if (gain > 0) this.later(() => { this.punch(this.q('[data-hullpanel]'), 1.15, 300); this.sfx('repair'); }, 220);
     this.sync();
   }
   // INSTANT BUILD (empty → launched in one roll) · batched per roll so a double launch reads "×2"
