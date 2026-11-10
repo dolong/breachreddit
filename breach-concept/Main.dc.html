@@ -2829,8 +2829,21 @@ class Component extends DCLogic {
       return this.rollDice(this.rollN());
     }
     if (r.phase === 'push') { const prev = r.roll; r.pushes++; this.sfx('push', { n: r.pushes }); this.rollDice(1); r.roll.chain = true; r.roll.carry = r.chainPlaced || 0; r.roll.stamped = r.chainStamped || {}; return; }
-    if (r.phase === 'place') this.confirm();
+    const ro0 = () => r.roll;
+    if (r.phase === 'place') {   // leftovers would hit the hull but a die can still go somewhere: first tap asks
+      if (this.hitAvoidable(ro0()) && !this.hitArmed()) { this.hitArm = this.hitKey(); this.sfx('button'); this.punch(this.q('[data-primary]'), 1.08, 260); this.sync(); return; }
+      this.hitArm = null; this.confirm();
+    }
   };
+  hitKey() { const r = this.g.run, ro = r && r.roll; return ro ? ro.dice.map(d => d.id + d.loc + d.v).join() + '|' + r.air.length + '|' + r.bps.map(b => b ? b.dice.join() : '').join('/') : ''; }
+  hitArmed() { return !!this.hitArm && this.hitArm === this.hitKey(); }
+  hitAvoidable(ro) {   // a leftover would cost hull, yet a die still fits a slot or the airlock has room
+    const r = this.g.run, c = r && this.card(r.card); if (!ro || !c || r.phase !== 'place' || c.free || r.freeNode) return false;
+    if (['sweep', 'scan', 'salvage', 'data'].includes(this.md()) && !(this.md() === 'scan' ? ro.scanLocked : this.md() === 'sweep' ? ro.sweepNum != null : ro.faceSet)) return false;
+    if (!(this.projLeft(ro, c) > 0)) return false;
+    const tray = ro.dice.filter(d => d.loc === 'tray'); if (!tray.length) return false;
+    return tray.some(d => r.bps.some(b => this.fits(b, d.v))) || !!(r.overflow && !r.ovUsed && r.bps.some(b => b && b.dice.some(x => x == null))) || (r.air.length < this.airCap() && this.airOpen());
+  }
   secondary = () => { const r = this.g.run; if (!r) return; if (r.phase === 'push') return this.endNode(); this.reroll(); };
   confirm() {
     const r = this.g.run, ro = r.roll, T = this.T;
@@ -3057,8 +3070,10 @@ class Component extends DCLogic {
       } else {
         label = left ? 'CONFIRM' : (this.md() === 'asteroid' || (this.md() === 'hazard' && (r.hzState === 'open' || ro.chain)) ? 'CONTINUE' : 'NEXT STATION'); sub = left ? '· HULL −' + left : '';
         if (!left && ro.dice.some(d => d.loc === 'tray')) { label = 'CONFIRM'; sub = 'FREE'; }
+        const hitAsk = left && this.hitArmed() && this.hitAvoidable(ro); if (hitAsk) { label = 'SURE?'; sub = '· HULL −' + left; }
         hint = sd ? (bays.some(b => b.ring !== 'none') ? 'Tap a lit blueprint' + (this.airOpen() && r.air.length < this.airCap() && r.sel.src === 'tray' ? ' or the airlock.' : '.') : 'No slot needs a ' + sv + (this.airOpen() && r.sel.src === 'tray' && r.air.length < this.airCap() ? ' — airlock it or let the hull eat it.' : '.'))
           : this.md() === 'data' && !ro.faceSet ? (c.mirror ? 'Tap a die to mirror it (1↔6 · 2↔5 · 3↔4), or place as rolled.' : 'Tap a die to set it to any face, or place it as rolled.')
+          : hitAsk ? 'You can still place or airlock a die. Tap again to take the hit.'
           : left && hull + left >= br ? 'Leftovers breach the hull (' + (hull + left) + '/' + br + '). Place, airlock or reroll.' : left ? 'Tap a die, then a lit blueprint.' : (c.free || r.freeNode) && ro.dice.some(d => d.loc === 'tray') ? 'Leftovers are discarded free.' : 'All dice placed.';
       }
     }
