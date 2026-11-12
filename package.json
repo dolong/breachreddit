@@ -5,6 +5,7 @@
   "license": "BSD-3-Clause",
   "type": "module",
   "scripts": {
+    "prebuild": "sh tools/reap-watchers.sh",
     "build": "vite build",
     "deploy": "npm run type-check && npm run lint && npm run test && devvit upload",
     "dev": "devvit playtest",
